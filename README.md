@@ -1,10 +1,10 @@
 # 🎮 Super Pablo 3: La Última Batalla
 
-## 👥 Integrantes del Grupo
+## 👥 Integrantes del grupo
 
 - Santiago Papale
 - Octavio Romero
-- Matías Rodrigo Zurita
+- Matias Rodrigo Zurita
 
 ---
 
@@ -32,7 +32,7 @@ El proyecto incorpora un **modo cooperativo en red LAN** basado en una arquitect
 
 ---
 
-## 🚀 Tecnologías Utilizadas
+## 🚀 Tecnologías utilizadas
 
 - **Java 8 (JDK 1.8)**
 - **LibGDX 1.14.1**
@@ -45,7 +45,15 @@ El proyecto incorpora un **modo cooperativo en red LAN** basado en una arquitect
 
 ---
 
-## ⚙️ Cómo Compilar y Ejecutar
+## 📌 Estado actual del proyecto
+
+🚧 **Configuración inicial y estructura del proyecto.**
+
+Actualmente el proyecto se encuentra en la etapa inicial de desarrollo, con la configuración del entorno, la organización del repositorio y la planificación de las funcionalidades principales.
+
+---
+
+## ⚙️ Cómo compilar y ejecutar
 
 ### 1. Clonar el repositorio
 
@@ -80,14 +88,6 @@ En Windows:
 ```bash
 gradlew desktop:run
 ```
-
----
-
-## 📌 Estado Actual del Proyecto
-
-🚧 **Configuración inicial y estructura del proyecto.**
-
-Actualmente el proyecto se encuentra en la etapa inicial de desarrollo, con la configuración del entorno, la organización del repositorio y la planificación de las funcionalidades principales.
 
 ---
 
