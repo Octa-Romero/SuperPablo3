@@ -1,33 +1,108 @@
-# Super Pablo 3
+# 🎮 Super Pablo 3: La Última Batalla
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+## 👥 Integrantes del Grupo
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+- Santiago Papale
+- Octavio Romero
+- Matías Rodrigo Zurita
 
-## Platforms
+---
 
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
+## 📖 Descripción
 
-## Gradle
+**Super Pablo 3: La Última Batalla** es un videojuego de acción y aventura en **2D** con vista lateral (*side-view*), desarrollado en **Java** utilizando el framework **LibGDX**.
 
-This project uses [Gradle](https://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
+El juego representa la tercera y última entrega de la saga **Super Pablo**, donde dos jugadores deberán cooperar para recorrer distintos escenarios, enfrentarse a enemigos y jefes finales, obtener reliquias y detener definitivamente a **El Retumbar**, la entidad responsable de la corrupción del mundo.
 
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
-- `test`: runs unit tests (if any).
+El proyecto incorpora un **modo cooperativo en red LAN** basado en una arquitectura **Cliente-Servidor**, permitiendo que ambos jugadores compartan el progreso de la partida en tiempo real.
 
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+---
+
+## 🚀 Tecnologías Utilizadas
+
+- **Java 8 (JDK 1.8)**
+- **LibGDX 1.14.1**
+- **Gradle**
+- **Git & GitHub**
+
+### Plataformas objetivo
+
+- 💻 Escritorio (Windows/Linux/macOS)
+
+> *Las versiones Web y Móvil podrán incorporarse en futuras etapas del proyecto.*
+
+---
+
+## ⚙️ Cómo Compilar y Ejecutar
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/Octa-Romero/SuperPablo3.git
+```
+
+### 2. Abrir el proyecto
+
+Abrir el proyecto con un IDE compatible con Gradle, por ejemplo:
+
+- IntelliJ IDEA
+- Eclipse
+- Visual Studio Code (con soporte para Java)
+
+### 3. Descargar las dependencias
+
+Gradle descargará automáticamente todas las dependencias de LibGDX al abrir el proyecto.
+
+### 4. Ejecutar el juego
+
+Ejecutar la clase principal del módulo **Desktop** (`DesktopLauncher`).
+
+También es posible ejecutar desde la terminal:
+
+```bash
+./gradlew desktop:run
+```
+
+En Windows:
+
+```bash
+gradlew desktop:run
+```
+
+---
+
+## 🎯 Características principales
+
+- Videojuego de acción y aventura en 2D.
+- Vista lateral (*side-view*).
+- Modo cooperativo para dos jugadores mediante red local (LAN).
+- Arquitectura Cliente-Servidor.
+- Sistema de combate cuerpo a cuerpo y a distancia.
+- Enemigos con distintos comportamientos.
+- Jefe final.
+- NPCs e historia original.
+- Sistema de reliquias para progresar en la campaña.
+
+---
+
+## 📂 Estructura del Proyecto
+
+```
+core/       → Lógica principal del juego
+desktop/    → Lanzador para escritorio
+assets/     → Recursos (sprites, mapas, sonidos, fuentes, etc.)
+```
+
+---
+
+## 📌 Estado Actual del Proyecto
+
+🚧 **Configuración inicial y estructura del proyecto.**
+
+Actualmente el proyecto se encuentra en la etapa inicial de desarrollo, con la configuración del entorno, la organización del repositorio y la planificación de las funcionalidades principales.
+
+---
+
+## 📄 Licencia
+
+Proyecto desarrollado con fines educativos para la materia **Programación sobre Redes**.
