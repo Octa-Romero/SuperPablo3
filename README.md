@@ -18,6 +18,20 @@ El proyecto incorpora un **modo cooperativo en red LAN** basado en una arquitect
 
 ---
 
+## 🎯 Características principales
+
+- Videojuego de acción y aventura en 2D.
+- Vista lateral (*side-view*).
+- Modo cooperativo para dos jugadores mediante red local (LAN).
+- Arquitectura Cliente-Servidor.
+- Sistema de combate cuerpo a cuerpo y a distancia.
+- Enemigos con distintos comportamientos.
+- Jefe final.
+- NPCs e historia original.
+- Sistema de reliquias para progresar en la campaña.
+
+---
+
 ## 🚀 Tecnologías Utilizadas
 
 - **Java 8 (JDK 1.8)**
@@ -65,30 +79,6 @@ En Windows:
 
 ```bash
 gradlew desktop:run
-```
-
----
-
-## 🎯 Características principales
-
-- Videojuego de acción y aventura en 2D.
-- Vista lateral (*side-view*).
-- Modo cooperativo para dos jugadores mediante red local (LAN).
-- Arquitectura Cliente-Servidor.
-- Sistema de combate cuerpo a cuerpo y a distancia.
-- Enemigos con distintos comportamientos.
-- Jefe final.
-- NPCs e historia original.
-- Sistema de reliquias para progresar en la campaña.
-
----
-
-## 📂 Estructura del Proyecto
-
-```
-core/       → Lógica principal del juego
-desktop/    → Lanzador para escritorio
-assets/     → Recursos (sprites, mapas, sonidos, fuentes, etc.)
 ```
 
 ---
