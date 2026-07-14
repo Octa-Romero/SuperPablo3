@@ -29,8 +29,6 @@ El proyecto incorpora un **modo cooperativo en red LAN** basado en una arquitect
 
 - 💻 Escritorio (Windows/Linux/macOS)
 
-> *Las versiones Web y Móvil podrán incorporarse en futuras etapas del proyecto.*
-
 ---
 
 ## ⚙️ Cómo Compilar y Ejecutar
