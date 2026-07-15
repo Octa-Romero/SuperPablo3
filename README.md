@@ -86,8 +86,9 @@ En Windows:
 ```bash
 gradlew desktop:run
 ```
+## Wiki del Proyecto
 
----
+La propuesta detallada del videojuego se encuentra disponible en la [Wiki del proyecto](https://github.com/Octa-Romero/SuperPablo3/wiki).---
 
 ## 📄 Licencia
 
