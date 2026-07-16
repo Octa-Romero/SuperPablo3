@@ -73,19 +73,23 @@ Gradle descargará automáticamente todas las dependencias de LibGDX al abrir el
 
 ### 4. Ejecutar el juego
 
-Ejecutar la clase principal del módulo **Desktop** (`DesktopLauncher`).
+Ejecutar la clase principal del módulo **lwjgl3** (`Lwjgl3Launcher.java`).
 
 También es posible ejecutar desde la terminal:
 
-```bash
-./gradlew desktop:run
-```
 
 En Windows:
 
 ```bash
-gradlew desktop:run
+gradlew lwjgl3:run
 ```
+
+Linux / maxOS:
+
+```
+./gradlew lwjgl3:run
+```
+
 ## Wiki del Proyecto
 
 La propuesta detallada del videojuego se encuentra disponible en la [Wiki del proyecto](https://github.com/Octa-Romero/SuperPablo3/wiki).---
