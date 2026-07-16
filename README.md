@@ -59,7 +59,13 @@ Actualmente el proyecto se encuentra en la etapa inicial de desarrollo, con la c
 git clone https://github.com/Octa-Romero/SuperPablo3.git
 ```
 
-### 2. Abrir el proyecto
+### 2. Ingresar a la carpeta del juego
+
+```bash
+cd SuperPablo3
+```
+
+### 3. Abrir el proyecto
 
 Abrir el proyecto con un IDE compatible con Gradle, por ejemplo:
 
@@ -67,11 +73,11 @@ Abrir el proyecto con un IDE compatible con Gradle, por ejemplo:
 - Eclipse
 - Visual Studio Code (con soporte para Java)
 
-### 3. Descargar las dependencias
+### 4. Descargar las dependencias
 
 Gradle descargará automáticamente todas las dependencias de LibGDX al abrir el proyecto.
 
-### 4. Ejecutar el juego
+### 5. Ejecutar el juego
 
 Ejecutar la clase principal del módulo **lwjgl3** (`Lwjgl3Launcher.java`).
 
