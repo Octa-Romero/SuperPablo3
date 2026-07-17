@@ -98,7 +98,7 @@ Linux / maxOS:
 
 ---
 
-## ℹ️ Wiki del Proyecto
+## ℹ️ Wiki del proyecto
 
 La propuesta detallada del videojuego se encuentra disponible en la [Wiki del proyecto](https://github.com/Octa-Romero/SuperPablo3/wiki).
 
