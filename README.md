@@ -1,109 +1,33 @@
-# 🎮 Super Pablo 3: La Última Batalla
+# Super Pablo 3
 
-## 👥 Integrantes del grupo
+A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
 
-- Santiago Papale
-- Octavio Romero
-- Matias Rodrigo Zurita
+This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
 
----
+## Platforms
 
-## 📖 Descripción
+- `core`: Main module with the application logic shared by all platforms.
+- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
 
-**Super Pablo 3: La Última Batalla** es un videojuego de acción y aventura en **2D** con vista lateral (*side-view*), desarrollado en **Java** utilizando el framework **LibGDX**. El juego representa la tercera y última entrega de la saga **Super Pablo**, donde dos jugadores deberán cooperar para recorrer distintos escenarios, enfrentarse a enemigos y jefes finales, obtener reliquias y detener definitivamente a **El Retumbar**, la entidad responsable de la corrupción del mundo.
+## Gradle
 
-<img width="480" height="480" alt="Gif de Felipe el Sabio" src="assets/readmegif.gif"/>
+This project uses [Gradle](https://gradle.org/) to manage dependencies.
+The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
+Useful Gradle tasks and flags:
 
----
+- `--continue`: when using this flag, errors will not stop the tasks from running.
+- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
+- `--offline`: when using this flag, cached dependency archives will be used.
+- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
+- `build`: builds sources and archives of every project.
+- `cleanEclipse`: removes Eclipse project data.
+- `cleanIdea`: removes IntelliJ project data.
+- `clean`: removes `build` folders, which store compiled classes and built archives.
+- `eclipse`: generates Eclipse project data.
+- `idea`: generates IntelliJ project data.
+- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
+- `lwjgl3:run`: starts the application.
+- `test`: runs unit tests (if any).
 
-## 🎯 Características principales
-
-- Videojuego de acción y aventura en 2D.
-- Vista lateral (*side-view*).
-- Modo cooperativo para dos jugadores mediante red local (LAN).
-- Arquitectura Cliente-Servidor.
-- Sistema de combate cuerpo a cuerpo y a distancia.
-- Enemigos con distintos comportamientos.
-- Jefe final.
-- NPCs e historia original.
-- Sistema de reliquias para progresar en la campaña.
-
----
-
-## 🚀 Tecnologías utilizadas
-
-- **Java 21 (JDK 21)**
-- **LibGDX 1.14.1**
-- **Gradle 9.6.1**
-- **Git & GitHub**
-
-### Plataformas objetivo
-
-- 💻 Escritorio (Windows/Linux/macOS)
-
----
-
-## 📌 Estado actual del proyecto
-
-🚧 **Configuración inicial y estructura del proyecto.**
-
-Actualmente el proyecto se encuentra en la etapa inicial de desarrollo, con la configuración del entorno, la organización del repositorio y la planificación de las funcionalidades principales.
-
----
-
-## ⚙️ Cómo compilar y ejecutar
-
-### 1. Clonar el repositorio
-
-```bash
-git clone https://github.com/Octa-Romero/SuperPablo3.git
-```
-
-### 2. Ingresar a la carpeta del juego
-
-```bash
-cd SuperPablo3
-```
-
-### 3. Abrir el proyecto
-
-Abrir el proyecto con un IDE compatible con Gradle, por ejemplo:
-
-- IntelliJ IDEA
-- Eclipse
-- Visual Studio Code (con soporte para Java)
-
-### 4. Descargar las dependencias
-
-Gradle descargará automáticamente todas las dependencias de LibGDX al abrir el proyecto.
-
-### 5. Ejecutar el juego
-
-Ejecutar la clase principal del módulo **lwjgl3** (`Lwjgl3Launcher.java`).
-
-También es posible ejecutar desde la terminal:
-
-
-En Windows:
-
-```bash
-gradlew lwjgl3:run
-```
-
-Linux / maxOS:
-
-```
-./gradlew lwjgl3:run
-```
-
----
-
-## ℹ️ Wiki del proyecto
-
-La propuesta detallada del videojuego se encuentra disponible en la [Wiki del proyecto](https://github.com/Octa-Romero/SuperPablo3/wiki).
-
----
-
-## 📄 Licencia
-
-Proyecto desarrollado con fines educativos para la materia **Programación sobre Redes**.
+Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
+For example, `core:clean` removes `build` folder only from the `core` project.
