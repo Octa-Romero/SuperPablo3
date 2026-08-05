@@ -1,3 +1,0 @@
-libgdx.png
-pabloFondo2.png
-walter.png
