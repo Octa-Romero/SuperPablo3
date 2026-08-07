@@ -30,8 +30,8 @@
 
 ## 🚀 Tecnologías utilizadas
 
-- **Java 21 (JDK 21)**
-- **LibGDX 1.14.1**
+- **Java 8 (JDK 21)**
+- **LibGDX 1.14.2**
 - **Gradle 9.6.1**
 - **Git & GitHub**
 
@@ -43,9 +43,9 @@
 
 ## 📌 Estado actual del proyecto
 
-🚧 **Configuración inicial y estructura del proyecto.**
+🚧 **Estructura inicial del juego (Paquetes, Clases, Render, Pantallas y Jugador)**
 
-Actualmente el proyecto se encuentra en la etapa inicial de desarrollo, con la configuración del entorno, la organización del repositorio y la planificación de las funcionalidades principales.
+- El proyecto se encuentra en una etapa inicial en cuanto a clases definidas y estructura base, posee paquetes que integran una lógica básica del juego, un Jugador con un movimiento simple, clases como Render que manejan el renderizado general del juego y pantallas para el juego, menú y pausa.
 
 ---
 
@@ -85,10 +85,10 @@ También es posible ejecutar desde la terminal:
 En Windows:
 
 ```bash
-gradlew lwjgl3:run
+gradlew.bat lwjgl3:run
 ```
 
-Linux / maxOS:
+Linux / macOS:
 
 ```
 ./gradlew lwjgl3:run
