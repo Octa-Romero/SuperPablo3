@@ -30,7 +30,7 @@
 
 ## 🚀 Tecnologías utilizadas
 
-- **Java 8 (JDK 21)**
+- **Java 21 (JDK 21)**
 - **LibGDX 1.14.2**
 - **Gradle 9.6.1**
 - **Git & GitHub**
