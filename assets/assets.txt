@@ -1,3 +1,4 @@
 libgdx.png
 pabloFondo2.png
+readmegif.gif
 walter.png
