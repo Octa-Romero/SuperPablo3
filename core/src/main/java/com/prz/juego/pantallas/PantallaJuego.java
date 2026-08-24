@@ -1,5 +1,7 @@
 package com.prz.juego.pantallas;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.prz.juego.Principal;
@@ -21,6 +23,10 @@ public class PantallaJuego implements Screen {
     @Override
     public void render(float delta) {
         Render.limpiarPantalla();
+
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            jugador.saltar();
+        }
 
         jugador.update(delta);
 
