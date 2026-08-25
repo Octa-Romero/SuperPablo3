@@ -1,8 +1,8 @@
 {
     "activeFile": "Niveles/Level1.tmx",
     "expandedProjectPaths": [
-        "Tilesets",
         "Niveles",
+        "Tilesets",
         "."
     ],
     "file.lastUsedOpenFilter": "Todos los archivos (*)",
@@ -31,16 +31,16 @@
         },
         "Niveles/Level1.tmx": {
             "expandedGroupLayers": [
-                11,
-                16,
                 17,
-                8
+                8,
+                11,
+                16
             ],
-            "scale": 0.5,
+            "scale": 0.75,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 382,
-                "y": 454
+                "x": 513.3333333333334,
+                "y": 744
             }
         },
         "Niveles/Level2.tmx": {
@@ -68,9 +68,9 @@
         },
         "Niveles/Nivel2.tmx": {
             "expandedGroupLayers": [
-                9,
                 8,
-                16
+                16,
+                9
             ],
             "scale": 0.5,
             "selectedLayer": 0,
@@ -114,15 +114,16 @@
     "openFiles": [
         "Niveles/Nivel2.tmx",
         "Niveles/Level2.tmx",
-        "Niveles/Level1.tmx"
+        "Niveles/Level1.tmx",
+        "Tilesets/TileSetForest2.tsx"
     ],
     "project": "Niveles.tiled-project",
     "recentFiles": [
         "Niveles/Nivel2.tmx",
         "Niveles/Level2.tmx",
+        "Tilesets/TileSetForest2.tsx",
         "Niveles/Level1.tmx",
         "Niveles/Nivel 2.tmx",
-        "Tilesets/TileSetForest2.tsx",
         "Tilesets/foresTileset.tsx",
         "Level1.tmx"
     ],
