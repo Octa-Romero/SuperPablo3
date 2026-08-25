@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Render;
 
 public class Jugador {
@@ -35,7 +36,7 @@ public class Jugador {
         sprite.draw(Render.batch);
     }
 
-    public void update(float delta)
+    public void update(Entrada entrada, float delta)
     {
         if (!enSuelo) {
             velocidadY -= gravedad * delta;
@@ -49,17 +50,20 @@ public class Jugador {
             enSuelo = true;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && x >= 0) {
+        if (entrada.mueveIzquierda()) {
             x -= velocidad * delta;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && x + ancho <= Gdx.graphics.getWidth()) {
+        if (entrada.mueveDerecha()) {
             x += velocidad * delta;
+        }
+        if(entrada.mueveArriba()) {
+            saltar();
         }
 
         sprite.setPosition(x, y);
     }
 
-    public void saltar(){
+    private void saltar(){
         if (enSuelo) {
             velocidadY = 300;
             enSuelo = false;

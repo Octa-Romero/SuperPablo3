@@ -36,9 +36,6 @@ public class Camara {
         this.limiteMaxY = altoMapaPx - (V_HEIGHT / 2f);
     }
 
-    /**
-     * Sigue la posición del personaje (Pablo) con suavizado (Lerp)
-     */
     public void seguirPersonaje(float targetX, float targetY, float delta) {
         // Velocidad de suavizado del seguimiento (0.1f = suave, 1f = rígido)
         float lerp = 5f * delta;

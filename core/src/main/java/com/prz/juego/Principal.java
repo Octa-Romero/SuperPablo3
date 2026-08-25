@@ -12,7 +12,7 @@ public class Principal extends Game {
     @Override
     public void create() {
         Render.batch = new SpriteBatch();
-        this.setScreen(new PantallaJuego(this));
+        this.setScreen(new PantallaMenu());
     }
 
     @Override

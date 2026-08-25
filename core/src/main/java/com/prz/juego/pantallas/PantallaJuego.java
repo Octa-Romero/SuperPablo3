@@ -1,7 +1,9 @@
 package com.prz.juego.pantallas;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.prz.juego.Principal;
 import com.prz.juego.entidades.Jugador;
 import com.prz.juego.utilidades.Camara;
+import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Render;
 
 public class PantallaJuego implements Screen {
@@ -18,16 +21,17 @@ public class PantallaJuego implements Screen {
     private OrthogonalTiledMapRenderer mapRenderer;
     private Camara camaraJuego;
 
-    private Principal juego;
     private Jugador jugador;
+    private Entrada entrada;
 
     public PantallaJuego() {
-        // Inicializamos el Batch si no existe
         if (Render.batch == null) {
             Render.batch = new SpriteBatch();
         }
-        // Instanciamos al jugador en x=500, y=150
+        entrada = new Entrada();
+        Gdx.input.setInputProcessor(entrada);
         jugador = new Jugador(500, 150, 55, 100);
+
     }
 
     @Override
@@ -37,6 +41,14 @@ public class PantallaJuego implements Screen {
         // 1. Cargar mapa TMX
         mapLoader = new TmxMapLoader();
         mapa = mapLoader.load("Niveless/Niveles/Level1.tmx");
+
+       /* MapLayer layer = mapa.getLayers().get("colisiones");
+
+        System.out.println("Objetos: " + layer.getObjects().getCount());*/
+
+        for (MapLayer layer : mapa.getLayers()) {
+            System.out.println(layer.getName());
+        }
 
         // 2. Definir límites de cámara según el tamaño del mapa
         MapProperties props = mapa.getProperties();
@@ -74,7 +86,7 @@ public class PantallaJuego implements Screen {
 
     private void update(float delta) {
         // 1. Mover al jugador con sus teclas (W, A, S, D)
-        jugador.update(delta);
+        jugador.update(entrada, delta);
 
         // 2. La cámara sigue las coordenadas reales del jugador
         camaraJuego.seguirPersonaje(jugador.getX(), jugador.getY(), delta);

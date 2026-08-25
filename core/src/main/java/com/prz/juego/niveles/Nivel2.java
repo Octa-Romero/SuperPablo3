@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input; // <-- Asegurate de importar Input
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -32,6 +33,7 @@ public class Nivel2 implements Screen {
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("Niveless/Niveles/Nivel2.tmx");
 
+
         MapProperties props = map.getProperties();
         int tileWidth = props.get("tilewidth", Integer.class);
         int tileHeight = props.get("tileheight", Integer.class);
@@ -58,20 +60,6 @@ public class Nivel2 implements Screen {
     }
 
     private void update(float delta) {
-        // --- LÓGICA DE MOVIMIENTO LIBRE CON FLECHAS ---
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            playerX -= SPEED * delta;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            playerX += SPEED * delta;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            playerY += SPEED * delta;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            playerY -= SPEED * delta;
-        }
-
         // Actualizar el seguimiento de la cámara a la nueva posición
         camaraJuego.seguirPersonaje(playerX, playerY, delta);
     }
