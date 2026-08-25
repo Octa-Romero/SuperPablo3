@@ -50,8 +50,8 @@
             "scale": 0.125,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 1704,
-                "y": 616
+                "x": 5120,
+                "y": 476
             }
         },
         "Niveles/Nivel 2.tmx": {
@@ -68,15 +68,15 @@
         },
         "Niveles/Nivel2.tmx": {
             "expandedGroupLayers": [
-                16,
                 9,
-                8
+                8,
+                16
             ],
             "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1180,
-                "y": 1768
+                "x": 1584,
+                "y": 1709
             }
         },
         "Niveles/forestTileset.tsx": {
