@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Render;
+import com.badlogic.gdx.math.Rectangle;
+
+import java.awt.*;
 
 public class Jugador {
 
@@ -14,10 +17,11 @@ public class Jugador {
     public Sprite sprite;
     private float x, y;
     private float ancho, alto;
-    private final int velocidad = 200;
+    private int velocidadX = 0;
     private int velocidadY = 0;
-    private final int gravedad = 350;
+    private final int gravedad = 400;
     private boolean enSuelo = true;
+    private Rectangle bounds = new Rectangle();
 
     public Jugador(float x, float y, float ancho, float alto)
     {
@@ -38,60 +42,67 @@ public class Jugador {
 
     public void update(Entrada entrada, float delta)
     {
-        if (!enSuelo) {
-            velocidadY -= gravedad * delta;
-        }
+        if (entrada.mueveIzquierda()) velocidadX = -200;
+        else if (entrada.mueveDerecha()) velocidadX = 200;
+        else velocidadX = 0;
 
-        y += velocidadY * delta;
-
-        if (y <= 0) {
-            y = 0;
-            velocidadY = 0;
-            enSuelo = true;
-        }
-
-        if (entrada.mueveIzquierda()) {
-            x -= velocidad * delta;
-        }
-        if (entrada.mueveDerecha()) {
-            x += velocidad * delta;
-        }
-        if(entrada.mueveArriba()) {
+        if (entrada.mueveArriba()) {
             saltar();
         }
 
-        sprite.setPosition(x, y);
+        velocidadY -= gravedad * delta;
+
     }
 
     private void saltar(){
         if (enSuelo) {
-            velocidadY = 300;
+            velocidadY = 350;
             enSuelo = false;
         }
     }
 
-    public float getX()
+    public void setEnSuelo(boolean valor)
     {
-        return this.x;
+        this.enSuelo = valor;
     }
 
-    public float getY()
-    {
-        return this.y;
+    public float getX() {
+        return x;
     }
+
+    public float getY() {
+        return y;
+    }
+
+    public Rectangle getBounds()
+    {
+        bounds.set(x, y, ancho, alto);
+        return this.bounds;
+    }
+
+    public int getVelocidadX() {
+        return velocidadX;
+    }
+
+    public int getVelocidadY() {return velocidadY;}
+
+    public void setVelocidadX(int valor) {this.velocidadX = valor;}
+
+    public void setVelocidadY(int valor) {this.velocidadY = valor;}
 
     public void setX(float x)
     {
+        this.x = x;
         sprite.setX(x);
     }
 
     public void setY(float y)
     {
+        this.y = y;
         sprite.setY(y);
     }
 
-    public float getAncho()
-    {
+    public float getAncho() {
         return this.ancho;
     }
 
@@ -99,5 +110,4 @@ public class Jugador {
     {
         return this.alto;
     }
-
 }

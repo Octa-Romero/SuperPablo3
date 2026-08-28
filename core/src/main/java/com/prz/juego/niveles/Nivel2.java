@@ -1,15 +1,13 @@
 package com.prz.juego.niveles;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input; // <-- Asegurate de importar Input
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.prz.juego.utilidades.Camara;
+import com.prz.juego.sistemas.Camara;
 
 public class Nivel2 implements Screen {
 

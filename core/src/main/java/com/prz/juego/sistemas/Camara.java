@@ -1,4 +1,4 @@
-package com.prz.juego.utilidades;
+package com.prz.juego.sistemas;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
@@ -38,8 +38,7 @@ public class Camara {
 
     public void seguirPersonaje(float targetX, float targetY, float delta) {
         // Velocidad de suavizado del seguimiento (0.1f = suave, 1f = rígido)
-        float lerp = 5f * delta;
-
+        float lerp = 10f * delta;
         // Movimiento interpolado
         camera.position.x += (targetX - camera.position.x) * lerp;
         camera.position.y += (targetY - camera.position.y) * lerp;

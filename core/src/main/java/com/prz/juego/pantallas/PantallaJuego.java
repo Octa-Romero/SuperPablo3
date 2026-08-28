@@ -3,14 +3,15 @@ package com.prz.juego.pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.prz.juego.Principal;
+import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.entidades.Jugador;
-import com.prz.juego.utilidades.Camara;
+import com.prz.juego.sistemas.Camara;
+import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Render;
 
@@ -23,6 +24,7 @@ public class PantallaJuego implements Screen {
 
     private Jugador jugador;
     private Entrada entrada;
+    private Colisiones colision;
 
     public PantallaJuego() {
         if (Render.batch == null) {
@@ -30,7 +32,7 @@ public class PantallaJuego implements Screen {
         }
         entrada = new Entrada();
         Gdx.input.setInputProcessor(entrada);
-        jugador = new Jugador(500, 150, 55, 100);
+        jugador = new Jugador(50, 150, 55, 100);
 
     }
 
@@ -42,15 +44,12 @@ public class PantallaJuego implements Screen {
         mapLoader = new TmxMapLoader();
         mapa = mapLoader.load("Niveless/Niveles/Level1.tmx");
 
-       /* MapLayer layer = mapa.getLayers().get("colisiones");
+        TiledMapTileLayer suelo =  (TiledMapTileLayer) mapa.getLayers().get("suelo");
 
-        System.out.println("Objetos: " + layer.getObjects().getCount());*/
+        colision = new Colisiones(suelo);
 
-        for (MapLayer layer : mapa.getLayers()) {
-            System.out.println(layer.getName());
-        }
 
-        // 2. Definir límites de cámara según el tamaño del mapa
+        // 2. Definir límites de cgámara según el tamaño del mapa
         MapProperties props = mapa.getProperties();
         int tileWidth = props.get("tilewidth", Integer.class);
         int tileHeight = props.get("tileheight", Integer.class);
@@ -88,9 +87,49 @@ public class PantallaJuego implements Screen {
         // 1. Mover al jugador con sus teclas (W, A, S, D)
         jugador.update(entrada, delta);
 
-        // 2. La cámara sigue las coordenadas reales del jugador
-        camaraJuego.seguirPersonaje(jugador.getX(), jugador.getY(), delta);
+        float oldX = jugador.getX();
+        float oldY = jugador.getY();
+
+        float nx = oldX + jugador.getVelocidadX() * delta;
+        jugador.setX(nx);
+
+        if (colision.colisiona(jugador.getBounds())) {
+
+            if (jugador.getVelocidadX() > 0) {
+                jugador.setX(oldX);
+            } else if (jugador.getVelocidadX() < 0) {
+                jugador.setX(oldX);
+            }
+
+            jugador.setVelocidadX(0);
+        }
+
+        float ny = oldY + jugador.getVelocidadY() * delta;
+        jugador.setY(ny);
+
+        boolean col = colision.colisiona(jugador.getBounds());
+
+        if (col) {
+
+            if (jugador.getVelocidadY() < 0) {
+                jugador.setEnSuelo(true);
+            }
+
+            jugador.setY(oldY);
+            jugador.setVelocidadY(0);
+
+        } else {
+            jugador.setEnSuelo(false);
+        }
+
+        camaraJuego.seguirPersonaje(
+            jugador.getX() + jugador.getAncho() / 2f,
+            jugador.getY() + jugador.getAlto() / 2f,
+            delta
+        );
     }
+
+
 
     @Override
     public void resize(int width, int height) {
