@@ -1,9 +1,9 @@
 {
     "activeFile": "Niveles/Level1.tmx",
     "expandedProjectPaths": [
-        "Niveles",
         "Tilesets",
-        "."
+        ".",
+        "Niveles"
     ],
     "file.lastUsedOpenFilter": "Todos los archivos (*)",
     "fileStates": {
@@ -31,16 +31,16 @@
         },
         "Niveles/Level1.tmx": {
             "expandedGroupLayers": [
-                17,
-                8,
                 11,
-                16
+                8,
+                16,
+                17
             ],
-            "scale": 0.75,
+            "scale": 0.5,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 513.3333333333334,
-                "y": 744
+                "x": 734,
+                "y": 644
             }
         },
         "Niveles/Level2.tmx": {
@@ -68,8 +68,8 @@
         },
         "Niveles/Nivel2.tmx": {
             "expandedGroupLayers": [
-                8,
                 16,
+                8,
                 9
             ],
             "scale": 0.5,
@@ -83,9 +83,17 @@
             "dynamicWrapping": true,
             "scaleInDock": 1
         },
+        "Niveles/hubTilset.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 0.75
+        },
         "Niveles/morning_adventures_tileset_16x16.tsx": {
             "dynamicWrapping": true,
             "scaleInDock": 1
+        },
+        "Niveles/tileSetHub.tsx": {
+            "scaleInDock": 0.33,
+            "scaleInEditor": 0.33
         },
         "Pruebas/propsFores.tsx": {
             "scaleInDock": 1
@@ -107,10 +115,10 @@
             "scaleInDock": 1
         }
     },
-    "last.imagePath": "C:/Users/santi/Desktop/Niveless/Tilesets",
-    "map.height": 23,
+    "last.imagePath": "C:/Users/santi/Desktop/SuperPablo3/assets/Niveless/Tilesets",
+    "map.height": 17,
     "map.lastUsedFormat": "tmx",
-    "map.width": 240,
+    "map.width": 32,
     "openFiles": [
         "Niveles/Nivel2.tmx",
         "Niveles/Level2.tmx",
@@ -119,9 +127,11 @@
     ],
     "project": "Niveles.tiled-project",
     "recentFiles": [
+        "Tilesets/TileSetForest2.tsx",
+        "Niveles/hubTilset.tsx",
+        "Niveles/tileSetHub.tsx",
         "Niveles/Nivel2.tmx",
         "Niveles/Level2.tmx",
-        "Tilesets/TileSetForest2.tsx",
         "Niveles/Level1.tmx",
         "Niveles/Nivel 2.tmx",
         "Tilesets/foresTileset.tsx",
