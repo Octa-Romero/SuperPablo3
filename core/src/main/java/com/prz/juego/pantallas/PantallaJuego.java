@@ -44,9 +44,7 @@ public class PantallaJuego implements Screen {
         mapLoader = new TmxMapLoader();
         mapa = mapLoader.load("Niveless/Niveles/Level1.tmx");
 
-        TiledMapTileLayer suelo =  (TiledMapTileLayer) mapa.getLayers().get("suelo");
-
-        colision = new Colisiones(suelo);
+        colision = new Colisiones(mapa);
 
 
         // 2. Definir límites de cgámara según el tamaño del mapa
@@ -87,40 +85,7 @@ public class PantallaJuego implements Screen {
         // 1. Mover al jugador con sus teclas (W, A, S, D)
         jugador.update(entrada, delta);
 
-        float oldX = jugador.getX();
-        float oldY = jugador.getY();
-
-        float nx = oldX + jugador.getVelocidadX() * delta;
-        jugador.setX(nx);
-
-        if (colision.colisiona(jugador.getBounds())) {
-
-            if (jugador.getVelocidadX() > 0) {
-                jugador.setX(oldX);
-            } else if (jugador.getVelocidadX() < 0) {
-                jugador.setX(oldX);
-            }
-
-            jugador.setVelocidadX(0);
-        }
-
-        float ny = oldY + jugador.getVelocidadY() * delta;
-        jugador.setY(ny);
-
-        boolean col = colision.colisiona(jugador.getBounds());
-
-        if (col) {
-
-            if (jugador.getVelocidadY() < 0) {
-                jugador.setEnSuelo(true);
-            }
-
-            jugador.setY(oldY);
-            jugador.setVelocidadY(0);
-
-        } else {
-            jugador.setEnSuelo(false);
-        }
+        colision.chequearColision(jugador);
 
         camaraJuego.seguirPersonaje(
             jugador.getX() + jugador.getAncho() / 2f,

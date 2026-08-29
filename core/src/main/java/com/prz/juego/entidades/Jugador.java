@@ -17,7 +17,7 @@ public class Jugador {
     public Sprite sprite;
     private float x, y;
     private float ancho, alto;
-    private int velocidadX = 0;
+    private int velocidadX = 200;
     private int velocidadY = 0;
     private final int gravedad = 400;
     private boolean enSuelo = true;
@@ -31,6 +31,7 @@ public class Jugador {
         this.y = y;
         this.ancho = ancho;
         this.alto = alto;
+        this.bounds = new Rectangle(x, y, ancho, alto);
         sprite.setPosition(x, y);
         sprite.setSize(ancho, alto);
     }
@@ -42,16 +43,30 @@ public class Jugador {
 
     public void update(Entrada entrada, float delta)
     {
-        if (entrada.mueveIzquierda()) velocidadX = -200;
-        else if (entrada.mueveDerecha()) velocidadX = 200;
-        else velocidadX = 0;
+        if (!enSuelo)
+        {
+            velocidadY -= gravedad * delta;
+        }
 
-        if (entrada.mueveArriba()) {
+        y += velocidadY * delta;
+
+        if (entrada.mueveIzquierda())
+        {
+            x -= velocidadX * delta;
+        }
+
+        if (entrada.mueveDerecha())
+        {
+            x += velocidadX * delta;
+        }
+
+        if(entrada.mueveArriba())
+        {
             saltar();
         }
 
-        velocidadY -= gravedad * delta;
-
+        sprite.setPosition(x, y);
+        bounds.setPosition(x, y);
     }
 
     private void saltar(){
@@ -76,7 +91,6 @@ public class Jugador {
 
     public Rectangle getBounds()
     {
-        bounds.set(x, y, ancho, alto);
         return this.bounds;
     }
 
@@ -94,12 +108,14 @@ public class Jugador {
     {
         this.x = x;
         sprite.setX(x);
+        bounds.setX(x);
     }
 
     public void setY(float y)
     {
         this.y = y;
         sprite.setY(y);
+        bounds.setY(y);
     }
 
     public float getAncho() {
