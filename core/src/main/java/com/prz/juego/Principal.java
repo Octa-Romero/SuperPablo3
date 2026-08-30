@@ -2,6 +2,7 @@ package com.prz.juego;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.prz.juego.pantallas.PantallaJuego;
 import com.prz.juego.pantallas.PantallaMenu;
 import com.prz.juego.utilidades.Render;
 
