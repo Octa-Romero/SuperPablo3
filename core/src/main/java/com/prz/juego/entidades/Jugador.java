@@ -22,6 +22,7 @@ public class Jugador {
     private final int gravedad = 400;
     private boolean enSuelo = true;
     private Rectangle bounds = new Rectangle();
+    private int vida = 5;
 
     public Jugador(float x, float y, float ancho, float alto)
     {
@@ -75,6 +76,14 @@ public class Jugador {
             enSuelo = false;
         }
     }
+    
+    public void restarVida() {
+    	vida--;
+    	if(vida == 0) {
+    		System.out.println("El jugador murió");
+    		// TODO: Función de muerte
+    	}
+    }
 
     public void setEnSuelo(boolean valor)
     {
@@ -125,5 +134,9 @@ public class Jugador {
     public float getAlto()
     {
         return this.alto;
+    }
+    
+    public int getVida() {
+    	return vida;
     }
 }

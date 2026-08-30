@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.prz.juego.entidades.Enemigo;
 import com.prz.juego.sistemas.Camara;
 
 public class Nivel2 implements Screen {
@@ -42,7 +43,7 @@ public class Nivel2 implements Screen {
         float mapHeightPixels = mapHeightTiles * tileHeight;
 
         camaraJuego.setLimitesMapa(mapWidthPixels, mapHeightPixels);
-
+        
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1f);
     }
 
