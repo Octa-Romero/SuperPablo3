@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.prz.juego.niveles.Nivel2;
+import com.prz.juego.Principal;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Render;
 
@@ -25,6 +25,15 @@ public class PantallaMenu implements Screen {
     private BitmapFont fontTitulo;
     private BitmapFont fontSubtitulo;
     private BitmapFont fontBoton;
+    private Principal juego;
+    private Render render;
+
+    public PantallaMenu(Principal juego)
+    {
+        this.juego = juego;
+        this.render = juego.getRender();
+    }
+
 
     @Override
     public void show() {
@@ -80,7 +89,7 @@ public class PantallaMenu implements Screen {
                 dispose();
 
                 // Cambiar a la pantalla Load2Screen
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new PantallaJuego());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new PantallaJuego(juego));
             }
         });
 
@@ -117,8 +126,7 @@ public class PantallaMenu implements Screen {
 
     @Override
     public void render(float delta) {
-
-        Render.limpiarPantalla();
+        render.limpiarPantalla();
 
         stage.act(delta);
         stage.draw();

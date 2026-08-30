@@ -9,14 +9,23 @@ import com.prz.juego.utilidades.Render;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Principal extends Game {
 
+    private Render render;
+    private SpriteBatch batch;
+
     @Override
     public void create() {
-        Render.batch = new SpriteBatch();
-        this.setScreen(new PantallaMenu());
+        batch = new SpriteBatch();
+        render = new Render(batch);
+        this.setScreen(new PantallaMenu(this));
     }
 
     @Override
     public void dispose() {
-        Render.batch.dispose();
+        batch.dispose();
+    }
+
+    public Render getRender()
+    {
+        return render;
     }
 }

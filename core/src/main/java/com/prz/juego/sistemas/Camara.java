@@ -4,17 +4,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.prz.juego.utilidades.Config;
 
 public class Camara {
 
     private OrthographicCamera camera;
     private Viewport viewport;
-
-    // Resolución virtual fija para Pixel Art (16:9)
-    // Con estos valores el bosque, las montañas y el nivel se ven en proporción real
-    public static final float V_WIDTH = 800f;  // En lugar de 480f
-    public static final float V_HEIGHT = 450f; // En lugar de 270f
-    // Límites del mapa para que la cámara no muestre el exterior
+    public static final float V_WIDTH = Config.ANCHO;
+    public static final float V_HEIGHT = Config.ALTO;
     private float limiteMinX, limiteMaxX;
     private float limiteMinY, limiteMaxY;
 
@@ -25,9 +22,6 @@ public class Camara {
         camera.update();
     }
 
-    /**
-     * Define los bordes del mapa (ejemplo: 320 tiles x 16px = 5120px de ancho)
-     */
     public void setLimitesMapa(float anchoMapaPx, float altoMapaPx) {
         this.limiteMinX = V_WIDTH / 2f;
         this.limiteMaxX = anchoMapaPx - (V_WIDTH / 2f);
@@ -37,13 +31,10 @@ public class Camara {
     }
 
     public void seguirPersonaje(float targetX, float targetY, float delta) {
-        // Velocidad de suavizado del seguimiento (0.1f = suave, 1f = rígido)
         float lerp = 10f * delta;
-        // Movimiento interpolado
         camera.position.x += (targetX - camera.position.x) * lerp;
         camera.position.y += (targetY - camera.position.y) * lerp;
 
-        // Aplicar límites si están configurados para no mostrar el borde negro
         if (limiteMaxX > limiteMinX) {
             camera.position.x = MathUtils.clamp(camera.position.x, limiteMinX, limiteMaxX);
         }

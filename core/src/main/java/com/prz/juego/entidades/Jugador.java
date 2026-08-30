@@ -1,15 +1,11 @@
 package com.prz.juego.entidades;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Render;
 import com.badlogic.gdx.math.Rectangle;
-
-import java.awt.*;
 
 public class Jugador {
 
@@ -19,7 +15,7 @@ public class Jugador {
     private float ancho, alto;
     private int velocidadX = 200;
     private int velocidadY = 0;
-    private final int gravedad = 400;
+    private final int GRAVEDAD = 400;
     private boolean enSuelo = true;
     private Rectangle bounds = new Rectangle();
 
@@ -36,16 +32,16 @@ public class Jugador {
         sprite.setSize(ancho, alto);
     }
 
-    public void dibujar()
+    public void dibujar(SpriteBatch batch)
     {
-        sprite.draw(Render.batch);
+        sprite.draw(batch);
     }
 
     public void update(Entrada entrada, float delta)
     {
         if (!enSuelo)
         {
-            velocidadY -= gravedad * delta;
+            velocidadY -= GRAVEDAD * delta;
         }
 
         y += velocidadY * delta;
