@@ -45,6 +45,14 @@ Niveless/Tilesets/morning_adventures_tileset_16x16.png
 Niveless/Tilesets/morning_adventures_tileset_16x16.tsx
 Niveless/Tilesets/propsFores.png
 Niveless/Tilesets/tileset.png
+Personaje/Walter/13.png
+Personaje/Walter/14.png
+Personaje/Walter/15.png
+Personaje/Walter/16.png
+Personaje/Walter/23.png
+Personaje/Walter/24.png
+Personaje/Walter/25.png
+Personaje/Walter/26.png
 libgdx.png
 menuSP3.png
 pabloFondo2.png
