@@ -2,6 +2,16 @@
 
 Todos los cambios importantes de este proyecto serán documentados en este archivo.
 
+## [0.2.0] - 2026-08-29
+
+### Agregado
+- Se integraron dos ramas principales del proyecto, una orientada al sistema de mapa (TiledMap, camara, viewport y menu de inicio) y otra orientada al jugador (movimiento y colisiones).
+- Implementación de colisiones basicas del jugador con el mapa utilizando el layer de TiledMap.
+- Mejoras en el sistema de movimiento del jugador, incluyendo la mecanica de salto.
+- Incorporación del sistema de camara y viewport para el seguimiento del jugador.
+- Clases como Camara, Colisiones y Entrada.
+
+
 ## [0.1.4] - 2026-08-16
 
 ### Agregado
