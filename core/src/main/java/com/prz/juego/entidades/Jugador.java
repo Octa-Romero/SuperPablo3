@@ -2,20 +2,20 @@ package com.prz.juego.entidades;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-
-import com.prz.juego.pantallas.Hud;
+import com.prz.juego.sistemas.Hud;
 import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Render;
 
 public abstract class Jugador extends Entidad {
 
 	protected Entrada entrada;
+	private Texture texturaHud;
 	protected Hud hud;
 	protected boolean atacando;
 
 	protected Jugador(float x, float y, float ancho, float alto, int velocidadX, double vida, double danio, Texture textura, Texture texturaHud) {
 		super(x, y, ancho, alto, velocidadX, vida, danio, textura);
-		hud = new Hud(this, texturaHud);
+		this.texturaHud = texturaHud;
 	}
 
 	public void setEntrada(Entrada entrada) {
@@ -78,6 +78,10 @@ public abstract class Jugador extends Entidad {
 
 	public Hud getHud() {
 		return hud;
+	}
+	
+	public Texture getTexturaHud() {
+		return texturaHud;
 	}
 
 	public boolean estaAtacando() {

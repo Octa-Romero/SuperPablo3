@@ -17,6 +17,7 @@ import com.prz.juego.entidades.Jugador;
 import com.prz.juego.entidades.Pablo;
 import com.prz.juego.sistemas.Camara;
 import com.prz.juego.sistemas.Colisiones;
+import com.prz.juego.sistemas.Hud;
 import com.prz.juego.utilidades.Debug;
 import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Render;
@@ -47,7 +48,7 @@ public class PantallaJuego implements Screen {
 		entidades.add(jugador);
 		((Pablo) jugador).setEntidades(entidades);
 
-		hud = jugador.getHud();
+		hud = new Hud(jugador, jugador.getTexturaHud(), Render.batch);
 	}
 
 	@Override
@@ -143,6 +144,7 @@ public class PantallaJuego implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		camaraJuego.actualizarTamano(width, height);
+		hud.actualizarTamano(width, height);
 	}
 
 	@Override
