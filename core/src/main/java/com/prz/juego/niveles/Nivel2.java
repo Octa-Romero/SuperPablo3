@@ -30,7 +30,7 @@ public class Nivel2 implements Screen {
 		camaraJuego = new Camara();
 
 		mapLoader = new TmxMapLoader();
-		map = mapLoader.load("Niveless/Niveles/Nivel2.tmx");
+		map = mapLoader.load("Niveles/Niveles/Nivel2.tmx");
 
 
 		MapProperties props = map.getProperties();
