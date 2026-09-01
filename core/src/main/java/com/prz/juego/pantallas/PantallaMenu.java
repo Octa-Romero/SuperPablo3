@@ -32,7 +32,7 @@ public class PantallaMenu implements Screen {
 		Gdx.input.setInputProcessor(stage);
 
 		// 1. Cargar la imagen de fondo
-		texturaFondo = new Texture("menuSP3.png"); // Ajustá la ruta a tu PNG
+		texturaFondo = new Texture("Menu/menuSP3.png");
 		Image imagenFondo = new Image(texturaFondo);
 		imagenFondo.setFillParent(true); // Estirar fondo a toda la pantalla
 		stage.addActor(imagenFondo);
