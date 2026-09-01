@@ -23,6 +23,7 @@ import com.prz.juego.utilidades.Render;
 public class PantallaMenu implements Screen {
 
     private Stage stage;
+    private Camara camaraMenu;
     private Imagen fondo;
     private BitmapFont fontTitulo;
     private BitmapFont fontSubtitulo;
@@ -39,6 +40,9 @@ public class PantallaMenu implements Screen {
 
     @Override
     public void show() {
+        camaraMenu = new Camara();
+        camaraMenu.actualizarTamano(Config.ANCHO, Config.ALTO);
+
         stage = new Stage(new FitViewport(Config.ANCHO, Config.ALTO));
         Gdx.input.setInputProcessor(stage);
 
@@ -117,7 +121,7 @@ public class PantallaMenu implements Screen {
     public void render(float delta) {
         render.limpiarPantalla();
 
-        render.begin(stage.getCamera());
+        render.begin(camaraMenu.getCamera());
         fondo.dibujar(render.getBatch());
         render.end();
         stage.act(delta);
@@ -125,8 +129,10 @@ public class PantallaMenu implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int width, int height)
+    {
         stage.getViewport().update(width, height, true);
+        camaraMenu.actualizarTamano(width, height);
     }
 
     @Override public void pause() {}

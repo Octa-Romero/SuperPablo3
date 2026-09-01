@@ -52,8 +52,4 @@ public class Camara {
     public OrthographicCamera getCamera() {
         return camera;
     }
-
-    public Viewport getViewport() {
-        return viewport;
-    }
 }
