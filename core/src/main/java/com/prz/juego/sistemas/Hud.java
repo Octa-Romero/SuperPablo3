@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -41,7 +40,7 @@ public class Hud {
 	}
 
 	private void actualizarCorazones() {
-		contenedorCorazones.clearChildren(); // Vaciar corazones anteriores
+		contenedorCorazones.clearChildren();
 
 		double vida = jugador.getVida();
 		double vidaMaxima = jugador.getVidaMaxima();
@@ -60,8 +59,6 @@ public class Hud {
 			}
 
 			Image corazon = new Image(textura);
-
-			// Agregamos a la tabla y ACÁ SÍ podemos forzar el tamaño de la celda y el espacio
 			contenedorCorazones.add(corazon).size(tamañoCorazon, tamañoCorazon).padRight(espacioCorazones);
 		}
 	}
