@@ -22,8 +22,8 @@ public class Pablo extends Jugador {
 	private Sprite spriteAtaque;
 
 	public Pablo(float x, float y, float ancho, float alto) {
-		super(x, y, ancho, alto, 200, 10, 1, new Texture("pablo.png"), new Texture("pablo_hud.png"));
-		spriteAtaque = new Sprite(new Texture("ataque_pablo.png"));
+		super(x, y, ancho, alto, 200, 10, 1, new Texture("Personajes/pablo.png"), new Texture("Hud/pablo_hud.png"));
+		spriteAtaque = new Sprite(new Texture("Personajes/ataque_pablo.png"));
 		spriteAtaque.setSize(anchoAtaque, altoAtaque);
 	}
 
