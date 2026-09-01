@@ -15,13 +15,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.Principal;
+                                                                                           import com.prz.juego.recursos.Imagen;
+import com.prz.juego.sistemas.Camara;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Render;
 
 public class PantallaMenu implements Screen {
 
     private Stage stage;
-    private Texture texturaFondo;
+    private Imagen fondo;
     private BitmapFont fontTitulo;
     private BitmapFont fontSubtitulo;
     private BitmapFont fontBoton;
@@ -40,13 +42,10 @@ public class PantallaMenu implements Screen {
         stage = new Stage(new FitViewport(Config.ANCHO, Config.ALTO));
         Gdx.input.setInputProcessor(stage);
 
-        // 1. Cargar la imagen de fondo
-        texturaFondo = new Texture("menuSP3.png"); // Ajustá la ruta a tu PNG
-        Image imagenFondo = new Image(texturaFondo);
-        imagenFondo.setFillParent(true); // Estirar fondo a toda la pantalla
-        stage.addActor(imagenFondo);
+        fondo = new Imagen("menuSP3.png"); // Ajustá la ruta a tu PNG
+        fondo.setPosition(0,0); // Estirar fondo a toda la pantalla
+        fondo.setSize(Config.ANCHO, Config.ALTO);
 
-        // 2. Definir Fuentes y Paleta Épica Medieval
         fontTitulo = new BitmapFont();
         fontTitulo.getData().setScale(3.5f);
 
@@ -56,19 +55,16 @@ public class PantallaMenu implements Screen {
         fontBoton = new BitmapFont();
         fontBoton.getData().setScale(2f);
 
-        // Colores: Dorado Real y Rojo Carmesí
         Color colorDorado = new Color(0.95f, 0.78f, 0.2f, 1f);
         Color colorRojoBordo = new Color(0.85f, 0.15f, 0.15f, 1f);
         Color colorTextoBoton = new Color(0.9f, 0.9f, 0.8f, 1f);
 
-        // 3. Estilos de Etiquetas (Labels)
         Label.LabelStyle estiloTitulo = new Label.LabelStyle(fontTitulo, colorDorado);
         Label.LabelStyle estiloSubtitulo = new Label.LabelStyle(fontSubtitulo, colorRojoBordo);
 
         Label tituloPrincipal = new Label("SUPER PABLO 3", estiloTitulo);
         Label subtitulo = new Label("~ LA ÚLTIMA BATALLA ~", estiloSubtitulo);
 
-        // 4. Estilo de Botones
         TextButton.TextButtonStyle estiloBoton = new TextButton.TextButtonStyle();
         estiloBoton.font = fontBoton;
         estiloBoton.fontColor = colorTextoBoton;
@@ -79,16 +75,13 @@ public class PantallaMenu implements Screen {
         TextButton btnOpciones = new TextButton("OPCIONES", estiloBoton);
         TextButton btnSalir = new TextButton("SALIR", estiloBoton);
 
-        // 5. Eventos de los Botones
         btnJugar.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Iniciando carga del Nivel 2...");
 
-                // Liberar memoria del menú antes de cambiar
                 dispose();
 
-                // Cambiar a la pantalla Load2Screen
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new PantallaJuego(juego));
             }
         });
@@ -97,7 +90,6 @@ public class PantallaMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Abrir Opciones...");
-                // Acá podés hacer un setScreen(new PantallaOpciones());
             }
         });
 
@@ -108,15 +100,12 @@ public class PantallaMenu implements Screen {
             }
         });
 
-        // 6. Maquetación con Tabla
         Table tabla = new Table();
         tabla.setFillParent(true);
 
-        // Título y Subtítulo arriba
         tabla.add(tituloPrincipal).padBottom(5).row();
         tabla.add(subtitulo).padBottom(60).row();
 
-        // Menú de Botones
         tabla.add(btnJugar).padBottom(25).width(250).height(50).row();
         tabla.add(btnOpciones).padBottom(25).width(250).height(50).row();
         tabla.add(btnSalir).width(250).height(50).row();
@@ -128,6 +117,9 @@ public class PantallaMenu implements Screen {
     public void render(float delta) {
         render.limpiarPantalla();
 
+        render.begin(stage.getCamera());
+        fondo.dibujar(render.getBatch());
+        render.end();
         stage.act(delta);
         stage.draw();
     }
@@ -144,7 +136,7 @@ public class PantallaMenu implements Screen {
     @Override
     public void dispose() {
         if (stage != null) stage.dispose();
-        if (texturaFondo != null) texturaFondo.dispose();
+        if (fondo != null) fondo.dispose();
         if (fontTitulo != null) fontTitulo.dispose();
         if (fontSubtitulo != null) fontSubtitulo.dispose();
         if (fontBoton != null) fontBoton.dispose();

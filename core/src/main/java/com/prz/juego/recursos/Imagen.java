@@ -3,7 +3,6 @@ package com.prz.juego.recursos;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.prz.juego.utilidades.Render;
 
 public class Imagen {
 
@@ -16,14 +15,31 @@ public class Imagen {
         s = new Sprite(t);
     }
 
+    public void setPosition(float x, float y)
+    {
+        s.setPosition(x, y);
+    }
+
     public void dibujar(SpriteBatch batch)
     {
-        s.setPosition(0, 0);
         s.draw(batch);
     }
 
     public void setSize(float ancho, float alto)
     {
         s.setSize(ancho, alto);
+    }
+
+    public void dispose() {
+        t.dispose();
+    }
+
+    public void setX(float x) {
+        s.setX(x);
+    }
+
+    public void setY(float y)
+    {
+        s.setY(y);
     }
 }
