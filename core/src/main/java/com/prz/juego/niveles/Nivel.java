@@ -1,12 +1,13 @@
 package com.prz.juego.niveles;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.Array;
 import com.prz.juego.Principal;
 import com.prz.juego.entidades.Jugador;
 import com.prz.juego.sistemas.Camara;
@@ -14,35 +15,22 @@ import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Render;
 
-public class Nivel implements Screen {
+public class Nivel {
 
     private Camara camara;
     private TiledMap mapa;
-    private TmxMapLoader mapLoader;
     private OrthogonalTiledMapRenderer mapRenderer;
     private Jugador jugador;
-    private Entrada entrada;
     private Colisiones colision;
-    private Principal juego;
-    private Render render;
 
-
-    public Nivel(Principal juego)
-    {
-        this.juego = juego;
-        this.render = juego.getRender();
-        jugador = new Jugador(50, 100, 55, 100);
-        entrada = new Entrada();
-    }
-
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(entrada);
+    public void cargar(String ruta) {
 
         camara = new Camara();
 
-        mapLoader = new TmxMapLoader();
-        mapa = mapLoader.load("Niveless/Niveles/Level1.tmx");
+        jugador = new Jugador(50, 100, 55, 100);
+
+        TmxMapLoader mapLoader = new TmxMapLoader();
+        mapa = mapLoader.load(ruta);
 
         colision = new Colisiones(mapa);
 
@@ -60,17 +48,13 @@ public class Nivel implements Screen {
         mapRenderer = new OrthogonalTiledMapRenderer(mapa, 1f);
     }
 
-    @Override
-    public void render(float delta) {
-        update(delta);
+    public void render(SpriteBatch batch) {
         mapRenderer.setView(camara.getCamera());
         mapRenderer.render();
-        render.begin(camara.getCamera());
-        jugador.dibujar(render.getBatch());
-        render.end();
+        jugador.dibujar(batch);
     }
 
-    public void update(float delta)
+    public void update(float delta, Entrada entrada)
     {
         jugador.update(entrada, delta);
 
@@ -83,29 +67,18 @@ public class Nivel implements Screen {
         );
     }
 
-    @Override
     public void resize(int width, int height) {
         camara.actualizarTamano(width, height);
     }
 
-    @Override
-    public void pause() {
 
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
         if (mapa != null) mapa.dispose();
         if (mapRenderer != null) mapRenderer.dispose();
+    }
+
+    public Camera getCamara()
+    {
+        return this.camara.getCamera();
     }
 }
