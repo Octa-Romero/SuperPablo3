@@ -56,7 +56,7 @@ public class PantallaJuego implements Screen {
 		camaraJuego = new Camara();
 
 		mapLoader = new TmxMapLoader();
-		mapa = mapLoader.load("Niveless/Niveles/Level1.tmx");
+		mapa = mapLoader.load("Niveles/Niveles/Level1.tmx");
 
 		colision = new Colisiones(mapa);
 
