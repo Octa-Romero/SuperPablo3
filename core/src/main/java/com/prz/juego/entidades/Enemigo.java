@@ -263,6 +263,7 @@ public abstract class Enemigo extends Entidad {
 		super.dispose();
 		if (spriteAtaque != null) {
 			spriteAtaque.getTexture().dispose();
+			spriteAtaque = null;
 		}
 	}
 }

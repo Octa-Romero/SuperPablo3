@@ -129,6 +129,7 @@ public class PantallaJuego implements Screen {
 			if (entidad instanceof Enemigo) {
 				Enemigo enemigo = (Enemigo) entidad;
 				if (enemigo.estaMuerto()) {
+					enemigo.dispose();
 					entidades.remove(i);
 				}
 			}
@@ -176,11 +177,6 @@ public class PantallaJuego implements Screen {
 
 		if (hud != null) {
 			hud.dispose();
-		}
-
-		if (Render.batch != null) {
-			Render.batch.dispose();
-			Render.batch = null;
 		}
 	}
 }

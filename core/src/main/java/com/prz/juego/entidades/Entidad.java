@@ -187,6 +187,7 @@ public abstract class Entidad {
 	public void dispose() {
 		if (sprite != null) {
 			sprite.getTexture().dispose();
+			sprite = null;
 		}
 	}
 }
