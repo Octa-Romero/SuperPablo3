@@ -5,10 +5,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Render {
 
-    public static SpriteBatch batch;
+	public static SpriteBatch batch;
 
-    public static void limpiarPantalla()
-    {
-        ScreenUtils.clear(0, 0, 0, 1);
-    }
+	public static void limpiarPantalla(){
+		ScreenUtils.clear(0, 0, 0, 1);
+	}
 }

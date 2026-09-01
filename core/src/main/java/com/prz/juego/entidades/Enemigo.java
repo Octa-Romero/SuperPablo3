@@ -1,53 +1,57 @@
 package com.prz.juego.entidades;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Enemigo {
-	private float x;
-	private float y;
-	private final float ancho = 50;
-	private final float alto = 120;
+import com.prz.juego.utilidades.Render;
 
-	private final float anchoAtaque = 100;
-	private final float altoAtaque = 10;
+public abstract class Enemigo extends Entidad {
 
-	private final float velocidad = 100;
-	private final float distanciaDeteccion = 500;
-	private final float distanciaAtaque = 15;
+	protected float anchoAtaque = 100;
+	protected float altoAtaque = 10;
+	protected float velocidad;
+	protected float distanciaDeteccion = 500;
+	protected float distanciaAtaque = 15;
+	protected float direccion = 1; // 1 derecha, -1 izquierda
+	protected float tiempoPatrulla = 0;
+	protected boolean caminandoPatrulla = false;
+	protected float tiempoEstado = 0;
+	protected boolean esperandoAtaque = false;
+	protected boolean atacando = false;
+	protected boolean cooldownAtaque = false;
+	protected boolean yaDanio = false;
+	protected boolean muerto = false;
+	protected Jugador jugador;
+	protected Sprite spriteAtaque;
 
-	// 1 = derecha, -1 = izquierda
-	private float direccion = 1;
-
-	private float tiempoPatrulla = 0;
-	private boolean caminandoPatrulla = false;
-
-	private float tiempoEstado = 0;
-
-	private boolean esperandoAtaque = false;
-	private boolean atacando = false;
-	private boolean cooldownAtaque = false;
-	private boolean yaDanio = false;
-
-	private Jugador jugador;
-
-	public Enemigo(float x, float y, Jugador jugador) {
-		this.x = x;
-		this.y = y;
+	protected Enemigo( float x, float y, float ancho, float alto, int velocidadX, double vida, double danio, Jugador jugador, Texture textura, Texture texturaAtaque) {
+		super(x, y, ancho, alto, velocidadX, vida, danio, textura);
 		this.jugador = jugador;
+		velocidad = velocidadX;
+		spriteAtaque = new Sprite(texturaAtaque);
+		spriteAtaque.setSize(anchoAtaque, altoAtaque);
 	}
 
-	public void actualizar(float delta) {
+	@Override
+	public void update(float delta) {
+		if (muerto) {
+			return;
+		}
+
+		guardarPosicionAnterior();
+
+		actualizarInvencibilidad(delta);
+
 		Rectangle boundsJugador = jugador.getBounds();
+
 		float distancia = calcularDistanciaHorizontal(boundsJugador);
 
 		if (atacando) {
 			actualizarAtaque(delta);
-			return;
-		}
-
-		if (esperandoAtaque) {
+		} else if (esperandoAtaque) {
 			tiempoEstado += delta;
 			if (tiempoEstado >= 0.5f) {
 				esperandoAtaque = false;
@@ -55,36 +59,45 @@ public class Enemigo {
 				tiempoEstado = 0;
 				yaDanio = false;
 			}
-			return;
-		}
-
-		if (cooldownAtaque) {
+		} else if (cooldownAtaque) {
 			tiempoEstado += delta;
 			if (tiempoEstado >= 2f) {
 				cooldownAtaque = false;
 				tiempoEstado = 0;
 			}
+
 			if (distancia <= distanciaDeteccion) {
 				perseguir(delta, boundsJugador);
 			} else {
 				patrullar(delta);
 			}
+		}
+
+		else {
+			if (distancia <= distanciaAtaque) {
+				actualizarDireccion(boundsJugador);
+				esperandoAtaque = true;
+				tiempoEstado = 0;
+			} else if (distancia <= distanciaDeteccion) {
+				perseguir(delta, boundsJugador);
+			} else {
+				patrullar(delta);
+			}
+		}
+
+		actualizarFisica(delta);
+
+		if (y + alto < 0) {
+			morir();
 			return;
 		}
 
-		if (distancia <= distanciaAtaque) {
-			actualizarDireccion(boundsJugador);
-			esperandoAtaque = true;
-			tiempoEstado = 0;
-			return;
+		sprite.setPosition(x, y);
+		bounds.setPosition(x, y);
+		if (atacando) {
+			Rectangle ataque = getBoundsAtaque();
+			spriteAtaque.setPosition(ataque.x, ataque.y);
 		}
-
-		if (distancia <= distanciaDeteccion) {
-			perseguir(delta, boundsJugador);
-			return;
-		}
-
-		patrullar(delta);
 	}
 
 	private float calcularDistanciaHorizontal(Rectangle boundsJugador) {
@@ -95,18 +108,16 @@ public class Enemigo {
 
 		// Jugador a la izquierda
 		if (x > boundsJugador.x + boundsJugador.width) {
-
 			return x - (boundsJugador.x + boundsJugador.width);
 		}
 
-		// Se están superponiendo
+		// Se superponen
 		return 0;
 	}
 
 	private void actualizarDireccion(Rectangle boundsJugador) {
 		float centroJugador = boundsJugador.x + boundsJugador.width / 2f;
 		float centroEnemigo = x + ancho / 2f;
-
 		if (centroJugador > centroEnemigo) {
 			direccion = 1;
 		} else if (centroJugador < centroEnemigo) {
@@ -116,11 +127,9 @@ public class Enemigo {
 
 	private void perseguir(float delta, Rectangle boundsJugador) {
 		float distancia = calcularDistanciaHorizontal(boundsJugador);
-
 		if (distancia <= distanciaAtaque) {
 			return;
 		}
-
 		float centroJugador = boundsJugador.x + boundsJugador.width / 2f;
 		float centroEnemigo = x + ancho / 2f;
 		float movimiento = velocidad * delta;
@@ -131,7 +140,9 @@ public class Enemigo {
 			if (distancia - movimiento < distanciaAtaque) {
 				movimiento = distancia - distanciaAtaque;
 			}
-			x += movimiento;
+			if (movimiento > 0) {
+				x += movimiento;
+			}
 		}
 
 		// Jugador a la izquierda
@@ -140,13 +151,14 @@ public class Enemigo {
 			if (distancia - movimiento < distanciaAtaque) {
 				movimiento = distancia - distanciaAtaque;
 			}
-			x -= movimiento;
+			if (movimiento > 0) {
+				x -= movimiento;
+			}
 		}
 	}
 
 	private void patrullar(float delta) {
 		tiempoPatrulla += delta;
-
 		if (caminandoPatrulla) {
 			x += direccion * velocidad * delta;
 			if (tiempoPatrulla >= 2f) {
@@ -158,7 +170,7 @@ public class Enemigo {
 
 		if (tiempoPatrulla >= 5f) {
 			tiempoPatrulla = 0;
-			if (Math.random() < 0.70) {
+			if (Math.random() < 0.70) { // 70% cambia de dirección, 30% continúa
 				direccion *= -1;
 			}
 			caminandoPatrulla = true;
@@ -167,9 +179,8 @@ public class Enemigo {
 
 	private void actualizarAtaque(float delta) {
 		tiempoEstado += delta;
-
 		if (!yaDanio && ataqueTocaJugador()) {
-			jugador.restarVida();
+			jugador.restarVida(danio);
 			yaDanio = true;
 		}
 
@@ -180,16 +191,14 @@ public class Enemigo {
 		}
 	}
 
-	private Rectangle getBoundsAtaque() {
-		float ataqueX;
-		float ataqueY = y + (alto / 2f) - (altoAtaque / 2f);;
+	protected Rectangle getBoundsAtaque() {
+		float ataqueY =	y + (alto / 2f) - (altoAtaque / 2f);
 		float centroEnemigo = x + ancho / 2f;
+		float ataqueX;
 
 		if (direccion > 0) {
-			// Hacia la derecha
 			ataqueX = centroEnemigo;
 		} else {
-			// Hacia la izquierda
 			ataqueX = centroEnemigo - anchoAtaque;
 		}
 
@@ -198,16 +207,42 @@ public class Enemigo {
 
 	private boolean ataqueTocaJugador() {
 		Rectangle ataque = getBoundsAtaque();
-
-		Rectangle boundsJugador = jugador.getBounds();
-
-		return ataque.overlaps(boundsJugador);
+		return ataque.overlaps(jugador.getBounds());
 	}
 
-	public void dibujar(ShapeRenderer shapeRenderer) {
-		shapeRenderer.setColor(Color.BLUE);
-		shapeRenderer.rect(x, y, ancho, alto);
+	@Override
+	protected void morir() {
+		muerto = true;
+	}
 
+	public boolean estaMuerto() {
+		return muerto;
+	}
+
+	public boolean estaAtacando() {
+		return atacando;
+	}
+
+	@Override
+	public void dibujar() {
+		if (spriteVisible) {
+			sprite.draw(Render.batch);
+		}
+	}
+
+	public void dibujarAtaque() {
+		if (!atacando) {
+			return;
+		}
+
+		Rectangle ataque = getBoundsAtaque();
+		spriteAtaque.setPosition(ataque.x, ataque.y);
+		spriteAtaque.draw(Render.batch);
+	}
+
+	@Override
+	public void dibujarHitbox(ShapeRenderer shapeRenderer) {
+		super.dibujarHitbox(shapeRenderer);
 		if (atacando) {
 			Rectangle ataque = getBoundsAtaque();
 			shapeRenderer.setColor(Color.RED);
@@ -215,19 +250,19 @@ public class Enemigo {
 		}
 	}
 
-	public float getX() {
-		return x;
+	public float getDireccion() {
+		return direccion;
 	}
 
-	public float getY() {
-		return y;
+	public Rectangle getBoundsAtaquePublico() {
+		return getBoundsAtaque();
 	}
 
-	public float getAncho() {
-		return ancho;
-	}
-
-	public float getAlto() {
-		return alto;
+	@Override
+	public void dispose() {
+		super.dispose();
+		if (spriteAtaque != null) {
+			spriteAtaque.getTexture().dispose();
+		}
 	}
 }
