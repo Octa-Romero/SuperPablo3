@@ -45,8 +45,17 @@ Niveless/Tilesets/morning_adventures_tileset_16x16.png
 Niveless/Tilesets/morning_adventures_tileset_16x16.tsx
 Niveless/Tilesets/propsFores.png
 Niveless/Tilesets/tileset.png
+ataque_bicho1.png
+ataque_pablo.png
+bicho1.png
+corazon_lleno.png
+corazon_mitad.png
+corazon_vacio.png
 libgdx.png
 menuSP3.png
+pablo.png
 pabloFondo2.png
+pablo_hud.png
 readmegif.gif
 walter.png
+walter_hud.png

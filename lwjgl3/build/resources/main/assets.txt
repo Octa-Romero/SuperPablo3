@@ -3,11 +3,15 @@ Niveless/BosqueNivel2Parallax/far.png
 Niveless/BosqueNivel2Parallax/middle.png
 Niveless/Niveles.tiled-project
 Niveless/Niveles.tiled-session
+Niveless/Niveles/Hub.tmx
 Niveless/Niveles/Level 2.tmx
 Niveless/Niveles/Level1.tmx
 Niveless/Niveles/Level2.tmx
 Niveless/Niveles/Nivel 2.tmx
 Niveless/Niveles/Nivel2.tmx
+Niveless/Niveles/hubTilset.tsx
+Niveless/Niveles/tileSetHub.tsx
+Niveless/Niveles/tileset.tsx
 Niveless/Tilesets/1.tsx
 Niveless/Tilesets/Background Parallax 1/Level_1.png
 Niveless/Tilesets/Background Parallax 1/Level_2.png
@@ -41,8 +45,17 @@ Niveless/Tilesets/morning_adventures_tileset_16x16.png
 Niveless/Tilesets/morning_adventures_tileset_16x16.tsx
 Niveless/Tilesets/propsFores.png
 Niveless/Tilesets/tileset.png
+ataque_bicho1.png
+ataque_pablo.png
+bicho1.png
+corazon_lleno.png
+corazon_mitad.png
+corazon_vacio.png
 libgdx.png
 menuSP3.png
+pablo.png
 pabloFondo2.png
+pablo_hud.png
 readmegif.gif
 walter.png
+walter_hud.png
