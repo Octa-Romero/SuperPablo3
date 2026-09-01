@@ -1,129 +1,86 @@
 package com.prz.juego.entidades;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import com.prz.juego.pantallas.Hud;
 import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Render;
-import com.badlogic.gdx.math.Rectangle;
 
-import java.awt.*;
+public abstract class Jugador extends Entidad {
 
-public class Jugador {
+	protected Entrada entrada;
+	protected Hud hud;
+	protected boolean atacando;
 
-    public Texture textura;
-    public Sprite sprite;
-    private float x, y;
-    private float ancho, alto;
-    private int velocidadX = 200;
-    private int velocidadY = 0;
-    private final int gravedad = 400;
-    private boolean enSuelo = true;
-    private Rectangle bounds = new Rectangle();
+	protected Jugador(float x, float y, float ancho, float alto, int velocidadX, double vida, double danio, Texture textura, Texture texturaHud) {
+		super(x, y, ancho, alto, velocidadX, vida, danio, textura);
+		hud = new Hud(this, texturaHud);
+	}
 
-    public Jugador(float x, float y, float ancho, float alto)
-    {
-        textura = new Texture("walter.png");
-        sprite = new Sprite(textura);
-        this.x = x;
-        this.y = y;
-        this.ancho = ancho;
-        this.alto = alto;
-        this.bounds = new Rectangle(x, y, ancho, alto);
-        sprite.setPosition(x, y);
-        sprite.setSize(ancho, alto);
-    }
+	public void setEntrada(Entrada entrada) {
+		this.entrada = entrada;
+	}
 
-    public void dibujar()
-    {
-        sprite.draw(Render.batch);
-    }
+	@Override
+	public void update(float delta) {
+		guardarPosicionAnterior();
 
-    public void update(Entrada entrada, float delta)
-    {
-        if (!enSuelo)
-        {
-            velocidadY -= gravedad * delta;
-        }
+		if (entrada.mueveArriba() && enSuelo) {
+			saltar();
+		}
 
-        y += velocidadY * delta;
+		enSuelo = false;
+		actualizarFisica(delta);
 
-        if (entrada.mueveIzquierda())
-        {
-            x -= velocidadX * delta;
-        }
+		if (y + alto < 0) {
+			restarVida(1);
+			setY(Gdx.graphics.getHeight() - alto);
+			velocidadY = 0;
+		}
 
-        if (entrada.mueveDerecha())
-        {
-            x += velocidadX * delta;
-        }
+		if (entrada.mueveIzquierda()) {
+			x -= velocidadX * delta;
+		}
 
-        if(entrada.mueveArriba())
-        {
-            saltar();
-        }
+		if (entrada.mueveDerecha()) {
+			x += velocidadX * delta;
+		}
 
-        sprite.setPosition(x, y);
-        bounds.setPosition(x, y);
-    }
+		if (entrada.ataca()) {
+			atacar();
+		}
 
-    private void saltar(){
-        if (enSuelo) {
-            velocidadY = 350;
-            enSuelo = false;
-        }
-    }
+		sprite.setPosition(x, y);
+		bounds.setPosition(x, y);
 
-    public void setEnSuelo(boolean valor)
-    {
-        this.enSuelo = valor;
-    }
+		actualizarInvencibilidad(delta);
+	}
 
-    public float getX() {
-        return x;
-    }
+	private void saltar() {
+		velocidadY = 300;
+		enSuelo = false;
+	}
 
-    public float getY() {
-        return y;
-    }
+	public abstract void atacar();
 
-    public Rectangle getBounds()
-    {
-        return this.bounds;
-    }
+	@Override
+	protected void morir() {
+		System.out.println("El jugador murió");
+		// TODO: muerte del jugador
+	}
 
-    public int getVelocidadX() {
-        return velocidadX;
-    }
+	public void dibujar() {
+		if (spriteVisible && sprite != null) {
+			sprite.draw(Render.batch);
+		}
+	}
 
-    public int getVelocidadY() {return velocidadY;}
+	public Hud getHud() {
+		return hud;
+	}
 
-    public void setVelocidadX(int valor) {this.velocidadX = valor;}
-
-    public void setVelocidadY(int valor) {this.velocidadY = valor;}
-
-    public void setX(float x)
-    {
-        this.x = x;
-        sprite.setX(x);
-        bounds.setX(x);
-    }
-
-    public void setY(float y)
-    {
-        this.y = y;
-        sprite.setY(y);
-        bounds.setY(y);
-    }
-
-    public float getAncho() {
-        return this.ancho;
-    }
-
-    public float getAlto()
-    {
-        return this.alto;
-    }
+	public boolean estaAtacando() {
+		return atacando;
+	}
 }
