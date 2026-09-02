@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.prz.juego.entidades.Enemigo;
 import com.prz.juego.sistemas.Camara;
+import com.prz.juego.utilidades.Musica;
 
 public class Nivel2 implements Screen {
 
@@ -27,6 +28,7 @@ public class Nivel2 implements Screen {
 
 	@Override
 	public void show() {
+		Musica.NIVEL1.sonar();
 		camaraJuego = new Camara();
 
 		mapLoader = new TmxMapLoader();

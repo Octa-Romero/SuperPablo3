@@ -4,14 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 
 public enum Musica {
-	MENU("musica_menu.mp3"),
-	BATALLA("musica_batalla.mp3"),
-	VICTORIA("musica_victoria.mp3");
+	MENU("Musicas/musica_menu.mp3"),
+	NIVEL1("Musicas/musica_nivel1.mp3");
 
 	private final String nombreArchivo;
 	private Music music;
 	private static Musica actual;
-	private static float volumenGlobal = 0.5f;
+	private static float volumenGlobal = 0.2f;
 
 	private Musica(String nombreArchivo) {
 		this.nombreArchivo = nombreArchivo;

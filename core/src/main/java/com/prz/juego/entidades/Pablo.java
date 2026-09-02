@@ -7,10 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.prz.juego.utilidades.Sonido;
 
 public class Pablo extends Jugador {
 
-	private float anchoAtaque = 100;
+    private float anchoAtaque = 100;
 	private float altoAtaque = 10;
 	private float direccion = 1; // 1 derecha, -1 izquierda
 	private float tiempoAtaque = 0;
@@ -21,10 +22,11 @@ public class Pablo extends Jugador {
 	private ArrayList<Entidad> entidades;
 	private Sprite spriteAtaque;
 
-	public Pablo(float x, float y, float ancho, float alto) {
-		super(x, y, ancho, alto, 200, 10, 1, new Texture("Personajes/pablo.png"), new Texture("Hud/pablo_hud.png"));
+	public Pablo(float x, float y) {
+		super(x, y, 50, 80, 200, 10, 1, new Texture("Personajes/pablo.png"), new Texture("Hud/pablo_hud.png"));
 		spriteAtaque = new Sprite(new Texture("Personajes/ataque_pablo.png"));
 		spriteAtaque.setSize(anchoAtaque, altoAtaque);
+		actualizarOrientacionSprites();
 	}
 
 	public void setEntidades(ArrayList<Entidad> entidades) {
@@ -43,6 +45,7 @@ public class Pablo extends Jugador {
 		}
 
 		super.update(delta);
+		actualizarOrientacionSprites();
 
 		actualizarAtaque(delta);
 
@@ -58,6 +61,7 @@ public class Pablo extends Jugador {
 			atacando = true;
 			tiempoAtaque = 0;
 			yaDanio = false;
+			Sonido.ESPADA.sonar();
 		}
 	}
 
@@ -111,6 +115,12 @@ public class Pablo extends Jugador {
 		} else {
 			direccion = -1;
 		}
+		actualizarOrientacionSprites();
+	}
+
+	private void actualizarOrientacionSprites() {
+		orientarSprite(sprite, direccion);
+		orientarSprite(spriteAtaque, direccion);
 	}
 
 	public Rectangle getBoundsAtaque() {

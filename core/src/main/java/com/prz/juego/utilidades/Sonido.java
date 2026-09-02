@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 
 public enum Sonido {
-	SALTO("salto.wav"),
-	GOLPE("golpe.wav"),
-	CLICK("click.wav");
+	SALTO("Sonidos/salto.WAV"),
+	ESPADA("Sonidos/espada.WAV"),
+	CLICK("Sonidos/click.WAV");
 
 	private final String nombreArchivo;
 	private Sound sound;

@@ -16,7 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.niveles.Nivel2;
 import com.prz.juego.utilidades.Config;
+import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
+import com.prz.juego.utilidades.Sonido;
 
 public class PantallaMenu implements Screen {
 
@@ -28,6 +30,7 @@ public class PantallaMenu implements Screen {
 
 	@Override
 	public void show() {
+		Musica.MENU.sonar();
 		stage = new Stage(new FitViewport(Config.ANCHO, Config.ALTO));
 		Gdx.input.setInputProcessor(stage);
 
@@ -74,6 +77,7 @@ public class PantallaMenu implements Screen {
 		btnJugar.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				Sonido.CLICK.sonar();
 				System.out.println("Iniciando carga del Nivel 2...");
 
 				// Liberar memoria del menú antes de cambiar
@@ -87,6 +91,7 @@ public class PantallaMenu implements Screen {
 		btnOpciones.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				Sonido.CLICK.sonar();
 				System.out.println("Abrir Opciones...");
 				// Acá podés hacer un setScreen(new PantallaOpciones());
 			}
@@ -95,6 +100,7 @@ public class PantallaMenu implements Screen {
 		btnSalir.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				Sonido.CLICK.sonar();
 				Gdx.app.exit();
 			}
 		});
