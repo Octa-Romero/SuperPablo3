@@ -93,8 +93,7 @@ public class Colisiones {
 		}
 
 		if (chocoPared && entidad instanceof Enemigo && estabaEnSuelo) {
-			entidad.setVelocidadY(350);
-			entidad.setEnSuelo(false);
+			entidad.saltar();
 		}
 	}
 

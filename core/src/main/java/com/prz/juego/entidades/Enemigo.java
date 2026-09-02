@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 import com.prz.juego.utilidades.Render;
+import com.prz.juego.utilidades.Sonido;
 
 public abstract class Enemigo extends Entidad {
 
@@ -19,6 +20,8 @@ public abstract class Enemigo extends Entidad {
 	protected float tiempoPatrulla = 0;
 	protected boolean caminandoPatrulla = false;
 	protected float tiempoEstado = 0;
+	protected float tiempoAntesDeAtacar = 0.3f;
+	protected float tiempoEntreAtaques = 2f;
 	protected boolean esperandoAtaque = false;
 	protected boolean atacando = false;
 	protected boolean cooldownAtaque = false;
@@ -31,8 +34,10 @@ public abstract class Enemigo extends Entidad {
 		super(x, y, ancho, alto, velocidadX, vida, danio, textura);
 		this.jugador = jugador;
 		velocidad = velocidadX;
+		duracionInvencibilidad = 1f;
 		spriteAtaque = new Sprite(texturaAtaque);
 		spriteAtaque.setSize(anchoAtaque, altoAtaque);
+		actualizarOrientacionSprites();
 	}
 
 	@Override
@@ -53,15 +58,16 @@ public abstract class Enemigo extends Entidad {
 			actualizarAtaque(delta);
 		} else if (esperandoAtaque) {
 			tiempoEstado += delta;
-			if (tiempoEstado >= 0.5f) {
+			if (tiempoEstado >= tiempoAntesDeAtacar) {
 				esperandoAtaque = false;
 				atacando = true;
 				tiempoEstado = 0;
 				yaDanio = false;
+				Sonido.ESPADA.sonar();
 			}
 		} else if (cooldownAtaque) {
 			tiempoEstado += delta;
-			if (tiempoEstado >= 2f) {
+			if (tiempoEstado >= tiempoEntreAtaques) {
 				cooldownAtaque = false;
 				tiempoEstado = 0;
 			}
@@ -92,6 +98,7 @@ public abstract class Enemigo extends Entidad {
 			return;
 		}
 
+		actualizarOrientacionSprites();
 		sprite.setPosition(x, y);
 		bounds.setPosition(x, y);
 		if (atacando) {
@@ -208,6 +215,11 @@ public abstract class Enemigo extends Entidad {
 	private boolean ataqueTocaJugador() {
 		Rectangle ataque = getBoundsAtaque();
 		return ataque.overlaps(jugador.getBounds());
+	}
+
+	private void actualizarOrientacionSprites() {
+		orientarSprite(sprite, direccion);
+		orientarSprite(spriteAtaque, direccion);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.prz.juego.utilidades.Sonido;
 
 public abstract class Entidad {
 
@@ -22,7 +23,7 @@ public abstract class Entidad {
 	protected double vidaMaxima;
 	protected double danio;
 	protected float tiempoInvencibilidad = 0;
-	protected final float duracionInvencibilidad = 2f;
+	protected float duracionInvencibilidad = 2f;
 	protected float tiempoParpadeo = 0;
 	protected boolean spriteVisible = true;
 
@@ -85,6 +86,27 @@ public abstract class Entidad {
 	protected void guardarPosicionAnterior() {
 		xAnterior = x;
 		yAnterior = y;
+	}
+
+	protected void orientarSprite(Sprite sprite, float direccion) {
+		if (sprite == null || direccion == 0) {
+			return;
+		}
+
+		boolean debeInvertirse = direccion < 0;
+		if (sprite.isFlipX() != debeInvertirse) {
+			sprite.flip(true, false);
+		}
+	}
+
+    public void saltar() {
+        velocidadY = 300;
+        enSuelo = false;
+        Sonido.SALTO.sonar();
+    }
+
+	protected void actualizarOrientacionSegunMovimiento() {
+		orientarSprite(sprite, x - xAnterior);
 	}
 
 	protected abstract void morir();

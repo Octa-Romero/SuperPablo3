@@ -20,6 +20,7 @@ import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.sistemas.Hud;
 import com.prz.juego.utilidades.Debug;
 import com.prz.juego.utilidades.Entrada;
+import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
 
 public class PantallaJuego implements Screen {
@@ -43,7 +44,7 @@ public class PantallaJuego implements Screen {
 		entrada = new Entrada();
 		Gdx.input.setInputProcessor(entrada);
 
-		jugador = new Pablo(50, 150, 55, 100);
+		jugador = new Pablo(50, 150);
 		jugador.setEntrada(entrada);
 		entidades.add(jugador);
 		((Pablo) jugador).setEntidades(entidades);
@@ -53,6 +54,7 @@ public class PantallaJuego implements Screen {
 
 	@Override
 	public void show() {
+		Musica.NIVEL1.sonar();
 		camaraJuego = new Camara();
 
 		mapLoader = new TmxMapLoader();

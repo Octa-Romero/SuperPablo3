@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.prz.juego.sistemas.Hud;
 import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Render;
+import com.prz.juego.utilidades.Sonido;
 
 public abstract class Jugador extends Entidad {
 
@@ -51,15 +52,11 @@ public abstract class Jugador extends Entidad {
 			atacar();
 		}
 
+		actualizarOrientacionSegunMovimiento();
 		sprite.setPosition(x, y);
 		bounds.setPosition(x, y);
 
 		actualizarInvencibilidad(delta);
-	}
-
-	private void saltar() {
-		velocidadY = 300;
-		enSuelo = false;
 	}
 
 	public abstract void atacar();
@@ -79,7 +76,7 @@ public abstract class Jugador extends Entidad {
 	public Hud getHud() {
 		return hud;
 	}
-	
+
 	public Texture getTexturaHud() {
 		return texturaHud;
 	}
