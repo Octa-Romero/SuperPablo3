@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputAdapter;
 
 public class Entrada extends InputAdapter {
 
-    private boolean arriba, derecha, izquierda;
+    private boolean arriba, derecha, izquierda, escapeOnePressed;
 
     @Override
     public boolean keyDown(int keycode)
@@ -24,6 +24,12 @@ public class Entrada extends InputAdapter {
         {
             izquierda = true;
         }
+
+        if(keycode ==  Input.Keys.ESCAPE)
+        {
+            escapeOnePressed = true;
+        }
+
         return true;
     }
 
@@ -44,6 +50,7 @@ public class Entrada extends InputAdapter {
         {
             izquierda = false;
         }
+
         return true;
     }
 
@@ -60,6 +67,16 @@ public class Entrada extends InputAdapter {
     public boolean mueveIzquierda()
     {
         return this.izquierda;
+    }
+
+    public boolean aprietaEscape()
+    {
+        if(escapeOnePressed)
+        {
+            escapeOnePressed =  false;
+            return true;
+        }
+        return false;
     }
 
 }
