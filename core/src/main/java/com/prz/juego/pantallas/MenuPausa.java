@@ -1,12 +1,9 @@
 package com.prz.juego.pantallas;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.Principal;
@@ -24,9 +21,11 @@ public class MenuPausa {
     public MenuPausa(Principal juego, PantallaJuego anteriorPantalla) {
         this.juego = juego;
         this.pantallaJuego =  anteriorPantalla;
-        stage = new Stage(new FitViewport(Config.ANCHO, Config.ALTO));
+
+        stage = new Stage(new FitViewport(Config.ANCHO_BASE, Config.ALTO_BASE));
         stage.setKeyboardFocus(null);
         stage.setScrollFocus(null);
+
         font = new BitmapFont();
         font.getData().setScale(2f);
 

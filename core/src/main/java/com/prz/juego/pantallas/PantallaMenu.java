@@ -1,6 +1,5 @@
 package com.prz.juego.pantallas;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -11,18 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import com.prz.juego.Principal;
 import com.prz.juego.recursos.Imagen;
-import com.prz.juego.sistemas.Camara;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Render;
 
 public class PantallaMenu implements Screen {
 
     private Stage stage;
-    private Camara camaraMenu;
     private Imagen fondo;
 
     private BitmapFont fontTitulo;
@@ -40,7 +37,6 @@ public class PantallaMenu implements Screen {
     @Override
     public void show() {
 
-        inicializarCamara();
         inicializarStage();
         inicializarFondo();
         inicializarFuentes();
@@ -49,20 +45,21 @@ public class PantallaMenu implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
-
-    private void inicializarCamara() {
-        camaraMenu = new Camara();
-        camaraMenu.actualizarTamano(Config.ANCHO, Config.ALTO);
-    }
-
     private void inicializarStage() {
-        stage = new Stage(new FitViewport(Config.ANCHO, Config.ALTO));
+        stage = new Stage(new ExtendViewport(Config.ANCHO_BASE, Config.ALTO_BASE));
     }
 
     private void inicializarFondo() {
         fondo = new Imagen("menuSP3.png");
+        actualizarFondo();
+    }
+
+    private void actualizarFondo() {
+        float w = stage.getViewport().getWorldWidth();
+        float h = stage.getViewport().getWorldHeight();
+
+        fondo.setSize(w, h);
         fondo.setPosition(0, 0);
-        fondo.setSize(Config.ANCHO, Config.ALTO);
     }
 
     private void inicializarFuentes() {
@@ -107,15 +104,14 @@ public class PantallaMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Iniciando carga del Nivel 2...");
                 dispose();
-                ((Game) Gdx.app.getApplicationListener())
-                    .setScreen(new PantallaJuego(juego));
+                juego.setScreen(new PantallaJuego(juego));
             }
         });
 
         btnOpciones.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Abrir Opciones...");
+                juego.setScreen(new PantallaOpciones(juego));
             }
         });
 
@@ -143,7 +139,7 @@ public class PantallaMenu implements Screen {
     public void render(float delta) {
         render.limpiarPantalla();
 
-        render.begin(camaraMenu.getCamera());
+        render.begin(stage.getCamera());
         fondo.dibujar(render.getBatch());
         render.end();
 
@@ -154,7 +150,7 @@ public class PantallaMenu implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        camaraMenu.actualizarTamano(width, height);
+        actualizarFondo();
     }
 
     @Override public void pause() {}

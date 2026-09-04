@@ -10,8 +10,8 @@ public class Camara {
 
     private OrthographicCamera camera;
     private Viewport viewport;
-    public static final float V_WIDTH = Config.ANCHO;
-    public static final float V_HEIGHT = Config.ALTO;
+    public static final float V_WIDTH = Config.ANCHO_BASE;
+    public static final float V_HEIGHT = Config.ALTO_BASE;
     private float limiteMinX, limiteMaxX;
     private float limiteMinY, limiteMaxY;
 
