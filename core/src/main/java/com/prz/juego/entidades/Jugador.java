@@ -1,7 +1,5 @@
 package com.prz.juego.entidades;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Entrada;

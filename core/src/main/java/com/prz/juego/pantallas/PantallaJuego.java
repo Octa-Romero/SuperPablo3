@@ -3,7 +3,6 @@ package com.prz.juego.pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.prz.juego.Principal;
 import com.prz.juego.niveles.Nivel;
