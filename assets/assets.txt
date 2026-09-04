@@ -45,6 +45,7 @@ Niveless/Tilesets/morning_adventures_tileset_16x16.png
 Niveless/Tilesets/morning_adventures_tileset_16x16.tsx
 Niveless/Tilesets/propsFores.png
 Niveless/Tilesets/tileset.png
+fondoAjustes.jpg
 libgdx.png
 menuSP3.png
 pabloFondo2.png
