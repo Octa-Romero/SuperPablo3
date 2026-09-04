@@ -52,8 +52,9 @@ public abstract class Jugador extends Entidad {
 			atacar();
 		}
 
+		actualizarAnimacion(delta, x != xAnterior, atacando);
 		actualizarOrientacionSegunMovimiento();
-		sprite.setPosition(x, y);
+		actualizarSpriteVisual();
 		bounds.setPosition(x, y);
 
 		actualizarInvencibilidad(delta);
@@ -63,7 +64,7 @@ public abstract class Jugador extends Entidad {
 
 	@Override
 	protected void morir() {
-		System.out.println("El jugador murió");
+		System.out.println("El jugador murio");
 		// TODO: muerte del jugador
 	}
 

@@ -55,9 +55,20 @@ Niveles/Tilesets/morning_adventures_tileset_16x16.png
 Niveles/Tilesets/morning_adventures_tileset_16x16.tsx
 Niveles/Tilesets/propsFores.png
 Niveles/Tilesets/tileset.png
-Personajes/ataque_pablo.png
-Personajes/pablo.png
-Personajes/walter.png
+Personajes/Pablo/ataque_pablo.png
+Personajes/Pablo/pablo.png
+Personajes/Walter/orbe.png
+Personajes/Walter/walter.png
+Personajes/Walter/walter_ataque.png
+Personajes/Walter/walter_caminar1.png
+Personajes/Walter/walter_caminar3.png
+Personajes/Walter/walter_caminar4.png
+Personajes/Walter/walter_caminar5.png
+Personajes/Walter/walter_caminar6.png
+Personajes/Walter/walter_caminar7.png
+Personajes/Walter/walter_spritesheet.png
+Personajes/Walter/walter_spritesheet2.png
+Personajes/Walter/wizard char.png
 README/readmegif.gif
 Sonidos/click.WAV
 Sonidos/espada.WAV
