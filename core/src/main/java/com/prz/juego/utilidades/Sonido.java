@@ -10,7 +10,7 @@ public enum Sonido {
 
 	private final String nombreArchivo;
 	private Sound sound;
-	private static float volumenGlobal = 1.0f;
+	private static float volumenGlobal = 0.5f;
 
 	private Sonido(String nombreArchivo) {
 		this.nombreArchivo = nombreArchivo;
@@ -27,9 +27,9 @@ public enum Sonido {
 		}
 	}
 
-	public static void setVolumen(float volumen) {
-		volumenGlobal = Math.max(0f, Math.min(1f, volumen));
-	}
+    public static void setVolumen(float volumen) {
+        volumenGlobal = Math.max(0f, Math.min(1f, volumen));
+    }
 
 	public static float getVolumen() {
 		return volumenGlobal;

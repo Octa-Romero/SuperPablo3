@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Sonido;
 
 public class Pablo extends Jugador {

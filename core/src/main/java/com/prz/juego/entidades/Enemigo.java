@@ -253,15 +253,18 @@ public abstract class Enemigo extends Entidad {
 		spriteAtaque.draw(Render.batch);
 	}
 
-	@Override
-	public void dibujarHitbox(ShapeRenderer shapeRenderer) {
-		super.dibujarHitbox(shapeRenderer);
-		if (atacando) {
-			Rectangle ataque = getBoundsAtaque();
-			shapeRenderer.setColor(Color.RED);
-			shapeRenderer.rect(ataque.x, ataque.y, ataque.width, ataque.height);
-		}
-	}
+    @Override
+    public void dibujarHitbox(ShapeRenderer shapeRenderer) {
+
+        shapeRenderer.setColor(Color.YELLOW);
+        shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
+
+        if (atacando) {
+            Rectangle ataque = getBoundsAtaque();
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(ataque.x, ataque.y, ataque.width, ataque.height);
+        }
+    }
 
 	public float getDireccion() {
 		return direccion;

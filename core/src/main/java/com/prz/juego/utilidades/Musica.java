@@ -10,7 +10,7 @@ public enum Musica {
 	private final String nombreArchivo;
 	private Music music;
 	private static Musica actual;
-	private static float volumenGlobal = 0.2f;
+	private static float volumenGlobal = 0.5f;
 
 	private Musica(String nombreArchivo) {
 		this.nombreArchivo = nombreArchivo;

@@ -2,6 +2,7 @@ package com.prz.juego.entidades;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
@@ -115,9 +116,11 @@ public class OrbeMagica {
     }
 
     public void dibujarHitbox(ShapeRenderer shapeRenderer) {
-        if (!activa || !Debug.mostrarHitboxes()) {
+        if (!activa) {
             return;
         }
+
+        shapeRenderer.setColor(Color.ORANGE);
         shapeRenderer.circle(bounds.x, bounds.y, bounds.radius);
     }
 

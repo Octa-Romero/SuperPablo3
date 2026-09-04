@@ -2,27 +2,44 @@ package com.prz.juego.recursos;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.prz.juego.utilidades.Render;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Imagen {
 
-	private Texture t;
-	private Sprite s;
+    private Texture t;
+    private Sprite s;
 
-	public Imagen(String ruta)
-	{
-		t = new Texture(ruta);
-		s = new Sprite(t);
-	}
+    public Imagen(String ruta)
+    {
+        t = new Texture(ruta);
+        s = new Sprite(t);
+    }
 
-	public void dibujar()
-	{
-		s.setPosition(0, 0);
-		s.draw(Render.batch);
-	}
+    public void setPosition(float x, float y)
+    {
+        s.setPosition(x, y);
+    }
 
-	public void setSize(float ancho, float alto)
-	{
-		s.setSize(ancho, alto);
-	}
+    public void dibujar(SpriteBatch batch)
+    {
+        s.draw(batch);
+    }
+
+    public void setSize(float ancho, float alto)
+    {
+        s.setSize(ancho, alto);
+    }
+
+    public void dispose() {
+        t.dispose();
+    }
+
+    public void setX(float x) {
+        s.setX(x);
+    }
+
+    public void setY(float y)
+    {
+        s.setY(y);
+    }
 }

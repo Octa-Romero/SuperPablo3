@@ -102,7 +102,7 @@ public class Colisiones {
 	}
 
 	public void dibujarHitboxes(ShapeRenderer shapeRenderer) {
-		shapeRenderer.setColor(Color.YELLOW);
+		shapeRenderer.setColor(Color.BLUE);
 		for (Rectangle colision : colisiones) {
 			shapeRenderer.rect(colision.x, colision.y, colision.width, colision.height);
 		}

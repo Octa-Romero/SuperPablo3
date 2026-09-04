@@ -1,191 +1,111 @@
 package com.prz.juego.pantallas;
 
-import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.prz.juego.entidades.*;
-import com.prz.juego.sistemas.Camara;
-import com.prz.juego.sistemas.Colisiones;
-import com.prz.juego.sistemas.Hud;
-import com.prz.juego.utilidades.Debug;
+import com.prz.juego.entidades.Jugador;
+import com.prz.juego.entidades.Pablo;
+import com.prz.juego.entidades.Walter;
+import com.prz.juego.principal.Principal;
+import com.prz.juego.niveles.Nivel;
 import com.prz.juego.utilidades.Entrada;
-import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
+import com.prz.juego.sistemas.Hud;
 
 public class PantallaJuego implements Screen {
 
-	private TiledMap mapa;
-	private TmxMapLoader mapLoader;
-	private OrthogonalTiledMapRenderer mapRenderer;
-	private Camara camaraJuego;
-	private Jugador jugador;
-	private Entrada entrada;
-	private Colisiones colision;
-	private Hud hud;
-	private ArrayList<Entidad> entidades = new ArrayList<>();
-	private ShapeRenderer shapeRenderer;
+    private Jugador jugador;
+    private Nivel nivel;
+    private Entrada entrada;
+    private MenuPausa menuPausa;
+    private boolean pausado = false;
+    private Hud hud;
 
-	public PantallaJuego() {
-		if (Render.batch == null) {
-			Render.batch = new SpriteBatch();
-		}
-		shapeRenderer = new ShapeRenderer();
-		entrada = new Entrada();
-		Gdx.input.setInputProcessor(entrada);
+    public PantallaJuego(Principal juego) {
+        this.entrada = new Entrada();
+        this.nivel = new Nivel();
+        this.menuPausa = new MenuPausa(juego, this);
 
-		jugador = new Walter(50, 150);
-		jugador.setEntrada(entrada);
-		entidades.add(jugador);
-		//((Walter) jugador).setEntidades(entidades);
+        Gdx.input.setInputProcessor(entrada);
 
-		hud = new Hud(jugador, jugador.getTexturaHud(), Render.batch);
-	}
+        jugador = new Walter(50, 150);
+        jugador.setEntrada(entrada);
 
-	@Override
-	public void show() {
-		Musica.NIVEL1.sonar();
-		camaraJuego = new Camara();
+        nivel.cargar("Niveles/Niveles/Level1.tmx", jugador);
 
-		mapLoader = new TmxMapLoader();
-		mapa = mapLoader.load("Niveles/Niveles/Level1.tmx");
+        hud = new Hud(jugador, jugador.getTexturaHud(), Render.batch);
+    }
 
-        colision = new Colisiones(mapa);
+    @Override
+    public void show() {
+        InputMultiplexer mux = new InputMultiplexer();
 
-        ((Walter) jugador).configurarAtaque(entidades, colision);
+        mux.addProcessor(entrada);
+        mux.addProcessor(menuPausa.getStage());
 
-        entidades.add(new Bicho1(300, 200, jugador));
-        entidades.add(new Bicho1(500, 200, jugador));
+        Gdx.input.setInputProcessor(mux);
+    }
 
-		MapProperties props = mapa.getProperties();
+    @Override
+    public void render(float delta) {
+        Render.limpiarPantalla();
 
-		int tileWidth = props.get("tilewidth", Integer.class);
-		int tileHeight = props.get("tileheight", Integer.class);
-		int mapWidthTiles = props.get("width", Integer.class);
-		int mapHeightTiles = props.get("height", Integer.class);
-		float mapWidthPixels = mapWidthTiles * tileWidth;
-		float mapHeightPixels = mapHeightTiles * tileHeight;
-
-		camaraJuego.setLimitesMapa(mapWidthPixels, mapHeightPixels);
-
-		mapRenderer = new OrthogonalTiledMapRenderer(mapa, 1f);
-	}
-
-	@Override
-	public void render(float delta) {
-		Render.limpiarPantalla();
-
-		update(delta);
-
-		mapRenderer.setView(camaraJuego.getCamera());
-		mapRenderer.render();
-
-		Render.batch.setProjectionMatrix(camaraJuego.getCamera().combined);
-		Render.batch.begin();
-
-        for (Entidad entidad : entidades) {
-            entidad.dibujar();
-
-            if (entidad instanceof Enemigo) {
-                ((Enemigo) entidad).dibujarAtaque();
+        if (entrada.aprietaEscape()) {
+            pausado = !pausado;
+            if (pausado) {
+                menuPausa.activar();
+            } else {
+                menuPausa.desactivar();
             }
         }
 
-        if (jugador instanceof Pablo) {
-            ((Pablo) jugador).dibujarAtaque();
+        if (!pausado) {
+            nivel.update(delta, entrada);
         }
 
-        if (jugador instanceof Walter) {
-            ((Walter) jugador).dibujarOrbes();
+        nivel.renderMapa();
+
+        Render.begin(nivel.getCamara());
+        nivel.render();
+        Render.end();
+
+        nivel.renderDebug();
+
+        hud.dibujar();
+
+        if (pausado) {
+            menuPausa.update(delta);
+            menuPausa.render();
         }
+    }
 
-		Render.batch.end();
+    @Override
+    public void resize(int width, int height) {
+        nivel.resize(width, height);
+        menuPausa.resize(width, height);
+    }
 
-        if (Debug.mostrarHitboxes()) {
-            shapeRenderer.setProjectionMatrix(camaraJuego.getCamera().combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+    public void setPausa(boolean valor)
+    {
+        this.pausado = valor;
+    }
 
-            colision.dibujarHitboxes(shapeRenderer);
+    public void guardarPosicionCamara() {
+        nivel.guardarPosicionCamara();
+    }
 
-            for (Entidad entidad : entidades) {
-                entidad.dibujarHitbox(shapeRenderer);
-            }
+    public void restaurarPosicionCamara() {
+        nivel.restaurarPosicionCamara();
+    }
 
-            if (jugador instanceof Walter) {
-                ((Walter) jugador).dibujarOrbesHitbox(shapeRenderer);
-            }
+    @Override public void pause() {}
+    @Override public void resume() {}
+    @Override public void hide() {}
 
-            shapeRenderer.end();
-        }
-
-		hud.dibujar();
-	}
-
-	private void update(float delta) {
-		for (Entidad entidad : entidades) {
-			entidad.update(delta);
-			colision.chequearColision(entidad);
-		}
-
-		for (int i = entidades.size() - 1; i >= 0; i--) {
-			Entidad entidad = entidades.get(i);
-			if (entidad instanceof Enemigo) {
-				Enemigo enemigo = (Enemigo) entidad;
-				if (enemigo.estaMuerto()) {
-					enemigo.dispose();
-					entidades.remove(i);
-				}
-			}
-		}
-
-		camaraJuego.seguirPersonaje(jugador.getX() + jugador.getAncho() / 2f, jugador.getY() + jugador.getAlto() / 2f, delta);
-
-		if (entrada.mostrarHitboxes()) {
-			Debug.cambiarHitboxes();
-		}
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		camaraJuego.actualizarTamano(width, height);
-		hud.actualizarTamano(width, height);
-	}
-
-	@Override
-	public void pause() {}
-
-	@Override
-	public void resume() {}
-
-	@Override
-	public void hide() {}
-
-	@Override
-	public void dispose() {
-		if (mapa != null) {
-			mapa.dispose();
-		}
-
-		if (mapRenderer != null) {
-			mapRenderer.dispose();
-		}
-
-		if (shapeRenderer != null) {
-			shapeRenderer.dispose();
-		}
-
-		for (Entidad entidad : entidades) {
-			entidad.dispose();
-		}
-
-		if (hud != null) {
-			hud.dispose();
-		}
-	}
+    @Override
+    public void dispose() {
+        nivel.dispose();
+        menuPausa.dispose();
+    }
 }
