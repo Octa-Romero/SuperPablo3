@@ -75,25 +75,21 @@ public class PantallaMenu implements Screen {
 
     private void crearInterfaz() {
 
-        Color dorado = new Color(0.95f, 0.78f, 0.2f, 1f);
-        Color rojo = new Color(0.85f, 0.15f, 0.15f, 1f);
-        Color texto = new Color(0.9f, 0.9f, 0.8f, 1f);
-
         Label titulo = new Label(
             "SUPER PABLO 3",
-            new Label.LabelStyle(fontTitulo, dorado)
+            new Label.LabelStyle(fontTitulo, Color.GOLD)
         );
 
         Label subtitulo = new Label(
             "~ LA ÚLTIMA BATALLA ~",
-            new Label.LabelStyle(fontSubtitulo, rojo)
+            new Label.LabelStyle(fontSubtitulo, Color.RED)
         );
 
         TextButton.TextButtonStyle estiloBoton = new TextButton.TextButtonStyle();
         estiloBoton.font = fontBoton;
-        estiloBoton.fontColor = texto;
-        estiloBoton.overFontColor = dorado;
-        estiloBoton.downFontColor = rojo;
+        estiloBoton.fontColor = Color.WHITE;
+        estiloBoton.overFontColor = Color.GOLD;
+        estiloBoton.downFontColor = Color.RED;
 
         TextButton btnJugar = new TextButton("JUGAR", estiloBoton);
         TextButton btnOpciones = new TextButton("OPCIONES", estiloBoton);
@@ -122,17 +118,17 @@ public class PantallaMenu implements Screen {
             }
         });
 
-        Table tabla = new Table();
-        tabla.setFillParent(true);
+        Table contenedor = new Table();
+        contenedor.setFillParent(true);
 
-        tabla.add(titulo).padBottom(5).row();
-        tabla.add(subtitulo).padBottom(60).row();
+        contenedor.add(titulo).padBottom(5).row();
+        contenedor.add(subtitulo).padBottom(60).row();
 
-        tabla.add(btnJugar).width(250).height(50).padBottom(25).row();
-        tabla.add(btnOpciones).width(250).height(50).padBottom(25).row();
-        tabla.add(btnSalir).width(250).height(50);
+        contenedor.add(btnJugar).width(250).height(50).padBottom(25).row();
+        contenedor.add(btnOpciones).width(250).height(50).padBottom(25).row();
+        contenedor.add(btnSalir).width(250).height(50);
 
-        stage.addActor(tabla);
+        stage.addActor(contenedor);
     }
 
     @Override
@@ -159,11 +155,10 @@ public class PantallaMenu implements Screen {
 
     @Override
     public void dispose() {
-        if (stage != null) stage.dispose();
-        if (fondo != null) fondo.dispose();
-
-        if (fontTitulo != null) fontTitulo.dispose();
-        if (fontSubtitulo != null) fontSubtitulo.dispose();
-        if (fontBoton != null) fontBoton.dispose();
+        stage.dispose();
+        fondo.dispose();
+        fontTitulo.dispose();
+        fontSubtitulo.dispose();
+        fontBoton.dispose();
     }
 }

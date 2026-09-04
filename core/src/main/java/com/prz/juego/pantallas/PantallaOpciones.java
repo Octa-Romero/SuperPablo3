@@ -29,13 +29,13 @@ public class PantallaOpciones implements Screen {
 
     private boolean mostrarResoluciones = false;
 
+    private Table contenedor;
+    private Table listaResoluciones;
     private Label titulo;
     private TextButton btnVolumen;
     private TextButton btnSalir;
     private TextButton btnResolucion;
     private TextButton btnToggleFullscreen;
-    private Table root;
-    private Table listaResoluciones;
 
 
     public PantallaOpciones(Principal juego) {
@@ -140,35 +140,35 @@ public class PantallaOpciones implements Screen {
             }
         });
 
-        root = new Table();
-        root.setFillParent(true);
+        contenedor = new Table();
+        contenedor.setFillParent(true);
 
-        root.add(titulo).padBottom(30).row();
+        contenedor.add(titulo).padBottom(30).row();
 
-        root.add(btnVolumen).size(250, 50).padBottom(15).row();
-        root.add(btnResolucion).size(250, 50).padBottom(10).row();
+        contenedor.add(btnVolumen).size(250, 50).padBottom(15).row();
+        contenedor.add(btnResolucion).size(250, 50).padBottom(10).row();
 
-        root.add(btnToggleFullscreen).size(250, 50).padBottom(10).row();
+        contenedor.add(btnToggleFullscreen).size(250, 50).padBottom(10).row();
 
-        root.add(btnSalir).size(250, 50);
+        contenedor.add(btnSalir).size(250, 50);
 
-        stage.addActor(root);
+        stage.addActor(contenedor);
     }
 
     private void actualizarInterfaz() {
-        root.clearChildren();
+        contenedor.clearChildren();
 
-        root.add(titulo).padBottom(30).row();
+        contenedor.add(titulo).padBottom(30).row();
 
-        root.add(btnVolumen).size(250, 50).padBottom(15).row();
-        root.add(btnResolucion).size(250, 50).padBottom(10).row();
+        contenedor.add(btnVolumen).size(250, 50).padBottom(15).row();
+        contenedor.add(btnResolucion).size(250, 50).padBottom(10).row();
 
         if (mostrarResoluciones) {
-            root.add(listaResoluciones).row();
+            contenedor.add(listaResoluciones).row();
         }
-        root.add(btnToggleFullscreen).size(250, 50).padBottom(10).row();
+        contenedor.add(btnToggleFullscreen).size(250, 50).padBottom(10).row();
 
-        root.add(btnSalir).size(250, 50);
+        contenedor.add(btnSalir).size(250, 50);
     }
 
     private void agregarResolucion(String text, int w, int h, TextButton.TextButtonStyle style) {

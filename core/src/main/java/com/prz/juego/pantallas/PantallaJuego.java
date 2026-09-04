@@ -12,7 +12,6 @@ import com.prz.juego.utilidades.Render;
 
 public class PantallaJuego implements Screen {
 
-    private Principal juego;
     private Render render;
     private Nivel nivel;
     private Entrada entrada;
@@ -20,11 +19,10 @@ public class PantallaJuego implements Screen {
     private boolean pausado = false;
 
     public PantallaJuego(Principal juego) {
-        this.juego = juego;
         this.render = juego.getRender();
         this.entrada = new Entrada();
         this.nivel = new Nivel();
-        this.menuPausa = new MenuPausa(this.juego, this);
+        this.menuPausa = new MenuPausa(juego, this);
     }
 
     @Override

@@ -34,8 +34,8 @@ public class MenuPausa {
 
     private void mostrar() {
 
-        Table table = new Table();
-        table.setFillParent(true);
+        Table contenedor = new Table();
+        contenedor.setFillParent(true);
 
         Label titulo = new Label("PAUSA", new Label.LabelStyle(font, Color.WHITE));
 
@@ -64,11 +64,11 @@ public class MenuPausa {
             }
         });
 
-        table.add(titulo).padBottom(40).row();
-        table.add(reanudar).width(250).height(50).padBottom(20).row();
-        table.add(menu).width(250).height(50);
+        contenedor.add(titulo).padBottom(40).row();
+        contenedor.add(reanudar).width(250).height(50).padBottom(20).row();
+        contenedor.add(menu).width(250).height(50);
 
-        stage.addActor(table);
+        stage.addActor(contenedor);
     }
 
     public void activar() {
