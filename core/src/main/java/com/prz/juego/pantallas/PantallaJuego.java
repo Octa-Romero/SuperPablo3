@@ -10,11 +10,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.prz.juego.entidades.Bicho1;
-import com.prz.juego.entidades.Enemigo;
-import com.prz.juego.entidades.Entidad;
-import com.prz.juego.entidades.Jugador;
-import com.prz.juego.entidades.Pablo;
+import com.prz.juego.entidades.*;
 import com.prz.juego.sistemas.Camara;
 import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.sistemas.Hud;
@@ -44,10 +40,10 @@ public class PantallaJuego implements Screen {
 		entrada = new Entrada();
 		Gdx.input.setInputProcessor(entrada);
 
-		jugador = new Pablo(50, 150);
+		jugador = new Walter(50, 150);
 		jugador.setEntrada(entrada);
 		entidades.add(jugador);
-		((Pablo) jugador).setEntidades(entidades);
+		//((Walter) jugador).setEntidades(entidades);
 
 		hud = new Hud(jugador, jugador.getTexturaHud(), Render.batch);
 	}
@@ -60,10 +56,12 @@ public class PantallaJuego implements Screen {
 		mapLoader = new TmxMapLoader();
 		mapa = mapLoader.load("Niveles/Niveles/Level1.tmx");
 
-		colision = new Colisiones(mapa);
+        colision = new Colisiones(mapa);
 
-		entidades.add(new Bicho1(300, 200, jugador));
-		entidades.add(new Bicho1(500, 200, jugador));
+        ((Walter) jugador).configurarAtaque(entidades, colision);
+
+        entidades.add(new Bicho1(300, 200, jugador));
+        entidades.add(new Bicho1(500, 200, jugador));
 
 		MapProperties props = mapa.getProperties();
 
@@ -91,31 +89,40 @@ public class PantallaJuego implements Screen {
 		Render.batch.setProjectionMatrix(camaraJuego.getCamera().combined);
 		Render.batch.begin();
 
-		for (Entidad entidad : entidades) {
-			entidad.dibujar();
-			if (entidad instanceof Enemigo) {
-				((Enemigo) entidad).dibujarAtaque();
-			}
-		}
+        for (Entidad entidad : entidades) {
+            entidad.dibujar();
 
-		if (jugador instanceof Pablo) {
-			((Pablo) jugador).dibujarAtaque();
-		}
+            if (entidad instanceof Enemigo) {
+                ((Enemigo) entidad).dibujarAtaque();
+            }
+        }
+
+        if (jugador instanceof Pablo) {
+            ((Pablo) jugador).dibujarAtaque();
+        }
+
+        if (jugador instanceof Walter) {
+            ((Walter) jugador).dibujarOrbes();
+        }
 
 		Render.batch.end();
 
-		if (Debug.mostrarHitboxes()) {
-			shapeRenderer.setProjectionMatrix(camaraJuego.getCamera().combined);
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        if (Debug.mostrarHitboxes()) {
+            shapeRenderer.setProjectionMatrix(camaraJuego.getCamera().combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-			colision.dibujarHitboxes(shapeRenderer);
+            colision.dibujarHitboxes(shapeRenderer);
 
-			for (Entidad entidad : entidades) {
-				entidad.dibujarHitbox(shapeRenderer);
-			}
+            for (Entidad entidad : entidades) {
+                entidad.dibujarHitbox(shapeRenderer);
+            }
 
-			shapeRenderer.end();
-		}
+            if (jugador instanceof Walter) {
+                ((Walter) jugador).dibujarOrbesHitbox(shapeRenderer);
+            }
+
+            shapeRenderer.end();
+        }
 
 		hud.dibujar();
 	}

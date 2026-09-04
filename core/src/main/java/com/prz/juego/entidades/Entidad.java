@@ -2,16 +2,23 @@ package com.prz.juego.entidades;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.utilidades.Sonido;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class Entidad {
 
 	protected Sprite sprite;
 	protected float x, y;
 	protected float ancho, alto;
+	protected float anchoSprite, altoSprite;
+	protected float offsetSpriteXDerecha, offsetSpriteXIzquierda, offsetSpriteY;
 	protected float xAnterior, yAnterior;
 	protected int velocidadX;
 	protected float velocidadY = 0;
@@ -26,12 +33,22 @@ public abstract class Entidad {
 	protected float duracionInvencibilidad = 2f;
 	protected float tiempoParpadeo = 0;
 	protected boolean spriteVisible = true;
+	protected boolean mirandoDerecha = true;
+	private final Set<Texture> texturasPropias = new HashSet<>();
+	private TextureRegion regionReposo;
+	private Animation<TextureRegion> animacionReposo;
+	private Animation<TextureRegion> animacionCaminar;
+	private Animation<TextureRegion> animacionAtaque;
+	private Animation<TextureRegion> animacionActual;
+	private float tiempoAnimacion;
 
 	protected Entidad(float x, float y, float ancho, float alto, int velocidadX, double vida, double danio, Texture textura) {
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
 		this.alto = alto;
+		this.anchoSprite = ancho;
+		this.altoSprite = alto;
 		this.velocidadX = velocidadX;
 		this.vida = vida;
 		this.vidaMaxima = vida;
@@ -40,8 +57,138 @@ public abstract class Entidad {
 		yAnterior = y;
 		bounds = new Rectangle(x, y, ancho, alto);
 		sprite = new Sprite(textura);
-		sprite.setPosition(x, y);
-		sprite.setSize(ancho, alto);
+		texturasPropias.add(textura);
+		regionReposo = new TextureRegion(textura);
+		actualizarSpriteVisual();
+	}
+
+	protected final void configurarSpriteVisual(float anchoSprite, float altoSprite) {
+		if (anchoSprite <= 0 || altoSprite <= 0) {
+			throw new IllegalArgumentException("El tamano visual del sprite debe ser positivo");
+		}
+		this.anchoSprite = anchoSprite;
+		this.altoSprite = altoSprite;
+		offsetSpriteXDerecha = (ancho - anchoSprite) / 2f;
+		offsetSpriteXIzquierda = offsetSpriteXDerecha;
+		offsetSpriteY = 0f;
+		actualizarSpriteVisual();
+	}
+
+	protected final void configurarSpriteVisual(float anchoSprite, float altoSprite,
+			float offsetDerecha, float offsetIzquierda, float offsetY) {
+		if (anchoSprite <= 0 || altoSprite <= 0) {
+			throw new IllegalArgumentException("El tamano visual del sprite debe ser positivo");
+		}
+		this.anchoSprite = anchoSprite;
+		this.altoSprite = altoSprite;
+		offsetSpriteXDerecha = offsetDerecha;
+		offsetSpriteXIzquierda = offsetIzquierda;
+		offsetSpriteY = offsetY;
+		actualizarSpriteVisual();
+	}
+
+	protected final void actualizarSpriteVisual() {
+		if (sprite != null) {
+			sprite.setSize(anchoSprite, altoSprite);
+			float offsetX = sprite.isFlipX() ? offsetSpriteXIzquierda : offsetSpriteXDerecha;
+			sprite.setPosition(x + offsetX, y + offsetSpriteY);
+		}
+	}
+
+	protected final void configurarAnimaciones(Texture spritesheet, int anchoFrame, int altoFrame, int framesReposo, int framesCaminar, float duracionFrame) {
+		int[] indicesReposo = crearIndices(0, framesReposo);
+		int[] indicesCaminar = crearIndices(framesReposo, framesCaminar);
+		configurarAnimaciones(spritesheet, anchoFrame, altoFrame, indicesReposo, indicesCaminar, null, duracionFrame);
+	}
+
+	protected final void configurarAnimaciones(Texture spritesheet, int anchoFrame, int altoFrame, int[] indicesReposo, int[] indicesCaminar, int[] indicesAtaque, float duracionFrame) {
+		if (spritesheet == null || anchoFrame <= 0 || altoFrame <= 0 || duracionFrame <= 0 || indicesCaminar == null || indicesCaminar.length == 0 || spritesheet.getWidth() % anchoFrame != 0 || spritesheet.getHeight() % altoFrame != 0) {
+			throw new IllegalArgumentException("Spritesheet o configuracion de frames invalida");
+		}
+
+		TextureRegion[][] grilla = TextureRegion.split(spritesheet, anchoFrame, altoFrame);
+		TextureRegion[] frames = aplanar(grilla);
+		validarIndices(frames.length, indicesReposo, indicesCaminar, indicesAtaque);
+
+		texturasPropias.add(spritesheet);
+		if (indicesReposo != null && indicesReposo.length > 0) {
+			animacionReposo = new Animation<>(duracionFrame, copiarFrames(frames, indicesReposo));
+			animacionReposo.setPlayMode(Animation.PlayMode.LOOP);
+		}
+		animacionCaminar = new Animation<>(duracionFrame, copiarFrames(frames, indicesCaminar));
+		animacionCaminar.setPlayMode(Animation.PlayMode.LOOP);
+		if (indicesAtaque != null && indicesAtaque.length > 0) {
+			animacionAtaque = new Animation<>(duracionFrame, copiarFrames(frames, indicesAtaque));
+			animacionAtaque.setPlayMode(Animation.PlayMode.NORMAL);
+		}
+		animacionActual = null;
+		tiempoAnimacion = 0f;
+	}
+
+	private int[] crearIndices(int desde, int cantidad) {
+		if (cantidad < 0) {
+			throw new IllegalArgumentException("La cantidad de frames no puede ser negativa");
+		}
+		int[] indices = new int[cantidad];
+		for (int i = 0; i < cantidad; i++) {
+			indices[i] = desde + i;
+		}
+		return indices;
+	}
+
+	private void validarIndices(int totalFrames, int[]... grupos) {
+		for (int[] grupo : grupos) {
+			if (grupo == null) {
+				continue;
+			}
+			for (int indice : grupo) {
+				if (indice < 0 || indice >= totalFrames) {
+					throw new IllegalArgumentException("El spritesheet no contiene el frame " + indice);
+				}
+			}
+		}
+	}
+
+	private TextureRegion[] aplanar(TextureRegion[][] grilla) {
+		int cantidad = grilla.length * grilla[0].length;
+		TextureRegion[] frames = new TextureRegion[cantidad];
+		int indice = 0;
+		for (TextureRegion[] fila : grilla) {
+			for (TextureRegion frame : fila) {
+				frames[indice++] = frame;
+			}
+		}
+		return frames;
+	}
+
+	private TextureRegion[] copiarFrames(TextureRegion[] frames, int[] indices) {
+		TextureRegion[] resultado = new TextureRegion[indices.length];
+		for (int i = 0; i < indices.length; i++) {
+			resultado[i] = frames[indices[i]];
+		}
+		return resultado;
+	}
+
+	protected final void actualizarAnimacion(float delta, boolean caminando) {
+		actualizarAnimacion(delta, caminando, false);
+	}
+
+	protected final void actualizarAnimacion(float delta, boolean caminando, boolean atacando) {
+		Animation<TextureRegion> siguiente = atacando && animacionAtaque != null ? animacionAtaque : caminando ? animacionCaminar : animacionReposo;
+		if (siguiente == null) {
+			if (!caminando && regionReposo != null) {
+				sprite.setRegion(regionReposo);
+			}
+			return;
+		}
+
+		if (animacionActual != siguiente) {
+			animacionActual = siguiente;
+			tiempoAnimacion = 0f;
+		} else {
+			tiempoAnimacion += delta;
+		}
+		sprite.setRegion(animacionActual.getKeyFrame(tiempoAnimacion));
 	}
 
 	public abstract void update(float delta);
@@ -89,11 +236,14 @@ public abstract class Entidad {
 	}
 
 	protected void orientarSprite(Sprite sprite, float direccion) {
-		if (sprite == null || direccion == 0) {
+		if (sprite == null) {
 			return;
 		}
 
-		boolean debeInvertirse = direccion < 0;
+		if (direccion != 0) {
+			mirandoDerecha = direccion > 0;
+		}
+		boolean debeInvertirse = !mirandoDerecha;
 		if (sprite.isFlipX() != debeInvertirse) {
 			sprite.flip(true, false);
 		}
@@ -193,23 +343,20 @@ public abstract class Entidad {
 	public void setX(float x) {
 		this.x = x;
 		bounds.setX(x);
-		if (sprite != null) {
-			sprite.setX(x);
-		}
+		actualizarSpriteVisual();
 	}
 
 	public void setY(float y) {
 		this.y = y;
 		bounds.setY(y);
-		if (sprite != null) {
-			sprite.setY(y);
-		}
+		actualizarSpriteVisual();
 	}
 
 	public void dispose() {
-		if (sprite != null) {
-			sprite.getTexture().dispose();
-			sprite = null;
+		for (Texture textura : texturasPropias) {
+			textura.dispose();
 		}
+		texturasPropias.clear();
+		sprite = null;
 	}
 }

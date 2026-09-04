@@ -98,8 +98,9 @@ public abstract class Enemigo extends Entidad {
 			return;
 		}
 
+		actualizarAnimacion(delta, x != xAnterior, atacando);
 		actualizarOrientacionSprites();
-		sprite.setPosition(x, y);
+		actualizarSpriteVisual();
 		bounds.setPosition(x, y);
 		if (atacando) {
 			Rectangle ataque = getBoundsAtaque();

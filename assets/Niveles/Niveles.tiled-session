@@ -1,9 +1,9 @@
 {
     "activeFile": "Niveles/Level1.tmx",
     "expandedProjectPaths": [
-        "Tilesets",
+        "Niveles",
         ".",
-        "Niveles"
+        "Tilesets"
     ],
     "file.lastUsedOpenFilter": "Todos los archivos (*)",
     "fileStates": {
@@ -31,8 +31,8 @@
         },
         "Niveles/Level1.tmx": {
             "expandedGroupLayers": [
-                11,
                 8,
+                11,
                 16,
                 17
             ],
@@ -68,14 +68,14 @@
         },
         "Niveles/Nivel2.tmx": {
             "expandedGroupLayers": [
-                16,
                 8,
+                16,
                 9
             ],
             "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1584,
+                "x": 1516,
                 "y": 1709
             }
         },
@@ -94,6 +94,9 @@
         "Niveles/tileSetHub.tsx": {
             "scaleInDock": 0.33,
             "scaleInEditor": 0.33
+        },
+        "Niveles/tileset.tsx": {
+            "scaleInDock": 1
         },
         "Pruebas/propsFores.tsx": {
             "scaleInDock": 1
@@ -115,6 +118,7 @@
             "scaleInDock": 1
         }
     },
+    "last.imagePath": "C:/Users/santi/Desktop/SuperPablo3/assets/Niveless/Tilesets",
     "map.height": 17,
     "map.lastUsedFormat": "tmx",
     "map.width": 32,
@@ -126,12 +130,12 @@
     ],
     "project": "Niveles.tiled-project",
     "recentFiles": [
-        "Tilesets/TileSetForest2.tsx",
-        "Niveles/hubTilset.tsx",
-        "Niveles/tileSetHub.tsx",
         "Niveles/Nivel2.tmx",
         "Niveles/Level2.tmx",
+        "Tilesets/TileSetForest2.tsx",
         "Niveles/Level1.tmx",
+        "Niveles/hubTilset.tsx",
+        "Niveles/tileSetHub.tsx",
         "Niveles/Nivel 2.tmx",
         "Tilesets/foresTileset.tsx",
         "Level1.tmx"

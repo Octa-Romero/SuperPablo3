@@ -13,11 +13,11 @@ public class Hud {
 
 	private Jugador jugador;
 	private Stage stage;
-	private FitViewport viewport = new FitViewport(1280, 720, new OrthographicCamera());;
+	private FitViewport viewport = new FitViewport(1280, 720, new OrthographicCamera());
 	private Texture cara;
-	private Texture corazonLleno = new Texture("Hud/corazon_lleno.png");;
-	private Texture corazonMitad = new Texture("Hud/corazon_mitad.png");;
-	private Texture corazonVacio = new Texture("Hud/corazon_vacio.png");;
+	private Texture corazonLleno = new Texture("Hud/corazon_lleno.png");
+	private Texture corazonMitad = new Texture("Hud/corazon_mitad.png");
+	private Texture corazonVacio = new Texture("Hud/corazon_vacio.png");
 	private Table tablaPrincipal;
 	private Table contenedorCorazones;
 	private float tamañoCara = 120;
