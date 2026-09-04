@@ -98,7 +98,6 @@ public class PantallaMenu implements Screen {
         btnJugar.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Iniciando carga del Nivel 2...");
                 dispose();
                 juego.setScreen(new PantallaJuego(juego));
             }
@@ -107,7 +106,7 @@ public class PantallaMenu implements Screen {
         btnOpciones.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                juego.setScreen(new PantallaOpciones(juego));
+                juego.setScreen(new PantallaOpciones(juego, PantallaMenu.this, false));
             }
         });
 

@@ -16,7 +16,8 @@ public class MenuPausa {
     private boolean activo = false;
     private PantallaJuego pantallaJuego;
 
-    private BitmapFont font;
+    private BitmapFont fontTitulo;
+    private BitmapFont fontBotones;
 
     public MenuPausa(Principal juego, PantallaJuego anteriorPantalla) {
         this.juego = juego;
@@ -26,8 +27,11 @@ public class MenuPausa {
         stage.setKeyboardFocus(null);
         stage.setScrollFocus(null);
 
-        font = new BitmapFont();
-        font.getData().setScale(2f);
+        fontTitulo = new BitmapFont();
+        fontTitulo.getData().setScale(3.0f);
+
+        fontBotones = new BitmapFont();
+        fontTitulo.getData().setScale(2.0f);
 
         mostrar();
     }
@@ -37,15 +41,16 @@ public class MenuPausa {
         Table contenedor = new Table();
         contenedor.setFillParent(true);
 
-        Label titulo = new Label("PAUSA", new Label.LabelStyle(font, Color.WHITE));
+        Label titulo = new Label("PAUSA", new Label.LabelStyle(fontTitulo, Color.WHITE));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = font;
+        style.font = fontBotones;
         style.fontColor = Color.WHITE;
         style.overFontColor = Color.YELLOW;
         style.downFontColor = Color.RED;
 
         TextButton reanudar = new TextButton("REANUDAR", style);
+        TextButton opciones = new TextButton("OPCIONES", style);
         TextButton menu = new TextButton("SALIR AL MENU", style);
 
 
@@ -54,6 +59,13 @@ public class MenuPausa {
             public void clicked(InputEvent event, float x, float y) {
                 pantallaJuego.setPausa(false);
                 desactivar();
+            }
+        });
+
+        opciones.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                juego.setScreen(new PantallaOpciones(juego, pantallaJuego, true));
             }
         });
 
@@ -66,7 +78,8 @@ public class MenuPausa {
 
         contenedor.add(titulo).padBottom(40).row();
         contenedor.add(reanudar).width(250).height(50).padBottom(20).row();
-        contenedor.add(menu).width(250).height(50);
+        contenedor.add(opciones).width(250).height(50).padBottom(20).row();
+        contenedor.add(menu).width(250).height(50).padBottom(20).row();
 
         stage.addActor(contenedor);
     }
@@ -101,7 +114,8 @@ public class MenuPausa {
 
     public void dispose() {
         stage.dispose();
-        font.dispose();
+        fontTitulo.dispose();
+        fontBotones.dispose();
     }
 
     public Stage getStage() {

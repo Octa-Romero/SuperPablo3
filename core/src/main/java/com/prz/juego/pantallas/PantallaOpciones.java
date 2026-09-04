@@ -27,6 +27,8 @@ public class PantallaOpciones implements Screen {
     private Principal juego;
     private Render render;
 
+    private Screen pantallaAnterior;
+    private boolean veniaDeJuego;
     private boolean mostrarResoluciones = false;
 
     private Table contenedor;
@@ -38,11 +40,12 @@ public class PantallaOpciones implements Screen {
     private TextButton btnToggleFullscreen;
 
 
-    public PantallaOpciones(Principal juego) {
+    public PantallaOpciones(Principal juego, Screen pantallaAnterior, boolean veniaDeJuego) {
         this.juego = juego;
         this.render = juego.getRender();
+        this.pantallaAnterior = pantallaAnterior;
+        this.veniaDeJuego = veniaDeJuego;
     }
-
 
     @Override
     public void show() {
@@ -107,7 +110,7 @@ public class PantallaOpciones implements Screen {
         agregarResolucion("1600x900", 1600, 900, style);
         agregarResolucion("1920x1080", 1920, 1080, style);
 
-        btnToggleFullscreen = new TextButton("MODO VENTANA", style);
+        btnToggleFullscreen = new TextButton(Config.fullscreen ? "MODO VENTANA" : "PANTALLA COMPLETA", style);
 
         btnResolucion.addListener(new ClickListener() {
             @Override
@@ -136,7 +139,12 @@ public class PantallaOpciones implements Screen {
         btnSalir.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                juego.setScreen(new PantallaMenu(juego));
+                if (veniaDeJuego) {
+                    juego.setScreen(pantallaAnterior);
+                    ((PantallaJuego) pantallaAnterior).setPausa(true);
+                } else {
+                    juego.setScreen(new PantallaMenu(juego));
+                }
             }
         });
 

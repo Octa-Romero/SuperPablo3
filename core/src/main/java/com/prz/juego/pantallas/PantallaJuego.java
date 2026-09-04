@@ -23,6 +23,7 @@ public class PantallaJuego implements Screen {
         this.entrada = new Entrada();
         this.nivel = new Nivel();
         this.menuPausa = new MenuPausa(juego, this);
+        nivel.cargar("Niveless/Niveles/Level1.tmx");
     }
 
     @Override
@@ -33,7 +34,6 @@ public class PantallaJuego implements Screen {
         mux.addProcessor(menuPausa.getStage());
 
         Gdx.input.setInputProcessor(mux);
-        nivel.cargar("Niveless/Niveles/Level1.tmx");
     }
 
     @Override
