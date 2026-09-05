@@ -14,6 +14,8 @@
 
 <img width="480" height="480" alt="Gif de Felipe el Sabio" src="assets/README/readmegif.gif"/>
 
+---
+
 ## 🎯 Características principales
 
 - Videojuego de acción y aventura en 2D.
@@ -41,13 +43,19 @@
 
 ---
 
-📌 Estado actual del proyecto
+## 📌 Estado actual del proyecto
 
 🚧 **Estructura actual del juego (Niveles, Gameplay, UI y Sistemas)**
 
 - El proyecto actualmente cuenta con una estructura modular basada en niveles y pantallas, integrando la lógica principal del juego dentro de la clase Nivel. Se han implementado sistemas de gameplay como movimiento del jugador, colisiones con el mapa, combate básico, enemigos con comportamiento simple, sistema de vida y HUD. Además, el juego incluye sistemas de interfaz como menú de opciones, pausa, selección de personajes y game over, junto con un sistema de audio con música y efectos de sonido. La arquitectura general ha sido refactorizada para mejorar la organización del código y la integración de sistemas.
 
 - Video demostrativo: https://drive.google.com/file/d/1MchWernFCVeG10OVa8NMjLctcTNBhkV7/view?usp=drive_link
+
+---
+
+## 📋 Historial de Cambios (Changelog)
+
+[Ver Historial de Cambios](CHANGELOG.md)
 
 ---
 
