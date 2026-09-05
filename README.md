@@ -48,6 +48,10 @@
 - El proyecto actualmente cuenta con una estructura modular basada en niveles y pantallas, integrando la lógica principal del juego dentro de la clase Nivel. Se han implementado sistemas de gameplay como movimiento del jugador, colisiones con el mapa, combate básico, enemigos con comportamiento simple, sistema de vida y HUD. Además, el juego incluye sistemas de interfaz como menú de opciones, pausa, selección de personajes y game over, junto con un sistema de audio con música y efectos de sonido. La arquitectura general ha sido refactorizada para mejorar la organización del código y la integración de sistemas.
 ---
 
+## Video demostrativo del prototipo del juego
+
+- https://drive.google.com/file/d/1MchWernFCVeG10OVa8NMjLctcTNBhkV7/view?usp=drive_link
+
 ## ⚙️ Cómo compilar y ejecutar
 
 ### 1. Clonar el repositorio
