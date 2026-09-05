@@ -9,9 +9,8 @@ public class Imagen {
     private Texture t;
     private Sprite s;
 
-    public Imagen(String ruta)
-    {
-        t = new Texture(ruta);
+    public Imagen(String ruta) {
+        t = GestorRecursos.obtenerTextura(ruta);
         s = new Sprite(t);
     }
 
@@ -31,7 +30,8 @@ public class Imagen {
     }
 
     public void dispose() {
-        t.dispose();
+        s = null;
+        t = null;
     }
 
     public void setX(float x) {

@@ -110,14 +110,7 @@ public class Pablo extends Jugador {
 		}
 	}
 
-	public void actualizarDireccion(boolean derecha) {
-		if (derecha) {
-			direccion = 1;
-		} else {
-			direccion = -1;
-		}
-		actualizarOrientacionSprites();
-	}
+
 
 	private void actualizarOrientacionSprites() {
 		orientarSprite(sprite, direccion);
