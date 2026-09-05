@@ -223,15 +223,6 @@ public abstract class Enemigo extends Entidad {
 		orientarSprite(spriteAtaque, direccion);
 	}
 
-	@Override
-	protected void morir() {
-		muerto = true;
-	}
-
-	public boolean estaMuerto() {
-		return muerto;
-	}
-
 	public boolean estaAtacando() {
 		return atacando;
 	}

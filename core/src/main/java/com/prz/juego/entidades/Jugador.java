@@ -62,11 +62,6 @@ public abstract class Jugador extends Entidad {
 
 	public abstract void atacar();
 
-	@Override
-	protected void morir() {
-		System.out.println("El jugador murio");
-		// TODO: muerte del jugador
-	}
 
 	public void dibujar() {
 		if (spriteVisible && sprite != null) {

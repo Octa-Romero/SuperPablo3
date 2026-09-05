@@ -26,6 +26,7 @@ public class Nivel {
     private Colisiones colision;
     private ArrayList<Entidad> entidades = new ArrayList<>();
     private ShapeRenderer shapeRenderer;
+    private boolean gameOver = false;
 
     public void cargar(String ruta, Jugador jugador) {
         camara = new Camara();
@@ -145,6 +146,11 @@ public class Nivel {
         if (entrada.aprietaF1()) {
             Debug.cambiarHitboxes();
         }
+
+        if (jugador.estaMuerto()) {
+            gameOver = true;
+        }
+
     }
 
     public void resize(int width, int height) {
@@ -176,4 +182,6 @@ public class Nivel {
     public void restaurarPosicionCamara() {
         camara.restaurarPosicion();
     }
+
+    public boolean isGameOver(){return this.gameOver;}
 }

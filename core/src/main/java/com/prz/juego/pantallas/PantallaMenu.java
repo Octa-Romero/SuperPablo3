@@ -86,6 +86,7 @@ public class PantallaMenu implements Screen {
 
         TextButton btnJugar = new TextButton("JUGAR", estiloBoton);
         TextButton btnOpciones = new TextButton("OPCIONES", estiloBoton);
+        TextButton btnComoJugar = new TextButton("COMO JUGAR", estiloBoton);
         TextButton btnSalir = new TextButton("SALIR", estiloBoton);
 
         btnJugar.addListener(
@@ -93,7 +94,7 @@ public class PantallaMenu implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Sonido.CLICK.sonar();
-                    juego.setScreen(new PantallaJuego(juego));
+                    juego.setScreen(new SeleccionPersonaje(juego));
                 }
             }
         );
@@ -107,6 +108,13 @@ public class PantallaMenu implements Screen {
                 }
             }
         );
+
+        btnComoJugar.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                juego.setScreen(new ComoJugar(juego));
+            }
+        });
 
         btnSalir.addListener(
             new ClickListener() {
@@ -125,6 +133,7 @@ public class PantallaMenu implements Screen {
         contenedor.add(subtitulo).padBottom(60).row();
         contenedor.add(btnJugar).width(250).height(50).padBottom(25).row();
         contenedor.add(btnOpciones).width(250).height(50).padBottom(25).row();
+        contenedor.add(btnComoJugar).width(250).height(50).padBottom(25).row();
         contenedor.add(btnSalir).width(250).height(50);
 
         stage.addActor(contenedor);

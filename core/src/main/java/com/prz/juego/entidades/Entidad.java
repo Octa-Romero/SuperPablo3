@@ -25,6 +25,7 @@ public abstract class Entidad {
     protected Rectangle bounds;
     protected double vida;
     protected double vidaMaxima;
+    protected boolean muerto = false;
     protected double danio;
     protected float tiempoInvencibilidad = 0;
     protected float duracionInvencibilidad = 2f;
@@ -398,9 +399,11 @@ public abstract class Entidad {
         orientarSprite(sprite, x - xAnterior);
     }
 
+    protected void morir() {muerto = true;}
 
-    protected abstract void morir();
-
+    public boolean estaMuerto() {
+        return muerto;
+    }
 
     public abstract void dibujar();
 
