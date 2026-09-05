@@ -3,21 +3,23 @@ package com.prz.juego.niveles;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.prz.juego.entidades.*;
+import com.prz.juego.entidades.Entidad;
+import com.prz.juego.entidades.Enemigo;
+import com.prz.juego.entidades.Jugador;
+import com.prz.juego.entidades.Pablo;
+import com.prz.juego.entidades.Walter;
 import com.prz.juego.sistemas.Camara;
 import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Debug;
 import com.prz.juego.utilidades.Entrada;
-import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
 
-public class Nivel {
+public abstract class Nivel {
 
     private Camara camara;
     private TiledMap mapa;
@@ -28,27 +30,25 @@ public class Nivel {
     private ShapeRenderer shapeRenderer;
     private boolean gameOver = false;
 
-    public void cargar(String ruta, Jugador jugador) {
+    public Nivel(Jugador jugador) {
+        this.jugador = jugador;
+    }
+
+    public void cargar() {
         camara = new Camara();
 
-        this.jugador = jugador;
-
         entidades.add(jugador);
-        entidades.add(new Bicho1(2000, 300, jugador));
-        entidades.add(new Bicho1(2200, 300, jugador));
+
+        crearEntidades();
 
         shapeRenderer = new ShapeRenderer();
 
         TmxMapLoader mapLoader = new TmxMapLoader();
-        mapa = mapLoader.load(ruta);
+        mapa = mapLoader.load(getRutaMapa());
 
         colision = new Colisiones(mapa);
 
-        if(jugador instanceof Pablo){
-            ((Pablo) jugador).setEntidades(entidades);
-        } else {
-            ((Walter) jugador).configurarAtaque(entidades, colision);
-        }
+        configurarJugador();
 
         MapProperties props = mapa.getProperties();
 
@@ -64,8 +64,24 @@ public class Nivel {
 
         mapRenderer = new OrthogonalTiledMapRenderer(mapa, 1f);
 
-        Musica.NIVEL1.sonar();
+        reproducirMusica();
     }
+
+    private void configurarJugador() {
+        Jugador jugador = getJugador();
+
+        if (jugador instanceof Pablo) {
+            ((Pablo) jugador).setEntidades(getEntidades());
+        } else if (jugador instanceof Walter) {
+            ((Walter) jugador).configurarAtaque(getEntidades(), getColision());
+        }
+    }
+
+    protected abstract String getRutaMapa();
+
+    protected abstract void crearEntidades();
+
+    protected abstract void reproducirMusica();
 
     public void renderMapa() {
         mapRenderer.setView(camara.getCamera());
@@ -115,17 +131,17 @@ public class Nivel {
 
     public void update(float delta, Entrada entrada) {
 
-        // Actualizar entidades
         for (Entidad entidad : entidades) {
             entidad.update(delta);
             colision.chequearColision(entidad);
         }
 
-        // Eliminar enemigos muertos
         for (int i = entidades.size() - 1; i >= 0; i--) {
+
             Entidad entidad = entidades.get(i);
 
             if (entidad instanceof Enemigo) {
+
                 Enemigo enemigo = (Enemigo) entidad;
 
                 if (enemigo.estaMuerto()) {
@@ -135,14 +151,8 @@ public class Nivel {
             }
         }
 
-        // Cámara
-        camara.seguirPersonaje(
-            jugador.getX() + jugador.getAncho() / 2f,
-            jugador.getY() + jugador.getAlto() / 2f,
-            delta
-        );
+        camara.seguirPersonaje(jugador.getX() + jugador.getAncho() / 2f, jugador.getY() + jugador.getAlto() / 2f, delta);
 
-        // Alternar hitboxes
         if (entrada.aprietaF1()) {
             Debug.cambiarHitboxes();
         }
@@ -150,7 +160,6 @@ public class Nivel {
         if (jugador.estaMuerto()) {
             gameOver = true;
         }
-
     }
 
     public void resize(int width, int height) {
@@ -158,6 +167,7 @@ public class Nivel {
     }
 
     public void dispose() {
+
         if (mapa != null) {
             mapa.dispose();
         }
@@ -183,5 +193,19 @@ public class Nivel {
         camara.restaurarPosicion();
     }
 
-    public boolean isGameOver(){return this.gameOver;}
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    protected Jugador getJugador() {
+        return jugador;
+    }
+
+    protected Colisiones getColision() {
+        return colision;
+    }
+
+    protected ArrayList<Entidad> getEntidades() {
+        return entidades;
+    }
 }
