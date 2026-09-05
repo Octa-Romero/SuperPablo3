@@ -118,7 +118,6 @@ public class PantallaOpciones implements Screen {
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, com.badlogic.gdx.scenes.scene2d.Actor actor) {
-                    Sonido.CLICK.sonar();
                     float volumen = sliderMusica.getValue();
                     Musica.setVolumen(volumen);
                     labelMusica.setText(obtenerPorcentaje(volumen));
@@ -131,7 +130,6 @@ public class PantallaOpciones implements Screen {
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, com.badlogic.gdx.scenes.scene2d.Actor actor) {
-                    Sonido.CLICK.sonar();
                     float volumen = sliderSonido.getValue();
                     Sonido.setVolumen(volumen);
                     labelSonido.setText(obtenerPorcentaje(volumen));

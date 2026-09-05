@@ -43,7 +43,11 @@ public class Nivel {
 
         colision = new Colisiones(mapa);
 
-        ((Walter) jugador).configurarAtaque(entidades, colision);
+        if(jugador instanceof Pablo){
+            ((Pablo) jugador).setEntidades(entidades);
+        } else {
+            ((Walter) jugador).configurarAtaque(entidades, colision);
+        }
 
         MapProperties props = mapa.getProperties();
 

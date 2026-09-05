@@ -30,6 +30,7 @@ public class PantallaJuego implements Screen {
         Gdx.input.setInputProcessor(entrada);
 
         jugador = new Walter(50, 150);
+        //jugador = new Pablo(50, 150);
         jugador.setEntrada(entrada);
 
         nivel.cargar("Niveles/Niveles/Level1.tmx", jugador);
