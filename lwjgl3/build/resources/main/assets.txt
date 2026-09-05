@@ -70,6 +70,7 @@ Personajes/Walter/walter_spritesheet.png
 Personajes/Walter/walter_spritesheet2.png
 Personajes/Walter/wizard char.png
 README/readmegif.gif
+Sonidos/bola_fuego.WAV
 Sonidos/click.WAV
 Sonidos/espada.WAV
 Sonidos/salto.WAV

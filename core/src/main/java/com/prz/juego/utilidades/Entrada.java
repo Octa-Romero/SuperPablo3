@@ -22,7 +22,7 @@ public class Entrada extends InputAdapter {
 			izquierda = true;
 		}
 
-		if (keycode == Input.Keys.X) {
+		if (keycode == Input.Keys.X || keycode == Input.Keys.J || keycode == Input.Keys.SPACE) {
 			ataca = true;
 		}
 

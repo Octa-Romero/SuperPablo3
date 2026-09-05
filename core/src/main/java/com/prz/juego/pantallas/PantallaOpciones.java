@@ -207,7 +207,7 @@ public class PantallaOpciones implements Screen {
     private void actualizarInterfaz() {
         contenedor.clearChildren();
         contenedor.add(titulo).padBottom(25).row();
-        contenedor.add(new Label("MÚSICA", new Label.LabelStyle(fontVolumen, Color.WHITE))).padBottom(5).row();
+        contenedor.add(new Label("VOLUMEN MÚSICA", new Label.LabelStyle(fontVolumen, Color.WHITE))).padBottom(5).row();
 
         Table filaMusica = new Table();
         filaMusica.add(sliderMusica).width(250).height(30);
@@ -215,7 +215,7 @@ public class PantallaOpciones implements Screen {
 
         contenedor.add(filaMusica).padBottom(15).row();
 
-        contenedor.add(new Label("EFECTOS", new Label.LabelStyle(fontVolumen, Color.WHITE))).padBottom(5).row();
+        contenedor.add(new Label("VOLUMEN EFECTOS", new Label.LabelStyle(fontVolumen, Color.WHITE))).padBottom(5).row();
 
         Table filaSonido = new Table();
 
