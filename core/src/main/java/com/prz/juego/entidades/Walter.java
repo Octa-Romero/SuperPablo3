@@ -3,6 +3,7 @@ package com.prz.juego.entidades;
 import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.sistemas.Colisiones;
 
 public class Walter extends Jugador {
@@ -17,9 +18,8 @@ public class Walter extends Jugador {
     private Colisiones colision;
 
     public Walter(float x, float y) {
-        super(x, y, 50, 80, 140, 5, 0.5, new Texture("Personajes/Walter/walter.png"), new Texture("Hud/walter_hud.png")
-        );
-        configurarAnimaciones(new Texture("Personajes/Walter/walter_spritesheet2.png"), 540, 450, new int[] { 0 }, new int[] { 2, 3, 4, 5, 6, 7 }, new int[] { 1 }, 0.12f);
+        super(x, y, 50, 80, 140, 5, 0.5, GestorRecursos.obtenerTextura("Personajes/Walter/walter.png"), GestorRecursos.obtenerTextura("Hud/walter_hud.png"));
+        configurarAnimaciones(GestorRecursos.obtenerTextura("Personajes/Walter/walter_spritesheet2.png"), 540, 450, new int[]{0}, new int[]{2, 3, 4, 5, 6, 7}, new int[]{1}, 0.12f);
         configurarSpriteVisual(96f, 80f, 0f, -46f, 0f);
     }
 
