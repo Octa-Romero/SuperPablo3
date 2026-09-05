@@ -3,46 +3,53 @@ package com.prz.juego.pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.prz.juego.Principal;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.prz.juego.principal.Principal;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
+import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
+import com.prz.juego.utilidades.Sonido;
 
 public class PantallaOpciones implements Screen {
 
     private Stage stage;
     private Imagen fondo;
-
     private BitmapFont fontTitulo;
     private BitmapFont fontBoton;
-
+    private BitmapFont fontVolumen;
     private Principal juego;
-    private Render render;
-
     private Screen pantallaAnterior;
     private boolean veniaDeJuego;
     private boolean mostrarResoluciones = false;
-
     private Table contenedor;
     private Table listaResoluciones;
     private Label titulo;
-    private TextButton btnVolumen;
-    private TextButton btnSalir;
+    private Label labelMusica;
+    private Label labelSonido;
     private TextButton btnResolucion;
+    private TextButton btnVolver;
     private TextButton btnToggleFullscreen;
-
+    private Slider sliderMusica;
+    private Slider sliderSonido;
+    private Texture texturaSlider;
+    private Texture texturaKnob;
 
     public PantallaOpciones(Principal juego, Screen pantallaAnterior, boolean veniaDeJuego) {
         this.juego = juego;
-        this.render = juego.getRender();
         this.pantallaAnterior = pantallaAnterior;
         this.veniaDeJuego = veniaDeJuego;
     }
@@ -58,12 +65,11 @@ public class PantallaOpciones implements Screen {
     }
 
     private void inicializarStage() {
-        stage = new Stage(new ExtendViewport(Config.ANCHO_BASE, Config.ALTO_BASE));
+        stage = new Stage(new FitViewport(Config.ANCHO_BASE, Config.ALTO_BASE));
     }
 
     private void inicializarFondo() {
-        fondo = new Imagen("fondoAjustes.jpg");
-
+        fondo = new Imagen("Menu/menuSP3.png");
         actualizarFondo();
     }
 
@@ -81,26 +87,55 @@ public class PantallaOpciones implements Screen {
 
         fontBoton = new BitmapFont();
         fontBoton.getData().setScale(2f);
+
+        fontVolumen = new BitmapFont();
+        fontVolumen.getData().setScale(1.5f);
     }
 
-
     private void crearUI() {
-
-        titulo = new Label(
-            "OPCIONES",
-            new Label.LabelStyle(fontTitulo, Color.GOLD)
-        );
-
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = fontBoton;
 
+        style.font = fontBoton;
         style.fontColor = Color.WHITE;
         style.overFontColor = Color.GOLD;
         style.downFontColor = Color.RED;
 
-        btnVolumen = new TextButton("VOLUMEN", style);
-        btnResolucion = new TextButton("RESOLUCIÓN", style);
-        btnSalir = new TextButton("SALIR", style);
+        titulo = new Label("OPCIONES", new Label.LabelStyle(fontTitulo, Color.GOLD));
+        btnResolucion = new TextButton("RESOLUCIÓN: " + Config.getAncho() + "x" + Config.getAlto(), style);
+        btnToggleFullscreen = new TextButton(Config.fullscreen ? "MODO VENTANA" : "PANTALLA COMPLETA", style);
+        btnVolver = new TextButton("VOLVER", style);
+
+        Slider.SliderStyle sliderStyle = crearEstiloSlider();
+        sliderMusica = new Slider(0f, 1f, 0.01f, false, sliderStyle);
+        sliderSonido = new Slider(0f, 1f, 0.01f, false, sliderStyle);
+        sliderMusica.setValue(Musica.getVolumen());
+        sliderSonido.setValue(Sonido.getVolumen());
+
+        labelMusica = new Label(obtenerPorcentaje(Musica.getVolumen()), new Label.LabelStyle(fontVolumen, Color.WHITE));
+        labelSonido = new Label(obtenerPorcentaje(Sonido.getVolumen()), new Label.LabelStyle(fontVolumen, Color.WHITE));
+
+        sliderMusica.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, com.badlogic.gdx.scenes.scene2d.Actor actor) {
+                    float volumen = sliderMusica.getValue();
+                    Musica.setVolumen(volumen);
+                    labelMusica.setText(obtenerPorcentaje(volumen));
+                }
+            }
+        );
+
+
+        sliderSonido.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, com.badlogic.gdx.scenes.scene2d.Actor actor) {
+                    float volumen = sliderSonido.getValue();
+                    Sonido.setVolumen(volumen);
+                    labelSonido.setText(obtenerPorcentaje(volumen));
+                }
+            }
+        );
 
         listaResoluciones = new Table();
         listaResoluciones.setVisible(false);
@@ -110,111 +145,162 @@ public class PantallaOpciones implements Screen {
         agregarResolucion("1600x900", 1600, 900, style);
         agregarResolucion("1920x1080", 1920, 1080, style);
 
-        btnToggleFullscreen = new TextButton(Config.fullscreen ? "MODO VENTANA" : "PANTALLA COMPLETA", style);
-
-        btnResolucion.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                mostrarResoluciones = !mostrarResoluciones;
-                listaResoluciones.setVisible(mostrarResoluciones);
-                actualizarInterfaz();
-            }
-        });
-
-        btnToggleFullscreen.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-                Config.toggleFullscreen();
-
-                btnResolucion.setText("RESOLUCIÓN");
-
-                btnToggleFullscreen.setText(Config.fullscreen ? "MODO VENTANA" : "PANTALLA COMPLETA");
-
-                stage.getViewport().update(Config.getAncho(), Config.getAlto(), true);
-                actualizarFondo();
-            }
-        });
-
-        btnSalir.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (veniaDeJuego) {
-                    juego.setScreen(pantallaAnterior);
-                    ((PantallaJuego) pantallaAnterior).setPausa(true);
-                } else {
-                    juego.setScreen(new PantallaMenu(juego));
+        btnResolucion.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Sonido.CLICK.sonar();
+                    mostrarResoluciones = !mostrarResoluciones;
+                    listaResoluciones.setVisible(mostrarResoluciones);
+                    actualizarInterfaz();
                 }
             }
-        });
+        );
+
+        btnToggleFullscreen.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Sonido.CLICK.sonar();
+                    Config.toggleFullscreen();
+
+                    btnToggleFullscreen.setText(Config.fullscreen ? "MODO VENTANA" : "PANTALLA COMPLETA");
+
+                    mostrarResoluciones = false;
+                    listaResoluciones.setVisible(false);
+
+                    btnResolucion.setText("RESOLUCIÓN: " + Config.getAncho() + "x" + Config.getAlto());
+
+                    stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+
+                    actualizarFondo();
+                    actualizarInterfaz();
+                }
+            }
+        );
+
+        btnVolver.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Sonido.CLICK.sonar();
+                    if (veniaDeJuego) {
+                        juego.setScreen(pantallaAnterior);
+                        PantallaJuego pantallaJuego = (PantallaJuego) pantallaAnterior;
+                        pantallaJuego.restaurarPosicionCamara();
+                        pantallaJuego.setPausa(true);
+                    } else {
+                        juego.setScreen(new PantallaMenu(juego));
+                    }
+                }
+            }
+        );
 
         contenedor = new Table();
         contenedor.setFillParent(true);
 
-        contenedor.add(titulo).padBottom(30).row();
-
-        contenedor.add(btnVolumen).size(250, 50).padBottom(15).row();
-        contenedor.add(btnResolucion).size(250, 50).padBottom(10).row();
-
-        contenedor.add(btnToggleFullscreen).size(250, 50).padBottom(10).row();
-
-        contenedor.add(btnSalir).size(250, 50);
+        actualizarInterfaz();
 
         stage.addActor(contenedor);
     }
 
     private void actualizarInterfaz() {
         contenedor.clearChildren();
+        contenedor.add(titulo).padBottom(25).row();
+        contenedor.add(new Label("MÚSICA", new Label.LabelStyle(fontVolumen, Color.WHITE))).padBottom(5).row();
 
-        contenedor.add(titulo).padBottom(30).row();
+        Table filaMusica = new Table();
+        filaMusica.add(sliderMusica).width(250).height(30);
+        filaMusica.add(labelMusica).width(60).padLeft(10);
 
-        contenedor.add(btnVolumen).size(250, 50).padBottom(15).row();
-        contenedor.add(btnResolucion).size(250, 50).padBottom(10).row();
+        contenedor.add(filaMusica).padBottom(15).row();
 
-        if (mostrarResoluciones) {
-            contenedor.add(listaResoluciones).row();
-        }
+        contenedor.add(new Label("EFECTOS", new Label.LabelStyle(fontVolumen, Color.WHITE))).padBottom(5).row();
+
+        Table filaSonido = new Table();
+
+        filaSonido.add(sliderSonido).width(250).height(30);
+        filaSonido.add(labelSonido).width(60).padLeft(10);
+
+        contenedor.add(filaSonido).padBottom(20).row();
+
         contenedor.add(btnToggleFullscreen).size(250, 50).padBottom(10).row();
 
-        contenedor.add(btnSalir).size(250, 50);
+        if (!Config.fullscreen) {
+            contenedor.add(btnResolucion).size(250, 50).padBottom(10).row();
+            if (mostrarResoluciones) {
+                contenedor.add(listaResoluciones).row();
+            }
+        }
+
+        contenedor.add(btnVolver).size(250, 50);
     }
 
-    private void agregarResolucion(String text, int w, int h, TextButton.TextButtonStyle style) {
+    private void agregarResolucion(String texto, int ancho, int alto, TextButton.TextButtonStyle style) {
+        TextButton btn = new TextButton(texto, style);
 
-        TextButton btn = new TextButton(text, style);
+        btn.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Sonido.CLICK.sonar();
 
-        btn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
+                    Config.setWindowed(ancho, alto);
 
-                btnResolucion.setText("RESOLUCIÓN: " + text);
-                listaResoluciones.setVisible(false);
-                mostrarResoluciones = false;
+                    btnResolucion.setText("RESOLUCIÓN: " + texto);
 
-                Config.setWindowed(w, h);
+                    mostrarResoluciones = false;
 
-                stage.getViewport().update(Config.getAncho(), Config.getAlto(), true);
+                    listaResoluciones.setVisible(false);
 
-                actualizarFondo();
+                    stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-                btnToggleFullscreen.setText("PANTALLA COMPLETA");
+                    actualizarFondo();
+                    actualizarInterfaz();
 
-                actualizarInterfaz();
+                    btnToggleFullscreen.setText("PANTALLA COMPLETA");
+                }
             }
-        });
+        );
 
         listaResoluciones.add(btn).size(250, 40).row();
     }
 
+    private Slider.SliderStyle crearEstiloSlider() {
+
+        Slider.SliderStyle style = new Slider.SliderStyle();
+        Pixmap pixmapFondo = new Pixmap(250, 10, Pixmap.Format.RGBA8888);
+        pixmapFondo.setColor(Color.DARK_GRAY);
+        pixmapFondo.fill();
+        texturaSlider = new Texture(pixmapFondo);
+        pixmapFondo.dispose();
+
+        Pixmap pixmapKnob = new Pixmap(20, 20, Pixmap.Format.RGBA8888);
+        pixmapKnob.setColor(Color.WHITE);
+        pixmapKnob.fillCircle(10, 10, 10);
+        texturaKnob = new Texture(pixmapKnob);
+        pixmapKnob.dispose();
+
+        style.background = new TextureRegionDrawable(new TextureRegion(texturaSlider));
+        style.knob = new TextureRegionDrawable(new TextureRegion(texturaKnob));
+
+        return style;
+    }
+
+    private String obtenerPorcentaje(float volumen) {
+        int porcentaje = Math.round(volumen * 100);
+        return porcentaje + "%";
+    }
 
     @Override
     public void render(float delta) {
+        Render.limpiarPantalla();
 
-        render.limpiarPantalla();
+        Render.begin(stage.getCamera());
 
-        render.begin(stage.getCamera());
-        fondo.dibujar(render.getBatch());
-        render.end();
+        fondo.dibujar(Render.batch);
+
+        Render.end();
 
         stage.act(delta);
         stage.draw();
@@ -226,15 +312,34 @@ public class PantallaOpciones implements Screen {
         actualizarFondo();
     }
 
-    @Override public void pause() {}
-    @Override public void resume() {}
-    @Override public void hide() {}
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void hide() {
+    }
 
     @Override
     public void dispose() {
         stage.dispose();
+
         fondo.dispose();
+
         fontTitulo.dispose();
         fontBoton.dispose();
+        fontVolumen.dispose();
+
+        if (texturaSlider != null) {
+            texturaSlider.dispose();
+        }
+
+        if (texturaKnob != null) {
+            texturaKnob.dispose();
+        }
     }
 }

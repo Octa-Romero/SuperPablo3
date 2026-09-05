@@ -1,13 +1,19 @@
 package com.prz.juego.pantallas;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.prz.juego.Principal;
+import com.prz.juego.principal.Principal;
 import com.prz.juego.utilidades.Config;
+import com.prz.juego.utilidades.Sonido;
 
 public class MenuPausa {
 
@@ -15,15 +21,20 @@ public class MenuPausa {
     private Principal juego;
     private boolean activo = false;
     private PantallaJuego pantallaJuego;
-
     private BitmapFont fontTitulo;
     private BitmapFont fontBotones;
+    private Texture texturaFondoOscuro;
+    private Texture texturaPanelOscuro;
+    private Image fondoOscuro;
+    private Image panelOscuro;
+    private Table contenedor;
 
     public MenuPausa(Principal juego, PantallaJuego anteriorPantalla) {
         this.juego = juego;
-        this.pantallaJuego =  anteriorPantalla;
+        this.pantallaJuego = anteriorPantalla;
 
         stage = new Stage(new FitViewport(Config.ANCHO_BASE, Config.ALTO_BASE));
+
         stage.setKeyboardFocus(null);
         stage.setScrollFocus(null);
 
@@ -31,19 +42,23 @@ public class MenuPausa {
         fontTitulo.getData().setScale(3.0f);
 
         fontBotones = new BitmapFont();
-        fontTitulo.getData().setScale(2.0f);
+        fontBotones.getData().setScale(2.0f);
 
         mostrar();
+
+        // El menú empieza desactivado
+        desactivar();
     }
 
     private void mostrar() {
+        crearFondos();
 
-        Table contenedor = new Table();
-        contenedor.setFillParent(true);
+        contenedor = new Table();
 
-        Label titulo = new Label("PAUSA", new Label.LabelStyle(fontTitulo, Color.WHITE));
+        Label titulo = new Label("PAUSA", new Label.LabelStyle(fontTitulo, Color.GOLD));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+
         style.font = fontBotones;
         style.fontColor = Color.WHITE;
         style.overFontColor = Color.YELLOW;
@@ -51,37 +66,76 @@ public class MenuPausa {
 
         TextButton reanudar = new TextButton("REANUDAR", style);
         TextButton opciones = new TextButton("OPCIONES", style);
-        TextButton menu = new TextButton("SALIR AL MENU", style);
+        TextButton menu = new TextButton("SALIR AL MENÚ", style);
 
-
-        reanudar.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                pantallaJuego.setPausa(false);
-                desactivar();
+        reanudar.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Sonido.CLICK.sonar();
+                    pantallaJuego.setPausa(false);
+                    desactivar();
+                }
             }
-        });
+        );
 
-        opciones.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                juego.setScreen(new PantallaOpciones(juego, pantallaJuego, true));
+        opciones.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Sonido.CLICK.sonar();
+                    pantallaJuego.guardarPosicionCamara();
+                    juego.setScreen(new PantallaOpciones(juego, pantallaJuego, true));
+                }
             }
-        });
+        );
 
-        menu.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                juego.setScreen(new PantallaMenu(juego));
+        menu.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Sonido.CLICK.sonar();
+                    juego.setScreen(new PantallaMenu(juego));
+                }
             }
-        });
+        );
 
         contenedor.add(titulo).padBottom(40).row();
         contenedor.add(reanudar).width(250).height(50).padBottom(20).row();
         contenedor.add(opciones).width(250).height(50).padBottom(20).row();
         contenedor.add(menu).width(250).height(50).padBottom(20).row();
+        contenedor.pack();
 
+        float anchoPanel = contenedor.getWidth() + 100;
+        float altoPanel = contenedor.getHeight() + 80;
+
+        panelOscuro.setSize(anchoPanel, altoPanel);
+
+        panelOscuro.setPosition((Config.ANCHO_BASE - anchoPanel) / 2f, (Config.ALTO_BASE - altoPanel) / 2f);
+
+        contenedor.setPosition(Config.ANCHO_BASE / 2f, Config.ALTO_BASE / 2f, Align.center);
+
+        stage.addActor(fondoOscuro);
+        stage.addActor(panelOscuro);
         stage.addActor(contenedor);
+    }
+
+    private void crearFondos() {
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(new Color(0, 0, 0, 0.45f));
+        pixmap.fill();
+
+        texturaFondoOscuro = new Texture(pixmap);
+        fondoOscuro = new Image(new TextureRegionDrawable(new TextureRegion(texturaFondoOscuro)));
+        fondoOscuro.setFillParent(true);
+
+        pixmap.setColor(new Color(0, 0, 0, 0.65f));
+        pixmap.fill();
+
+        texturaPanelOscuro = new Texture(pixmap);
+        panelOscuro = new Image(new TextureRegionDrawable(new TextureRegion(texturaPanelOscuro)));
+
+        pixmap.dispose();
     }
 
     public void activar() {
@@ -97,7 +151,7 @@ public class MenuPausa {
     }
 
     public void update(float delta) {
-        if(activo) {
+        if (activo) {
             stage.act(delta);
         }
     }
@@ -114,11 +168,20 @@ public class MenuPausa {
 
     public void dispose() {
         stage.dispose();
+
         fontTitulo.dispose();
         fontBotones.dispose();
+
+        if (texturaFondoOscuro != null) {
+            texturaFondoOscuro.dispose();
+        }
+
+        if (texturaPanelOscuro != null) {
+            texturaPanelOscuro.dispose();
+        }
     }
 
     public Stage getStage() {
-        return this.stage;
+        return stage;
     }
 }

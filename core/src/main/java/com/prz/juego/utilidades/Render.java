@@ -6,26 +6,19 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Render {
 
-    private SpriteBatch batch;
+    public static SpriteBatch batch;
 
-    public Render(SpriteBatch batch) {
-        this.batch = batch;
-    }
-
-    public SpriteBatch getBatch() {
-        return batch;
-    }
-    public void limpiarPantalla()
+    public static void limpiarPantalla()
     {
         ScreenUtils.clear(0, 0, 0, 1);
     }
 
-    public void begin(Camera camara) {
+    public static void begin(Camera camara) {
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
     }
 
-    public void end() {
+    public static void end() {
         batch.end();
     }
 }

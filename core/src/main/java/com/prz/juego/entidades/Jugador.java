@@ -1,111 +1,88 @@
 package com.prz.juego.entidades;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.prz.juego.recursos.Imagen;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.prz.juego.sistemas.Hud;
 import com.prz.juego.utilidades.Entrada;
-import com.badlogic.gdx.math.Rectangle;
+import com.prz.juego.utilidades.Render;
+import com.prz.juego.utilidades.Sonido;
 
-public class Jugador {
+public abstract class Jugador extends Entidad {
 
-    public Imagen sprite;
-    private float x, y;
-    private float ancho, alto;
-    private int velocidadX = 200;
-    private int velocidadY = 0;
-    private final int GRAVEDAD = 400;
-    private boolean enSuelo = true;
-    private Rectangle bounds = new Rectangle();
+	protected Entrada entrada;
+	private Texture texturaHud;
+	protected Hud hud;
+	protected boolean atacando;
 
-    public Jugador(float x, float y, float ancho, float alto)
-    {
-        sprite = new Imagen("walter.png");
-        this.x = x;
-        this.y = y;
-        this.ancho = ancho;
-        this.alto = alto;
-        this.bounds = new Rectangle(x, y, ancho, alto);
-        sprite.setPosition(x, y);
-        sprite.setSize(ancho, alto);
-    }
+	protected Jugador(float x, float y, float ancho, float alto, int velocidadX, double vida, double danio, Texture textura, Texture texturaHud) {
+		super(x, y, ancho, alto, velocidadX, vida, danio, textura);
+		this.texturaHud = texturaHud;
+	}
 
-    public void dibujar(SpriteBatch batch)
-    {
-        sprite.dibujar(batch);
-    }
+	public void setEntrada(Entrada entrada) {
+		this.entrada = entrada;
+	}
 
-    public void update(Entrada entrada, float delta)
-    {
-        if (!enSuelo)
-        {
-            velocidadY -= GRAVEDAD * delta;
-        }
+	@Override
+	public void update(float delta) {
+		guardarPosicionAnterior();
 
-        y += velocidadY * delta;
+		if (entrada.mueveArriba() && enSuelo) {
+			saltar();
+		}
 
-        if (entrada.mueveIzquierda())
-        {
-            x -= velocidadX * delta;
-        }
+		enSuelo = false;
+		actualizarFisica(delta);
 
-        if (entrada.mueveDerecha())
-        {
-            x += velocidadX * delta;
-        }
+		if (y + alto < 0) {
+			restarVida(1);
+			setY(Gdx.graphics.getHeight() - alto);
+			velocidadY = 0;
+		}
 
-        if(entrada.mueveArriba())
-        {
-            saltar();
-        }
+		if (entrada.mueveIzquierda()) {
+			x -= velocidadX * delta;
+		}
 
-        sprite.setPosition(x, y);
-        bounds.setPosition(x, y);
-    }
+		if (entrada.mueveDerecha()) {
+			x += velocidadX * delta;
+		}
 
-    private void saltar(){
-        if (enSuelo) {
-            velocidadY = 350;
-            enSuelo = false;
-        }
-    }
+		if (entrada.ataca()) {
+			atacar();
+		}
 
-    public void setEnSuelo(boolean valor)
-    {
-        this.enSuelo = valor;
-    }
+		actualizarAnimacion(delta, x != xAnterior, atacando);
+		actualizarOrientacionSegunMovimiento();
+		actualizarSpriteVisual();
+		bounds.setPosition(x, y);
 
-    public float getX() {
-        return x;
-    }
+		actualizarInvencibilidad(delta);
+	}
 
-    public float getY() {
-        return y;
-    }
+	public abstract void atacar();
 
-    public Rectangle getBounds()
-    {
-        return this.bounds;
-    }
+	@Override
+	protected void morir() {
+		System.out.println("El jugador murio");
+		// TODO: muerte del jugador
+	}
 
-    public void setX(float x)
-    {
-        this.x = x;
-        sprite.setX(x);
-        bounds.setX(x);
-    }
+	public void dibujar() {
+		if (spriteVisible && sprite != null) {
+			sprite.draw(Render.batch);
+		}
+	}
 
-    public void setY(float y)
-    {
-        this.y = y;
-        sprite.setY(y);
-        bounds.setY(y);
-    }
+	public Hud getHud() {
+		return hud;
+	}
 
-    public float getAncho() {
-        return this.ancho;
-    }
+	public Texture getTexturaHud() {
+		return texturaHud;
+	}
 
-    public float getAlto()
-    {
-        return this.alto;
-    }
+	public boolean estaAtacando() {
+		return atacando;
+	}
 }

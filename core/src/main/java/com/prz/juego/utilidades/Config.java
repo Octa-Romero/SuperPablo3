@@ -5,8 +5,8 @@ import com.badlogic.gdx.Graphics;
 
 public class Config {
 
-    public static final int ANCHO_BASE = 1080;
-    public static final int ALTO_BASE = 650;
+    public static final int ANCHO_BASE = 1280;
+    public static final int ALTO_BASE = 720;
 
     public static boolean fullscreen = true;
 

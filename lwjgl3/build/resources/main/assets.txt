@@ -1,48 +1,75 @@
-Niveless/BosqueNivel2Parallax/back.png
-Niveless/BosqueNivel2Parallax/far.png
-Niveless/BosqueNivel2Parallax/middle.png
-Niveless/Niveles.tiled-project
-Niveless/Niveles.tiled-session
-Niveless/Niveles/Level 2.tmx
-Niveless/Niveles/Level1.tmx
-Niveless/Niveles/Level2.tmx
-Niveless/Niveles/Nivel 2.tmx
-Niveless/Niveles/Nivel2.tmx
-Niveless/Tilesets/1.tsx
-Niveless/Tilesets/Background Parallax 1/Level_1.png
-Niveless/Tilesets/Background Parallax 1/Level_2.png
-Niveless/Tilesets/Background Parallax 1/Level_3.png
-Niveless/Tilesets/Background Parallax 1/Level_4.png
-Niveless/Tilesets/Background Parallax 1/Level_5.png
-Niveless/Tilesets/Background Parallax 1/Level_6.png
-Niveless/Tilesets/Background Parallax 1/castillo.png
-Niveless/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_52_52 AM (1).png
-Niveless/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_52_58 AM (2).png
-Niveless/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_02 AM (3).png
-Niveless/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_06 AM (4) (1).png
-Niveless/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_14 AM (5).png
-Niveless/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_20 AM (6) (1).png
-Niveless/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_21 AM (7) (1).png
-Niveless/Tilesets/Bridges.tsx
-Niveless/Tilesets/Cueva.tsx
-Niveless/Tilesets/MorningSheet.png
-Niveless/Tilesets/Parallax_Backgrounds_Cave/0.png
-Niveless/Tilesets/Parallax_Backgrounds_Cave/1.png
-Niveless/Tilesets/Parallax_Backgrounds_Cave/2.png
-Niveless/Tilesets/Parallax_Backgrounds_Cave/3.png
-Niveless/Tilesets/Parallax_Backgrounds_Cave/4.png
-Niveless/Tilesets/Parallax_Backgrounds_Cave/5.png
-Niveless/Tilesets/Parallax_Backgrounds_Cave/6.png
-Niveless/Tilesets/Parallax_Backgrounds_Cave/7.png
-Niveless/Tilesets/TileSetForest2.tsx
-Niveless/Tilesets/foresTileset.tsx
-Niveless/Tilesets/lvl2.png
-Niveless/Tilesets/morning_adventures_tileset_16x16.png
-Niveless/Tilesets/morning_adventures_tileset_16x16.tsx
-Niveless/Tilesets/propsFores.png
-Niveless/Tilesets/tileset.png
-libgdx.png
-menuSP3.png
-pabloFondo2.png
-readmegif.gif
-walter.png
+Enemigos/Bicho1/ataque_bicho1.png
+Enemigos/Bicho1/bicho1.png
+Hud/corazon_lleno.png
+Hud/corazon_mitad.png
+Hud/corazon_vacio.png
+Hud/pablo_hud.png
+Hud/walter_hud.png
+Menu/menuSP3.png
+Musicas/musica_menu.mp3
+Musicas/musica_nivel1.MP3
+Niveles/BosqueNivel2Parallax/back.png
+Niveles/BosqueNivel2Parallax/far.png
+Niveles/BosqueNivel2Parallax/middle.png
+Niveles/Niveles.tiled-project
+Niveles/Niveles.tiled-session
+Niveles/Niveles/Hub.tmx
+Niveles/Niveles/Level 2.tmx
+Niveles/Niveles/Level1.tmx
+Niveles/Niveles/Level2.tmx
+Niveles/Niveles/Nivel 2.tmx
+Niveles/Niveles/Nivel2.tmx
+Niveles/Niveles/hubTilset.tsx
+Niveles/Niveles/tileSetHub.tsx
+Niveles/Niveles/tileset.tsx
+Niveles/Tilesets/1.tsx
+Niveles/Tilesets/Background Parallax 1/Level_1.png
+Niveles/Tilesets/Background Parallax 1/Level_2.png
+Niveles/Tilesets/Background Parallax 1/Level_3.png
+Niveles/Tilesets/Background Parallax 1/Level_4.png
+Niveles/Tilesets/Background Parallax 1/Level_5.png
+Niveles/Tilesets/Background Parallax 1/Level_6.png
+Niveles/Tilesets/Background Parallax 1/castillo.png
+Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_52_52 AM (1).png
+Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_52_58 AM (2).png
+Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_02 AM (3).png
+Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_06 AM (4) (1).png
+Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_14 AM (5).png
+Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_20 AM (6) (1).png
+Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_21 AM (7) (1).png
+Niveles/Tilesets/Bridges.tsx
+Niveles/Tilesets/Cueva.tsx
+Niveles/Tilesets/MorningSheet.png
+Niveles/Tilesets/Parallax_Backgrounds_Cave/0.png
+Niveles/Tilesets/Parallax_Backgrounds_Cave/1.png
+Niveles/Tilesets/Parallax_Backgrounds_Cave/2.png
+Niveles/Tilesets/Parallax_Backgrounds_Cave/3.png
+Niveles/Tilesets/Parallax_Backgrounds_Cave/4.png
+Niveles/Tilesets/Parallax_Backgrounds_Cave/5.png
+Niveles/Tilesets/Parallax_Backgrounds_Cave/6.png
+Niveles/Tilesets/Parallax_Backgrounds_Cave/7.png
+Niveles/Tilesets/TileSetForest2.tsx
+Niveles/Tilesets/foresTileset.tsx
+Niveles/Tilesets/lvl2.png
+Niveles/Tilesets/morning_adventures_tileset_16x16.png
+Niveles/Tilesets/morning_adventures_tileset_16x16.tsx
+Niveles/Tilesets/propsFores.png
+Niveles/Tilesets/tileset.png
+Personajes/Pablo/ataque_pablo.png
+Personajes/Pablo/pablo.png
+Personajes/Walter/orbe.png
+Personajes/Walter/walter.png
+Personajes/Walter/walter_ataque.png
+Personajes/Walter/walter_caminar1.png
+Personajes/Walter/walter_caminar3.png
+Personajes/Walter/walter_caminar4.png
+Personajes/Walter/walter_caminar5.png
+Personajes/Walter/walter_caminar6.png
+Personajes/Walter/walter_caminar7.png
+Personajes/Walter/walter_spritesheet.png
+Personajes/Walter/walter_spritesheet2.png
+Personajes/Walter/wizard char.png
+README/readmegif.gif
+Sonidos/click.WAV
+Sonidos/espada.WAV
+Sonidos/salto.WAV

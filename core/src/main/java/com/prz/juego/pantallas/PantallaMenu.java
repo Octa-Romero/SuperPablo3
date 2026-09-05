@@ -12,35 +12,34 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
-import com.prz.juego.Principal;
+import com.prz.juego.principal.Principal;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
+import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
+import com.prz.juego.utilidades.Sonido;
 
 public class PantallaMenu implements Screen {
 
     private Stage stage;
     private Imagen fondo;
-
     private BitmapFont fontTitulo;
     private BitmapFont fontSubtitulo;
     private BitmapFont fontBoton;
-
     private Principal juego;
-    private Render render;
 
     public PantallaMenu(Principal juego) {
         this.juego = juego;
-        this.render = juego.getRender();
     }
 
     @Override
     public void show() {
-
         inicializarStage();
         inicializarFondo();
         inicializarFuentes();
         crearInterfaz();
+
+        Musica.MENU.sonar();
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -50,7 +49,7 @@ public class PantallaMenu implements Screen {
     }
 
     private void inicializarFondo() {
-        fondo = new Imagen("menuSP3.png");
+        fondo = new Imagen("Menu/menuSP3.png");
         actualizarFondo();
     }
 
@@ -64,10 +63,10 @@ public class PantallaMenu implements Screen {
 
     private void inicializarFuentes() {
         fontTitulo = new BitmapFont();
-        fontTitulo.getData().setScale(3.5f);
+        fontTitulo.getData().setScale(5f);
 
         fontSubtitulo = new BitmapFont();
-        fontSubtitulo.getData().setScale(1.8f);
+        fontSubtitulo.getData().setScale(3f);
 
         fontBoton = new BitmapFont();
         fontBoton.getData().setScale(2f);
@@ -75,17 +74,11 @@ public class PantallaMenu implements Screen {
 
     private void crearInterfaz() {
 
-        Label titulo = new Label(
-            "SUPER PABLO 3",
-            new Label.LabelStyle(fontTitulo, Color.GOLD)
-        );
-
-        Label subtitulo = new Label(
-            "~ LA ÚLTIMA BATALLA ~",
-            new Label.LabelStyle(fontSubtitulo, Color.RED)
-        );
+        Label titulo = new Label("SUPER PABLO 3", new Label.LabelStyle(fontTitulo, Color.GOLD));
+        Label subtitulo = new Label("~ LA ÚLTIMA BATALLA ~", new Label.LabelStyle(fontSubtitulo, Color.RED));
 
         TextButton.TextButtonStyle estiloBoton = new TextButton.TextButtonStyle();
+
         estiloBoton.font = fontBoton;
         estiloBoton.fontColor = Color.WHITE;
         estiloBoton.overFontColor = Color.GOLD;
@@ -95,34 +88,41 @@ public class PantallaMenu implements Screen {
         TextButton btnOpciones = new TextButton("OPCIONES", estiloBoton);
         TextButton btnSalir = new TextButton("SALIR", estiloBoton);
 
-        btnJugar.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                dispose();
-                juego.setScreen(new PantallaJuego(juego));
+        btnJugar.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Sonido.CLICK.sonar();
+                    juego.setScreen(new PantallaJuego(juego));
+                }
             }
-        });
+        );
 
-        btnOpciones.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                juego.setScreen(new PantallaOpciones(juego, PantallaMenu.this, false));
+        btnOpciones.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Sonido.CLICK.sonar();
+                    juego.setScreen(new PantallaOpciones(juego, PantallaMenu.this, false));
+                }
             }
-        });
+        );
 
-        btnSalir.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+        btnSalir.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Sonido.CLICK.sonar();
+                    Gdx.app.exit();
+                }
             }
-        });
+        );
 
         Table contenedor = new Table();
         contenedor.setFillParent(true);
 
         contenedor.add(titulo).padBottom(5).row();
         contenedor.add(subtitulo).padBottom(60).row();
-
         contenedor.add(btnJugar).width(250).height(50).padBottom(25).row();
         contenedor.add(btnOpciones).width(250).height(50).padBottom(25).row();
         contenedor.add(btnSalir).width(250).height(50);
@@ -132,11 +132,13 @@ public class PantallaMenu implements Screen {
 
     @Override
     public void render(float delta) {
-        render.limpiarPantalla();
+        Render.limpiarPantalla();
 
-        render.begin(stage.getCamera());
-        fondo.dibujar(render.getBatch());
-        render.end();
+        Render.begin(stage.getCamera());
+
+        fondo.dibujar(Render.batch);
+
+        Render.end();
 
         stage.act(delta);
         stage.draw();
@@ -148,16 +150,39 @@ public class PantallaMenu implements Screen {
         actualizarFondo();
     }
 
-    @Override public void pause() {}
-    @Override public void resume() {}
-    @Override public void hide() {}
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void hide() {
+        Gdx.input.setInputProcessor(null);
+    }
 
     @Override
     public void dispose() {
-        stage.dispose();
-        fondo.dispose();
-        fontTitulo.dispose();
-        fontSubtitulo.dispose();
-        fontBoton.dispose();
+        if (stage != null) {
+            stage.dispose();
+        }
+
+        if (fondo != null) {
+            fondo.dispose();
+        }
+
+        if (fontTitulo != null) {
+            fontTitulo.dispose();
+        }
+
+        if (fontSubtitulo != null) {
+            fontSubtitulo.dispose();
+        }
+
+        if (fontBoton != null) {
+            fontBoton.dispose();
+        }
     }
 }

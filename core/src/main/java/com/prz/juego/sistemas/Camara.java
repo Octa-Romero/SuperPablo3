@@ -14,6 +14,8 @@ public class Camara {
     public static final float V_HEIGHT = Config.ALTO_BASE;
     private float limiteMinX, limiteMaxX;
     private float limiteMinY, limiteMaxY;
+    private float posicionGuardadaX;
+    private float posicionGuardadaY;
 
     public Camara() {
         camera = new OrthographicCamera();
@@ -51,5 +53,16 @@ public class Camara {
 
     public OrthographicCamera getCamera() {
         return camera;
+    }
+
+    public void guardarPosicion() {
+        posicionGuardadaX = camera.position.x;
+        posicionGuardadaY = camera.position.y;
+    }
+
+    public void restaurarPosicion() {
+        camera.position.x = posicionGuardadaX;
+        camera.position.y = posicionGuardadaY;
+        camera.update();
     }
 }
