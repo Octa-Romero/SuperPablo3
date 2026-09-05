@@ -32,14 +32,12 @@ public abstract class Entidad {
     protected float tiempoParpadeo = 0;
     protected boolean spriteVisible = true;
     protected boolean mirandoDerecha = true;
-
     private TextureRegion regionReposo;
     private Animation<TextureRegion> animacionReposo;
     private Animation<TextureRegion> animacionCaminar;
     private Animation<TextureRegion> animacionAtaque;
     private Animation<TextureRegion> animacionActual;
     private float tiempoAnimacion;
-
 
     protected Entidad(float x, float y, float ancho, float alto, int velocidadX, double vida, double danio, Texture textura) {
         this.x = x;
@@ -60,34 +58,25 @@ public abstract class Entidad {
         actualizarSpriteVisual();
     }
 
-
     protected final void configurarSpriteVisual(float anchoSprite, float altoSprite) {
         validarTamanoSprite(anchoSprite, altoSprite);
-
         this.anchoSprite = anchoSprite;
         this.altoSprite = altoSprite;
         offsetSpriteXDerecha = (ancho - anchoSprite) / 2f;
         offsetSpriteXIzquierda = offsetSpriteXDerecha;
         offsetSpriteY = 0f;
-
         actualizarSpriteVisual();
     }
 
-
-    protected final void configurarSpriteVisual(float anchoSprite, float altoSprite,
-                                                float offsetDerecha, float offsetIzquierda, float offsetY) {
-
+    protected final void configurarSpriteVisual(float anchoSprite, float altoSprite, float offsetDerecha, float offsetIzquierda, float offsetY) {
         validarTamanoSprite(anchoSprite, altoSprite);
-
         this.anchoSprite = anchoSprite;
         this.altoSprite = altoSprite;
         offsetSpriteXDerecha = offsetDerecha;
         offsetSpriteXIzquierda = offsetIzquierda;
         offsetSpriteY = offsetY;
-
         actualizarSpriteVisual();
     }
-
 
     private void validarTamanoSprite(float anchoSprite, float altoSprite) {
         if (anchoSprite <= 0 || altoSprite <= 0) {
@@ -95,131 +84,63 @@ public abstract class Entidad {
         }
     }
 
-
     protected final void actualizarSpriteVisual() {
         if (sprite != null) {
             sprite.setSize(anchoSprite, altoSprite);
-
-            float offsetX = sprite.isFlipX()
-                ? offsetSpriteXIzquierda
-                : offsetSpriteXDerecha;
-
-            sprite.setPosition(
-                x + offsetX,
-                y + offsetSpriteY
-            );
+            float offsetX = sprite.isFlipX() ? offsetSpriteXIzquierda : offsetSpriteXDerecha;
+            sprite.setPosition(x + offsetX, y + offsetSpriteY);
         }
     }
 
-
     protected final void configurarAnimaciones(Texture spritesheet, int anchoFrame, int altoFrame, int framesReposo, int framesCaminar, float duracionFrame) {
-
         int[] indicesReposo = crearIndices(0, framesReposo);
         int[] indicesCaminar = crearIndices(framesReposo, framesCaminar);
 
-        configurarAnimaciones(
-            spritesheet,
-            anchoFrame,
-            altoFrame,
-            indicesReposo,
-            indicesCaminar,
-            null,
-            duracionFrame
-        );
+        configurarAnimaciones(spritesheet, anchoFrame, altoFrame, indicesReposo, indicesCaminar, null, duracionFrame);
     }
 
-
     protected final void configurarAnimaciones(Texture spritesheet, int anchoFrame, int altoFrame, int[] indicesReposo, int[] indicesCaminar, int[] indicesAtaque, float duracionFrame) {
+        validarConfiguracionAnimaciones(spritesheet, anchoFrame, altoFrame, indicesCaminar, duracionFrame);
 
-        validarConfiguracionAnimaciones(
-            spritesheet,
-            anchoFrame,
-            altoFrame,
-            indicesCaminar,
-            duracionFrame
-        );
-
-        TextureRegion[][] grilla = TextureRegion.split(
-            spritesheet,
-            anchoFrame,
-            altoFrame
-        );
+        TextureRegion[][] grilla = TextureRegion.split(spritesheet, anchoFrame, altoFrame);
 
         TextureRegion[] frames = aplanar(grilla);
 
-        validarIndices(
-            frames.length,
-            indicesReposo,
-            indicesCaminar,
-            indicesAtaque
-        );
+        validarIndices(frames.length, indicesReposo, indicesCaminar, indicesAtaque);
 
         if (indicesReposo != null && indicesReposo.length > 0) {
-            animacionReposo = crearAnimacion(
-                frames,
-                indicesReposo,
-                duracionFrame,
-                Animation.PlayMode.LOOP
-            );
+            animacionReposo = crearAnimacion(frames, indicesReposo, duracionFrame, Animation.PlayMode.LOOP);
         }
 
-        animacionCaminar = crearAnimacion(
-            frames,
-            indicesCaminar,
-            duracionFrame,
-            Animation.PlayMode.LOOP
-        );
+        animacionCaminar = crearAnimacion(frames, indicesCaminar, duracionFrame, Animation.PlayMode.LOOP);
 
         if (indicesAtaque != null && indicesAtaque.length > 0) {
-            animacionAtaque = crearAnimacion(
-                frames,
-                indicesAtaque,
-                duracionFrame,
-                Animation.PlayMode.NORMAL
-            );
+            animacionAtaque = crearAnimacion(frames, indicesAtaque, duracionFrame, Animation.PlayMode.NORMAL);
         }
 
         animacionActual = null;
         tiempoAnimacion = 0f;
     }
 
-
-    private void validarConfiguracionAnimaciones(Texture spritesheet, int anchoFrame, int altoFrame,
-                                                 int[] indicesCaminar, float duracionFrame) {
-
-        if (spritesheet == null ||
-            anchoFrame <= 0 ||
-            altoFrame <= 0 ||
-            duracionFrame <= 0 ||
-            indicesCaminar == null ||
-            indicesCaminar.length == 0 ||
-            spritesheet.getWidth() % anchoFrame != 0 ||
-            spritesheet.getHeight() % altoFrame != 0) {
-
+    private void validarConfiguracionAnimaciones(Texture spritesheet, int anchoFrame, int altoFrame, int[] indicesCaminar, float duracionFrame) {
+        if (spritesheet == null || anchoFrame <= 0 || altoFrame <= 0 || duracionFrame <= 0 || indicesCaminar == null || indicesCaminar.length == 0 || spritesheet.getWidth() % anchoFrame != 0 || spritesheet.getHeight() % altoFrame != 0) {
             throw new IllegalArgumentException("Spritesheet o configuracion de frames invalida");
         }
     }
 
-
-    private Animation<TextureRegion> crearAnimacion(TextureRegion[] frames, int[] indices,
-                                                    float duracionFrame, Animation.PlayMode modo) {
-
+    private Animation<TextureRegion> crearAnimacion(TextureRegion[] frames, int[] indices, float duracionFrame, Animation.PlayMode modo) {
         TextureRegion[] regiones = new TextureRegion[indices.length];
 
         for (int i = 0; i < indices.length; i++) {
             regiones[i] = frames[indices[i]];
         }
 
-        Animation<TextureRegion> animacion = new Animation<>(
-            duracionFrame,
-            regiones
-        );
+        Animation<TextureRegion> animacion = new Animation<>(duracionFrame, regiones);
 
         animacion.setPlayMode(modo);
 
         return animacion;
     }
-
 
     private int[] crearIndices(int desde, int cantidad) {
         if (cantidad < 0) {
@@ -235,7 +156,6 @@ public abstract class Entidad {
         return indices;
     }
 
-
     private void validarIndices(int totalFrames, int[]... grupos) {
         for (int[] grupo : grupos) {
             if (grupo == null) {
@@ -249,7 +169,6 @@ public abstract class Entidad {
             }
         }
     }
-
 
     private TextureRegion[] aplanar(TextureRegion[][] grilla) {
         int cantidad = 0;
@@ -271,11 +190,9 @@ public abstract class Entidad {
         return frames;
     }
 
-
     protected final void actualizarAnimacion(float delta, boolean caminando) {
         actualizarAnimacion(delta, caminando, false);
     }
-
 
     protected final void actualizarAnimacion(float delta, boolean caminando, boolean atacando) {
 
@@ -308,9 +225,7 @@ public abstract class Entidad {
         );
     }
 
-
     public abstract void update(float delta);
-
 
     protected void actualizarFisica(float delta) {
 
@@ -322,7 +237,6 @@ public abstract class Entidad {
 
         bounds.setPosition(x, y);
     }
-
 
     protected void actualizarInvencibilidad(float delta) {
 
@@ -344,7 +258,6 @@ public abstract class Entidad {
         }
     }
 
-
     public void restarVida(double cantidad) {
 
         if (tiempoInvencibilidad > 0) {
@@ -363,12 +276,10 @@ public abstract class Entidad {
         }
     }
 
-
     protected void guardarPosicionAnterior() {
         xAnterior = x;
         yAnterior = y;
     }
-
 
     protected void orientarSprite(Sprite sprite, float direccion) {
 
@@ -387,13 +298,11 @@ public abstract class Entidad {
         }
     }
 
-
     public void saltar() {
         velocidadY = 300;
         enSuelo = false;
         Sonido.SALTO.sonar();
     }
-
 
     protected void actualizarOrientacionSegunMovimiento() {
         orientarSprite(sprite, x - xAnterior);
@@ -407,7 +316,6 @@ public abstract class Entidad {
 
     public abstract void dibujar();
 
-
     public void dibujarHitbox(ShapeRenderer shapeRenderer) {
 
         shapeRenderer.setColor(Color.GREEN);
@@ -420,96 +328,77 @@ public abstract class Entidad {
         );
     }
 
-
     public float getX() {
         return x;
     }
-
 
     public float getY() {
         return y;
     }
 
-
     public float getXAnterior() {
         return xAnterior;
     }
-
 
     public float getYAnterior() {
         return yAnterior;
     }
 
-
     public float getAncho() {
         return ancho;
     }
-
 
     public float getAlto() {
         return alto;
     }
 
-
     public Rectangle getBounds() {
         return bounds;
     }
-
 
     public int getVelocidadX() {
         return velocidadX;
     }
 
-
     public float getVelocidadY() {
         return velocidadY;
     }
-
 
     public double getVida() {
         return vida;
     }
 
-
     public double getVidaMaxima() {
         return vidaMaxima;
     }
-
 
     public double getDanio() {
         return danio;
     }
 
-
     public boolean estaEnSuelo() {
         return enSuelo;
     }
-
 
     public boolean chocoPared() {
         return chocoPared;
     }
 
-
     public void setChocoPared(boolean valor) {
         chocoPared = valor;
     }
-
 
     public void setVelocidadX(int valor) {
         velocidadX = valor;
     }
 
-
     public void setVelocidadY(float valor) {
         velocidadY = valor;
     }
 
-
     public void setEnSuelo(boolean valor) {
         enSuelo = valor;
     }
-
 
     public void setX(float x) {
         this.x = x;
@@ -517,13 +406,11 @@ public abstract class Entidad {
         actualizarSpriteVisual();
     }
 
-
     public void setY(float y) {
         this.y = y;
         bounds.setY(y);
         actualizarSpriteVisual();
     }
-
 
     public void dispose() {
         sprite = null;

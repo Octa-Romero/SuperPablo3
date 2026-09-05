@@ -1,7 +1,7 @@
 package com.prz.juego.entidades;
 
 import java.util.ArrayList;
-import com.badlogic.gdx.graphics.Texture;
+
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.sistemas.Colisiones;
@@ -14,13 +14,13 @@ public class Walter extends Jugador {
     private static final float COOLDOWN_ATAQUE = 0.8f;
     private float tiempoCooldown;
     private boolean cooldownAtaque;
-    private ArrayList<OrbeMagica> orbes = new ArrayList<>();
+    private ArrayList<BolaFuego> orbes = new ArrayList<>();
     private ArrayList<Entidad> entidades;
     private Colisiones colision;
 
     public Walter(float x, float y) {
-        super(x, y, 50, 80, 140, 5, 0.5, GestorRecursos.obtenerTextura("Personajes/Walter/walter.png"), GestorRecursos.obtenerTextura("Hud/walter_hud.png"));
-        configurarAnimaciones(GestorRecursos.obtenerTextura("Personajes/Walter/walter_spritesheet2.png"), 540, 450, new int[]{0}, new int[]{2, 3, 4, 5, 6, 7}, new int[]{1}, 0.12f);
+        super(x, y, 50, 80, 140, 5, 0.5, GestorRecursos.obtenerTextura("Personajes/Walter/walter_idle.png"), GestorRecursos.obtenerTextura("Hud/walter_hud.png"));
+        configurarAnimaciones(GestorRecursos.obtenerTextura("Personajes/Walter/walter_spritesheet.png"), 540, 450, new int[]{0}, new int[]{2, 3, 4, 5, 6, 7}, new int[]{1}, 0.12f);
         configurarSpriteVisual(96f, 80f, 0f, -46f, 0f);
     }
 
@@ -53,7 +53,7 @@ public class Walter extends Jugador {
 
     private void actualizarOrbes(float delta) {
         for (int i = orbes.size() - 1; i >= 0; i--) {
-            OrbeMagica orbe = orbes.get(i);
+            BolaFuego orbe = orbes.get(i);
             orbe.update(delta);
             if (!orbe.estaActiva()) {
                 orbe.dispose();
@@ -85,17 +85,17 @@ public class Walter extends Jugador {
         float posicionY = y + alto / 2f - 10f;
 
         Sonido.BOLA_FUEGO.sonar();
-        orbes.add(new OrbeMagica(posicionX, posicionY, direccion, this, colision, entidades));
+        orbes.add(new BolaFuego(posicionX, posicionY, direccion, this, colision, entidades));
     }
 
     public void dibujarOrbes() {
-        for (OrbeMagica orbe : orbes) {
+        for (BolaFuego orbe : orbes) {
             orbe.dibujar();
         }
     }
 
     public void dibujarOrbesHitbox(ShapeRenderer shapeRenderer) {
-        for (OrbeMagica orbe : orbes) {
+        for (BolaFuego orbe : orbes) {
             orbe.dibujarHitbox(shapeRenderer);
         }
     }
@@ -103,7 +103,7 @@ public class Walter extends Jugador {
     @Override
     public void dispose() {
         super.dispose();
-        for (OrbeMagica orbe : orbes) {
+        for (BolaFuego orbe : orbes) {
             orbe.dispose();
         }
         orbes.clear();
