@@ -1,19 +1,17 @@
 package com.prz.juego.pantallas;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.prz.juego.entidades.Jugador;
-import com.prz.juego.entidades.Pablo;
 import com.prz.juego.entidades.Personajes;
-import com.prz.juego.entidades.Walter;
-import com.prz.juego.principal.Principal;
 import com.prz.juego.niveles.Nivel;
+import com.prz.juego.niveles.Nivel1;
+import com.prz.juego.principal.Principal;
+import com.prz.juego.sistemas.Hud;
 import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
-import com.prz.juego.sistemas.Hud;
 
 public class PantallaJuego implements Screen {
 
@@ -28,22 +26,23 @@ public class PantallaJuego implements Screen {
     public PantallaJuego(Principal juego, Personajes personajeElegido) {
         this.juego = juego;
         this.entrada = new Entrada();
-        this.nivel = new Nivel();
+
+        jugador = personajeElegido.crear(50, 150);
+        jugador.setEntrada(entrada);
+
+        nivel = new Nivel1(jugador);
+        nivel.cargar();
+
         this.menuPausa = new MenuPausa(juego, this);
 
         Gdx.input.setInputProcessor(entrada);
-
-        jugador = personajeElegido.crear(50, 150);
-
-        jugador.setEntrada(entrada);
-
-        nivel.cargar("Niveles/Niveles/Level1.tmx", jugador);
 
         hud = new Hud(jugador, jugador.getTexturaHud(), Render.batch);
     }
 
     @Override
     public void show() {
+
         InputMultiplexer mux = new InputMultiplexer();
 
         mux.addProcessor(entrada);
@@ -54,10 +53,13 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void render(float delta) {
+
         Render.limpiarPantalla();
 
         if (entrada.aprietaEscape()) {
+
             pausado = !pausado;
+
             if (pausado) {
                 menuPausa.activar();
             } else {
@@ -72,7 +74,9 @@ public class PantallaJuego implements Screen {
         nivel.renderMapa();
 
         Render.begin(nivel.getCamara());
+
         nivel.render();
+
         Render.end();
 
         nivel.renderDebug();
@@ -84,21 +88,24 @@ public class PantallaJuego implements Screen {
             menuPausa.render();
         }
 
-        if(nivel.isGameOver())
-        {
+        if (nivel.isGameOver()) {
+
             Musica.parar();
-            juego.setScreen(new GameOver(juego));
+
+            juego.setScreen(
+                new GameOver(juego)
+            );
         }
     }
 
     @Override
     public void resize(int width, int height) {
+
         nivel.resize(width, height);
         menuPausa.resize(width, height);
     }
 
-    public void setPausa(boolean valor)
-    {
+    public void setPausa(boolean valor) {
         this.pausado = valor;
     }
 
@@ -110,12 +117,18 @@ public class PantallaJuego implements Screen {
         nivel.restaurarPosicionCamara();
     }
 
-    @Override public void pause() {}
-    @Override public void resume() {}
-    @Override public void hide() {}
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
+
+    @Override
+    public void hide() {}
 
     @Override
     public void dispose() {
+
         nivel.dispose();
         menuPausa.dispose();
     }
