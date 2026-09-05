@@ -41,12 +41,11 @@
 
 ---
 
-## 📌 Estado actual del proyecto
+📌 Estado actual del proyecto
 
-🚧 **Estructura inicial del juego (Paquetes, Clases, Render, Pantallas y Jugador)**
+🚧 **Estructura actual del juego (Niveles, Gameplay, UI y Sistemas)**
 
-- El proyecto se encuentra en una etapa inicial en cuanto a clases definidas y estructura base, posee paquetes que integran una lógica básica del juego, un Jugador con un movimiento simple, clases como Render que manejan el renderizado general del juego y pantallas para el juego, menú y pausa.
-
+- El proyecto actualmente cuenta con una estructura modular basada en niveles y pantallas, integrando la lógica principal del juego dentro de la clase Nivel. Se han implementado sistemas de gameplay como movimiento del jugador, colisiones con el mapa, combate básico, enemigos con comportamiento simple, sistema de vida y HUD. Además, el juego incluye sistemas de interfaz como menú de opciones, pausa, selección de personajes y game over, junto con un sistema de audio con música y efectos de sonido. La arquitectura general ha sido refactorizada para mejorar la organización del código y la integración de sistemas.
 ---
 
 ## ⚙️ Cómo compilar y ejecutar
