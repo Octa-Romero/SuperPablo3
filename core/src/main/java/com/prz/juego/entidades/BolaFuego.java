@@ -10,9 +10,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Render;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.prz.juego.utilidades.Debug;
 
-public class OrbeMagica {
+public class BolaFuego {
 
     private static final float VELOCIDAD = 400f;
     private static final float DISTANCIA_MAXIMA = 400f;
@@ -28,7 +27,7 @@ public class OrbeMagica {
     private final Colisiones colision;
     private final ArrayList<Entidad> entidades;
 
-    public OrbeMagica(float x, float y, float direccion, Walter walter, Colisiones colision, ArrayList<Entidad> entidades) {
+    public BolaFuego(float x, float y, float direccion, Walter walter, Colisiones colision, ArrayList<Entidad> entidades) {
         this.x = x;
         this.y = y;
         this.direccion = direccion;
@@ -36,7 +35,7 @@ public class OrbeMagica {
         this.colision = colision;
         this.entidades = entidades;
         sprite = new Sprite(
-            new Texture("Personajes/Walter/orbe.png")
+            new Texture("Personajes/Walter/bola_fuego.png")
         );
         sprite.setSize(RADIO * 2, RADIO * 2);
         sprite.setPosition(x - RADIO, y - RADIO);

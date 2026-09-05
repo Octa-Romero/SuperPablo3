@@ -24,8 +24,8 @@ public class Pablo extends Jugador {
 	private Sprite spriteAtaque;
 
 	public Pablo(float x, float y) {
-		super(x, y, 50, 80, 170, 10, 1, new Texture("Personajes/Pablo/pablo.png"), new Texture("Hud/pablo_hud.png"));
-		spriteAtaque = new Sprite(new Texture("Personajes/Pablo/ataque_pablo.png"));
+		super(x, y, 50, 80, 170, 10, 1, new Texture("Personajes/Pablo/pablo_idle.png"), new Texture("Hud/pablo_hud.png"));
+		spriteAtaque = new Sprite(new Texture("Personajes/Pablo/espada.png"));
 		spriteAtaque.setSize(anchoAtaque, altoAtaque);
 		actualizarOrientacionSprites();
 	}
