@@ -34,8 +34,8 @@ public class Nivel {
         this.jugador = jugador;
 
         entidades.add(jugador);
-        entidades.add(new Bicho1(300, 200, jugador));
-        entidades.add(new Bicho1(500, 200, jugador));
+        entidades.add(new Bicho1(2000, 300, jugador));
+        entidades.add(new Bicho1(2200, 300, jugador));
 
         shapeRenderer = new ShapeRenderer();
 

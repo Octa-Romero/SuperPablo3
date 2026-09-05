@@ -268,9 +268,5 @@ public abstract class Enemigo extends Entidad {
 	@Override
 	public void dispose() {
 		super.dispose();
-		if (spriteAtaque != null) {
-			spriteAtaque.getTexture().dispose();
-			spriteAtaque = null;
-		}
 	}
 }

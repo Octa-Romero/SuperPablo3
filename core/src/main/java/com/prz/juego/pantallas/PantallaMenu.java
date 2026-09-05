@@ -86,7 +86,7 @@ public class PantallaMenu implements Screen {
 
         TextButton btnJugar = new TextButton("JUGAR", estiloBoton);
         TextButton btnOpciones = new TextButton("OPCIONES", estiloBoton);
-        TextButton btnComoJugar = new TextButton("COMO JUGAR", estiloBoton);
+        TextButton btnComoJugar = new TextButton("CÓMO JUGAR", estiloBoton);
         TextButton btnSalir = new TextButton("SALIR", estiloBoton);
 
         btnJugar.addListener(

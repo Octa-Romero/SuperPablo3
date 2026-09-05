@@ -50,7 +50,7 @@ public class ComoJugar implements Screen {
 
         table.defaults().pad(6);
 
-        Label titulo = new Label("COMO JUGAR", new Label.LabelStyle(font, Color.WHITE));
+        Label titulo = new Label("CÓMO JUGAR", new Label.LabelStyle(font, Color.WHITE));
         titulo.setFontScale(1.6f);
 
         Label separador1 = new Label("---------------------------", new Label.LabelStyle(font, Color.WHITE));
@@ -58,7 +58,7 @@ public class ComoJugar implements Screen {
         Label movTitulo = new Label("MOVIMIENTO", new Label.LabelStyle(font, Color.WHITE));
         movTitulo.setFontScale(1.2f);
 
-        Label mov = new Label("A / D o Flechas para moverte", new Label.LabelStyle(font, Color.WHITE));
+        Label mov = new Label("A/D o Flecha Izquierda/Flecha Derecha", new Label.LabelStyle(font, Color.WHITE));
 
         Label saltoTitulo = new Label("SALTO", new Label.LabelStyle(font, Color.WHITE));
         saltoTitulo.setFontScale(1.2f);
@@ -73,7 +73,7 @@ public class ComoJugar implements Screen {
         Label pausaTitulo = new Label("PAUSA", new Label.LabelStyle(font, Color.WHITE));
         pausaTitulo.setFontScale(1.2f);
 
-        Label pausa = new Label("Esc para pausar el juego", new Label.LabelStyle(font, Color.WHITE));
+        Label pausa = new Label("Esc", new Label.LabelStyle(font, Color.WHITE));
 
         Label separador2 = new Label("---------------------------", new Label.LabelStyle(font, Color.WHITE));
 
