@@ -298,11 +298,7 @@ public abstract class Entidad {
         }
     }
 
-    public void saltar() {
-        velocidadY = 300;
-        enSuelo = false;
-        Sonido.SALTO.sonar();
-    }
+    public abstract void saltar();
 
     protected void actualizarOrientacionSegunMovimiento() {
         orientarSprite(sprite, x - xAnterior);

@@ -223,6 +223,12 @@ public abstract class Enemigo extends Entidad {
 		orientarSprite(spriteAtaque, direccion);
 	}
 
+    public void saltar() {
+        velocidadY = 250;
+        enSuelo = false;
+        Sonido.SALTO.sonar(x, jugador.getX());
+    }
+
 	public boolean estaAtacando() {
 		return atacando;
 	}

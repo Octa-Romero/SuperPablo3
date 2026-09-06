@@ -12,6 +12,7 @@ public enum Sonido {
 	private final String nombreArchivo;
 	private Sound sound;
 	private static float volumenGlobal = 0.5f;
+    private final float DISTANCIA_ESCUCHA = 700;
 
 	private Sonido(String nombreArchivo) {
 		this.nombreArchivo = nombreArchivo;
@@ -21,6 +22,12 @@ public enum Sonido {
 		cargar();
 		sound.play(volumenGlobal);
 	}
+
+    public void sonar(float x, float xJugador) {
+        if((xJugador - DISTANCIA_ESCUCHA) < x && (xJugador + DISTANCIA_ESCUCHA) > x){
+            sonar();
+        }
+    }
 
 	private void cargar() {
 		if (sound == null) {
