@@ -9,75 +9,86 @@ import com.prz.juego.utilidades.Sonido;
 
 public abstract class Jugador extends Entidad {
 
-	protected Entrada entrada;
-	private Texture texturaHud;
-	protected Hud hud;
-	protected boolean atacando;
+    protected Entrada entrada;
+    private Texture texturaHud;
+    protected Hud hud;
+    protected boolean atacando;
+    private float cooldownSalto = 0;
 
-	protected Jugador(float x, float y, float ancho, float alto, int velocidadX, double vida, double danio, Texture textura, Texture texturaHud) {
-		super(x, y, ancho, alto, velocidadX, vida, danio, textura);
-		this.texturaHud = texturaHud;
-	}
+    protected Jugador(float x, float y, float ancho, float alto, int velocidadX, double vida, double danio, Texture textura, Texture texturaHud) {
+        super(x, y, ancho, alto, velocidadX, vida, danio, textura);
+        this.texturaHud = texturaHud;
+    }
 
-	public void setEntrada(Entrada entrada) {
-		this.entrada = entrada;
-	}
+    public void setEntrada(Entrada entrada) {
+        this.entrada = entrada;
+    }
 
-	@Override
-	public void update(float delta) {
-		guardarPosicionAnterior();
+    @Override
+    public void update(float delta) {
+        guardarPosicionAnterior();
 
-		if (entrada.mueveArriba() && enSuelo) {
-			saltar();
-		}
+        if (cooldownSalto > 0) {
+            cooldownSalto -= delta;
+        }
 
-		enSuelo = false;
-		actualizarFisica(delta);
+        if (entrada.mueveArriba() && enSuelo && cooldownSalto <= 0) {
+            saltar();
+        }
 
-		if (y + alto < 0) {
-			restarVida(1);
-			setY(Gdx.graphics.getHeight() - alto);
-			velocidadY = 0;
-		}
+        enSuelo = false;
+        actualizarFisica(delta);
 
-		if (entrada.mueveIzquierda()) {
-			x -= velocidadX * delta;
-		}
+        if (y + alto < 0) {
+            restarVida(1);
+            setY(Gdx.graphics.getHeight() - alto);
+            velocidadY = 0;
+        }
 
-		if (entrada.mueveDerecha()) {
-			x += velocidadX * delta;
-		}
+        if (entrada.mueveIzquierda()) {
+            x -= velocidadX * delta;
+        }
 
-		if (entrada.ataca()) {
-			atacar();
-		}
+        if (entrada.mueveDerecha()) {
+            x += velocidadX * delta;
+        }
 
-		actualizarAnimacion(delta, x != xAnterior, atacando);
-		actualizarOrientacionSegunMovimiento();
-		actualizarSpriteVisual();
-		bounds.setPosition(x, y);
+        if (entrada.ataca()) {
+            atacar();
+        }
 
-		actualizarInvencibilidad(delta);
-	}
+        actualizarAnimacion(delta, x != xAnterior, atacando);
+        actualizarOrientacionSegunMovimiento();
+        actualizarSpriteVisual();
+        bounds.setPosition(x, y);
 
-	public abstract void atacar();
+        actualizarInvencibilidad(delta);
+    }
 
+    public abstract void atacar();
 
-	public void dibujar() {
-		if (spriteVisible && sprite != null) {
-			sprite.draw(Render.batch);
-		}
-	}
+    public void saltar() {
+        velocidadY = 300;
+        enSuelo = false;
+        cooldownSalto = 0.5f;
+        Sonido.SALTO.sonar();
+    }
 
-	public Hud getHud() {
-		return hud;
-	}
+    public void dibujar() {
+        if (spriteVisible && sprite != null) {
+            sprite.draw(Render.batch);
+        }
+    }
 
-	public Texture getTexturaHud() {
-		return texturaHud;
-	}
+    public Hud getHud() {
+        return hud;
+    }
 
-	public boolean estaAtacando() {
-		return atacando;
-	}
+    public Texture getTexturaHud() {
+        return texturaHud;
+    }
+
+    public boolean estaAtacando() {
+        return atacando;
+    }
 }
