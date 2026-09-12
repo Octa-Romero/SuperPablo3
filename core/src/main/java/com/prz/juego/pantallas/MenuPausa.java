@@ -17,17 +17,16 @@ import com.prz.juego.utilidades.Sonido;
 
 public class MenuPausa {
 
-    private Stage stage;
-    private Principal juego;
+    private final Stage stage;
+    private final Principal juego;
     private boolean activo = false;
-    private PantallaJuego pantallaJuego;
-    private BitmapFont fontTitulo;
-    private BitmapFont fontBotones;
+    private final PantallaJuego pantallaJuego;
+    private final BitmapFont fontTitulo;
+    private final BitmapFont fontBotones;
     private Texture texturaFondoOscuro;
     private Texture texturaPanelOscuro;
     private Image fondoOscuro;
     private Image panelOscuro;
-    private Table contenedor;
 
     public MenuPausa(Principal juego, PantallaJuego anteriorPantalla) {
         this.juego = juego;
@@ -53,7 +52,7 @@ public class MenuPausa {
     private void mostrar() {
         crearFondos();
 
-        contenedor = new Table();
+        Table contenedor = new Table();
 
         Label titulo = new Label("PAUSA", new Label.LabelStyle(fontTitulo, Color.GOLD));
 

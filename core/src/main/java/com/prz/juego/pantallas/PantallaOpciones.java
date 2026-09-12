@@ -31,9 +31,9 @@ public class PantallaOpciones implements Screen {
     private BitmapFont fontTitulo;
     private BitmapFont fontBoton;
     private BitmapFont fontVolumen;
-    private Principal juego;
-    private Screen pantallaAnterior;
-    private boolean veniaDeJuego;
+    private final Principal juego;
+    private final Screen pantallaAnterior;
+    private final boolean VENIA_DE_JUEGO;
     private boolean mostrarResoluciones = false;
     private Table contenedor;
     private Table listaResoluciones;
@@ -48,10 +48,10 @@ public class PantallaOpciones implements Screen {
     private Texture texturaSlider;
     private Texture texturaKnob;
 
-    public PantallaOpciones(Principal juego, Screen pantallaAnterior, boolean veniaDeJuego) {
+    public PantallaOpciones(Principal juego, Screen pantallaAnterior, boolean VENIA_DE_JUEGO) {
         this.juego = juego;
         this.pantallaAnterior = pantallaAnterior;
-        this.veniaDeJuego = veniaDeJuego;
+        this.VENIA_DE_JUEGO = VENIA_DE_JUEGO;
     }
 
     @Override
@@ -184,7 +184,7 @@ public class PantallaOpciones implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Sonido.CLICK.sonar();
-                    if (veniaDeJuego) {
+                    if (VENIA_DE_JUEGO) {
                         juego.setScreen(pantallaAnterior);
                         PantallaJuego pantallaJuego = (PantallaJuego) pantallaAnterior;
                         pantallaJuego.restaurarPosicionCamara();

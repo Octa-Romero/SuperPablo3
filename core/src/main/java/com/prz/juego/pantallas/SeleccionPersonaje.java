@@ -16,7 +16,7 @@ import com.prz.juego.entidades.Personajes;
 
 public class SeleccionPersonaje implements Screen {
 
-    private Principal juego;
+    private final Principal juego;
     private Stage stage;
     private BitmapFont font;
 

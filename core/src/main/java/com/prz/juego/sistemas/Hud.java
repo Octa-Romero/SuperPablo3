@@ -11,18 +11,18 @@ import com.prz.juego.entidades.Jugador;
 
 public class Hud {
 
-	private Jugador jugador;
-	private Stage stage;
-	private FitViewport viewport = new FitViewport(1280, 720, new OrthographicCamera());
-	private Texture cara;
-	private Texture corazonLleno = new Texture("Hud/corazon_lleno.png");
-	private Texture corazonMitad = new Texture("Hud/corazon_mitad.png");
-	private Texture corazonVacio = new Texture("Hud/corazon_vacio.png");
+	private final Jugador jugador;
+	private final Stage stage;
+	private final FitViewport viewport = new FitViewport(1280, 720, new OrthographicCamera());
+	private final Texture cara;
+	private final Texture corazonLleno = new Texture("Hud/corazon_lleno.png");
+	private final Texture corazonMitad = new Texture("Hud/corazon_mitad.png");
+	private final Texture corazonVacio = new Texture("Hud/corazon_vacio.png");
 	private Table tablaPrincipal;
 	private Table contenedorCorazones;
-	private float tamañoCara = 120;
-	private float tamañoCorazon = 50;
-	private float espacioCorazones = 5;
+	private final float TAMANO_CARA = 120;
+	private final float TAMANO_CORAZON = 50;
+	private final float ESPACIO_CORAZONES = 5;
 
 	public Hud(Jugador jugador, Texture cara, SpriteBatch batch) {
 		this.jugador = jugador;
@@ -34,7 +34,7 @@ public class Hud {
 		tablaPrincipal.pad(20);
 		Image imagenCara = new Image(cara);
 		contenedorCorazones = new Table();
-		tablaPrincipal.add(imagenCara).size(tamañoCara, tamañoCara);
+		tablaPrincipal.add(imagenCara).size(TAMANO_CARA, TAMANO_CARA);
 		tablaPrincipal.add(contenedorCorazones).padLeft(10).center();
 		stage.addActor(tablaPrincipal);
 	}
@@ -59,7 +59,7 @@ public class Hud {
 			}
 
 			Image corazon = new Image(textura);
-			contenedorCorazones.add(corazon).size(tamañoCorazon, tamañoCorazon).padRight(espacioCorazones);
+			contenedorCorazones.add(corazon).size(TAMANO_CORAZON, TAMANO_CORAZON).padRight(ESPACIO_CORAZONES);
 		}
 	}
 

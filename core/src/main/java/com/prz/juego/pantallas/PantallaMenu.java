@@ -26,7 +26,7 @@ public class PantallaMenu implements Screen {
     private BitmapFont fontTitulo;
     private BitmapFont fontSubtitulo;
     private BitmapFont fontBoton;
-    private Principal juego;
+    private final Principal juego;
 
     public PantallaMenu(Principal juego) {
         this.juego = juego;

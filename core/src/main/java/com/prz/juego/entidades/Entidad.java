@@ -19,7 +19,7 @@ public abstract class Entidad {
     protected float xAnterior, yAnterior;
     protected int velocidadX;
     protected float velocidadY = 0;
-    protected final float gravedad = 400;
+    protected final float GRAVEDAD = 400;
     protected boolean enSuelo = true;
     protected boolean chocoPared = false;
     protected Rectangle bounds;
@@ -315,7 +315,7 @@ public abstract class Entidad {
     protected void actualizarFisica(float delta) {
 
         if (!enSuelo) {
-            velocidadY -= gravedad * delta;
+            velocidadY -= GRAVEDAD * delta;
         }
 
         y += velocidadY * delta;

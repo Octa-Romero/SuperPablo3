@@ -17,13 +17,13 @@ import com.prz.juego.sistemas.Hud;
 
 public class PantallaJuego implements Screen {
 
-    private Principal juego;
+    private final Principal juego;
     private Jugador jugador;
-    private Nivel nivel;
-    private Entrada entrada;
-    private MenuPausa menuPausa;
+    private final Nivel nivel;
+    private final Entrada entrada;
+    private final MenuPausa menuPausa;
     private boolean pausado = false;
-    private Hud hud;
+    private final Hud hud;
 
     public PantallaJuego(Principal juego, Personajes personajeElegido) {
         this.juego = juego;

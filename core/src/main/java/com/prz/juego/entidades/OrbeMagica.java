@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Render;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.prz.juego.utilidades.Debug;
 
 public class OrbeMagica {
 
@@ -19,28 +18,28 @@ public class OrbeMagica {
     private static final float RADIO = 12f;
     private float x;
     private float y;
-    private final float direccion;
+    private final float DIRECCION;
     private float distanciaRecorrida;
-    private final Sprite sprite;
-    private final Circle bounds;
+    private final Sprite SPRITE;
+    private final Circle BOUNDS;
     private boolean activa = true;
     private final Walter walter;
     private final Colisiones colision;
     private final ArrayList<Entidad> entidades;
 
-    public OrbeMagica(float x, float y, float direccion, Walter walter, Colisiones colision, ArrayList<Entidad> entidades) {
+    public OrbeMagica(float x, float y, float DIRECCION, Walter walter, Colisiones colision, ArrayList<Entidad> entidades) {
         this.x = x;
         this.y = y;
-        this.direccion = direccion;
+        this.DIRECCION = DIRECCION;
         this.walter = walter;
         this.colision = colision;
         this.entidades = entidades;
-        sprite = new Sprite(
+        SPRITE = new Sprite(
             new Texture("Personajes/Walter/orbe.png")
         );
-        sprite.setSize(RADIO * 2, RADIO * 2);
-        sprite.setPosition(x - RADIO, y - RADIO);
-        bounds = new Circle(x, y, RADIO);
+        SPRITE.setSize(RADIO * 2, RADIO * 2);
+        SPRITE.setPosition(x - RADIO, y - RADIO);
+        BOUNDS = new Circle(x, y, RADIO);
     }
 
     public void update(float delta) {
@@ -50,11 +49,11 @@ public class OrbeMagica {
 
         float movimiento = VELOCIDAD * delta;
 
-        x += direccion * movimiento;
+        x += DIRECCION * movimiento;
         distanciaRecorrida += movimiento;
 
-        bounds.setPosition(x, y);
-        sprite.setPosition(x - RADIO, y - RADIO);
+        BOUNDS.setPosition(x, y);
+        SPRITE.setPosition(x - RADIO, y - RADIO);
 
         if (distanciaRecorrida >= DISTANCIA_MAXIMA) {
             activa = false;
@@ -111,7 +110,7 @@ public class OrbeMagica {
 
     public void dibujar() {
         if (activa) {
-            sprite.draw(Render.batch);
+            SPRITE.draw(Render.batch);
         }
     }
 
@@ -121,7 +120,7 @@ public class OrbeMagica {
         }
 
         shapeRenderer.setColor(Color.ORANGE);
-        shapeRenderer.circle(bounds.x, bounds.y, bounds.radius);
+        shapeRenderer.circle(BOUNDS.x, BOUNDS.y, BOUNDS.radius);
     }
 
     public boolean estaActiva() {
@@ -129,8 +128,8 @@ public class OrbeMagica {
     }
 
     public void dispose() {
-        if (sprite != null && sprite.getTexture() != null) {
-            sprite.getTexture().dispose();
+        if (SPRITE != null && SPRITE.getTexture() != null) {
+            SPRITE.getTexture().dispose();
         }
     }
 }

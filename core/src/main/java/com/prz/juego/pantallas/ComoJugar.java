@@ -17,7 +17,7 @@ import com.prz.juego.utilidades.Render;
 
 public class ComoJugar implements Screen {
 
-    private Principal juego;
+    private final Principal juego;
     private Stage stage;
     private BitmapFont font;
 

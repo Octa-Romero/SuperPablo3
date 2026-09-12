@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Colisiones {
 
-	private ArrayList<Rectangle> colisiones;
+	private final ArrayList<Rectangle> colisiones;
 
 	public Colisiones(TiledMap tiledMap) {
 		colisiones = new ArrayList<>();
