@@ -2,6 +2,8 @@
 
 Todos los cambios importantes de este proyecto serán documentados en este archivo.
 
+[Volver al repositorio](https://github.com/Octa-Romero/SuperPablo3)
+
 ## [0.3.0] - 2026-09-04
 
 ### Agregado
