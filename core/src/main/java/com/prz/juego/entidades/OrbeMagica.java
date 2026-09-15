@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Render;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -35,7 +36,7 @@ public class OrbeMagica {
         this.colision = colision;
         this.entidades = entidades;
         SPRITE = new Sprite(
-            new Texture("Personajes/Walter/orbe.png")
+            GestorRecursos.obtenerTextura("Personajes/Walter/orbe.png")
         );
         SPRITE.setSize(RADIO * 2, RADIO * 2);
         SPRITE.setPosition(x - RADIO, y - RADIO);
@@ -128,8 +129,6 @@ public class OrbeMagica {
     }
 
     public void dispose() {
-        if (SPRITE != null && SPRITE.getTexture() != null) {
-            SPRITE.getTexture().dispose();
-        }
+        activa = false;
     }
 }

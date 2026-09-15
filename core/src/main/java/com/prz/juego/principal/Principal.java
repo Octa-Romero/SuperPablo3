@@ -20,20 +20,21 @@ public class Principal extends Game {
 
     @Override
     public void dispose() {
+
         Screen pantallaActual = getScreen();
         setScreen(null);
-
         if (pantallaActual != null) {
             pantallaActual.dispose();
         }
-
-        Musica.dispose();
-        Sonido.dispose();
-        GestorRecursos.dispose();
 
         if (Render.batch != null) {
             Render.batch.dispose();
             Render.batch = null;
         }
+
+        Musica.dispose();
+        Sonido.dispose();
+
+        GestorRecursos.dispose();
     }
 }

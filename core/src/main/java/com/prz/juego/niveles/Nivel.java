@@ -24,7 +24,7 @@ public class Nivel {
     private OrthogonalTiledMapRenderer mapRenderer;
     private Jugador jugador;
     private Colisiones colision;
-    private ArrayList<Entidad> entidades = new ArrayList<>();
+    private final ArrayList<Entidad> entidades = new ArrayList<>();
     private ShapeRenderer shapeRenderer;
     private boolean gameOver = false;
 

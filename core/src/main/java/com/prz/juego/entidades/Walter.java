@@ -14,7 +14,7 @@ public class Walter extends Jugador {
     private static final float COOLDOWN_ATAQUE = 0.8f;
     private float tiempoCooldown;
     private boolean cooldownAtaque;
-    private ArrayList<OrbeMagica> orbes = new ArrayList<>();
+    private final ArrayList<OrbeMagica> ORBES = new ArrayList<>();
     private ArrayList<Entidad> entidades;
     private Colisiones colision;
 
@@ -52,12 +52,12 @@ public class Walter extends Jugador {
     }
 
     private void actualizarOrbes(float delta) {
-        for (int i = orbes.size() - 1; i >= 0; i--) {
-            OrbeMagica orbe = orbes.get(i);
+        for (int i = ORBES.size() - 1; i >= 0; i--) {
+            OrbeMagica orbe = ORBES.get(i);
             orbe.update(delta);
             if (!orbe.estaActiva()) {
                 orbe.dispose();
-                orbes.remove(i);
+                ORBES.remove(i);
             }
         }
     }
@@ -85,17 +85,17 @@ public class Walter extends Jugador {
         float posicionY = y + alto / 2f - 10f;
 
         Sonido.BOLA_FUEGO.sonar();
-        orbes.add(new OrbeMagica(posicionX, posicionY, direccion, this, colision, entidades));
+        ORBES.add(new OrbeMagica(posicionX, posicionY, direccion, this, colision, entidades));
     }
 
     public void dibujarOrbes() {
-        for (OrbeMagica orbe : orbes) {
+        for (OrbeMagica orbe : ORBES) {
             orbe.dibujar();
         }
     }
 
     public void dibujarOrbesHitbox(ShapeRenderer shapeRenderer) {
-        for (OrbeMagica orbe : orbes) {
+        for (OrbeMagica orbe : ORBES) {
             orbe.dibujarHitbox(shapeRenderer);
         }
     }
@@ -103,9 +103,6 @@ public class Walter extends Jugador {
     @Override
     public void dispose() {
         super.dispose();
-        for (OrbeMagica orbe : orbes) {
-            orbe.dispose();
-        }
-        orbes.clear();
+        ORBES.clear();
     }
 }

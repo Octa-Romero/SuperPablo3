@@ -5,18 +5,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.prz.juego.sistemas.Hud;
 import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Render;
-import com.prz.juego.utilidades.Sonido;
 
 public abstract class Jugador extends Entidad {
 
 	protected Entrada entrada;
-	private Texture texturaHud;
+	private final Texture TEXTURA_HUD;
 	protected Hud hud;
 	protected boolean atacando;
 
-	protected Jugador(float x, float y, float ancho, float alto, int velocidadX, double vida, double danio, Texture textura, Texture texturaHud) {
+	protected Jugador(float x, float y, float ancho, float alto, int velocidadX, double vida, double danio, Texture textura, Texture TEXTURA_HUD) {
 		super(x, y, ancho, alto, velocidadX, vida, danio, textura);
-		this.texturaHud = texturaHud;
+		this.TEXTURA_HUD = TEXTURA_HUD;
 	}
 
 	public void setEntrada(Entrada entrada) {
@@ -73,8 +72,8 @@ public abstract class Jugador extends Entidad {
 		return hud;
 	}
 
-	public Texture getTexturaHud() {
-		return texturaHud;
+	public Texture getTEXTURA_HUD() {
+		return TEXTURA_HUD;
 	}
 
 	public boolean estaAtacando() {

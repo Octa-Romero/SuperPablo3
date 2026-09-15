@@ -5,9 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.prz.juego.entidades.Jugador;
-import com.prz.juego.entidades.Pablo;
 import com.prz.juego.entidades.Personajes;
-import com.prz.juego.entidades.Walter;
 import com.prz.juego.principal.Principal;
 import com.prz.juego.niveles.Nivel;
 import com.prz.juego.utilidades.Entrada;
@@ -37,7 +35,7 @@ public class PantallaJuego implements Screen {
 
         nivel.cargar("Niveles/Niveles/Level1.tmx", jugador);
 
-        hud = new Hud(jugador, jugador.getTexturaHud(), Render.batch);
+        hud = new Hud(jugador, jugador.getTEXTURA_HUD(), Render.batch);
     }
 
     @Override

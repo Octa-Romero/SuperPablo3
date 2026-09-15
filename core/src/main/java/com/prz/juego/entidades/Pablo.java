@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.prz.juego.utilidades.Entrada;
+import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.utilidades.Sonido;
 
 public class Pablo extends Jugador {
@@ -21,12 +21,14 @@ public class Pablo extends Jugador {
 	private boolean cooldownAtaque = false;
 	private boolean yaDanio = false;
 	private ArrayList<Entidad> entidades;
-	private Sprite spriteAtaque;
+	private final Sprite SPRITE_ATAQUE;
 
 	public Pablo(float x, float y) {
-		super(x, y, 50, 80, 170, 10, 1, new Texture("Personajes/Pablo/pablo.png"), new Texture("Hud/pablo_hud.png"));
-		spriteAtaque = new Sprite(new Texture("Personajes/Pablo/ataque_pablo.png"));
-		spriteAtaque.setSize(anchoAtaque, altoAtaque);
+		super(x, y, 50, 80, 170, 10, 1, GestorRecursos.obtenerTextura("Personajes/Pablo/pablo.png"), GestorRecursos.obtenerTextura("Hud/pablo_hud.png"));
+        SPRITE_ATAQUE = new Sprite(
+            GestorRecursos.obtenerTextura("Personajes/Pablo/ataque_pablo.png")
+        );
+		SPRITE_ATAQUE.setSize(anchoAtaque, altoAtaque);
 		actualizarOrientacionSprites();
 	}
 
@@ -52,7 +54,7 @@ public class Pablo extends Jugador {
 
 		if (atacando) {
 			Rectangle ataque = getBoundsAtaque();
-			spriteAtaque.setPosition(ataque.x, ataque.y);
+			SPRITE_ATAQUE.setPosition(ataque.x, ataque.y);
 		}
 	}
 
@@ -114,7 +116,7 @@ public class Pablo extends Jugador {
 
 	private void actualizarOrientacionSprites() {
 		orientarSprite(sprite, direccion);
-		orientarSprite(spriteAtaque, direccion);
+		orientarSprite(SPRITE_ATAQUE, direccion);
 	}
 
 	public Rectangle getBoundsAtaque() {
@@ -137,8 +139,8 @@ public class Pablo extends Jugador {
 		}
 
 		Rectangle ataque = getBoundsAtaque();
-		spriteAtaque.setPosition(ataque.x, ataque.y);
-		spriteAtaque.draw(com.prz.juego.utilidades.Render.batch);
+		SPRITE_ATAQUE.setPosition(ataque.x, ataque.y);
+		SPRITE_ATAQUE.draw(com.prz.juego.utilidades.Render.batch);
 	}
 
 	@Override
@@ -154,8 +156,5 @@ public class Pablo extends Jugador {
 	@Override
 	public void dispose() {
 		super.dispose();
-		if (spriteAtaque != null) {
-			spriteAtaque.getTexture().dispose();
-		}
 	}
 }
