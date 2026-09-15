@@ -35,7 +35,7 @@ public class PantallaJuego implements Screen {
 
         nivel.cargar("Niveles/Niveles/Level1.tmx", jugador);
 
-        hud = new Hud(jugador, jugador.getTEXTURA_HUD(), Render.batch);
+        hud = new Hud(jugador, Render.batch);
     }
 
     @Override

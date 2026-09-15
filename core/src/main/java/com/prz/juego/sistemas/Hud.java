@@ -8,31 +8,30 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.entidades.Jugador;
+import com.prz.juego.recursos.GestorRecursos;
 
 public class Hud {
 
 	private final Jugador jugador;
 	private final Stage stage;
 	private final FitViewport viewport = new FitViewport(1280, 720, new OrthographicCamera());
-	private final Texture cara;
-	private final Texture corazonLleno = new Texture("Hud/corazon_lleno.png");
-	private final Texture corazonMitad = new Texture("Hud/corazon_mitad.png");
-	private final Texture corazonVacio = new Texture("Hud/corazon_vacio.png");
+    private final Texture corazonLleno = GestorRecursos.obtenerTextura("Hud/corazon_lleno.png");
+	private final Texture corazonMitad = GestorRecursos.obtenerTextura("Hud/corazon_mitad.png");
+	private final Texture corazonVacio = GestorRecursos.obtenerTextura("Hud/corazon_vacio.png");
 	private Table tablaPrincipal;
 	private Table contenedorCorazones;
 	private final float TAMANO_CARA = 120;
 	private final float TAMANO_CORAZON = 50;
 	private final float ESPACIO_CORAZONES = 5;
 
-	public Hud(Jugador jugador, Texture cara, SpriteBatch batch) {
+	public Hud(Jugador jugador, SpriteBatch batch) {
 		this.jugador = jugador;
-		this.cara = cara;
 		stage = new Stage(viewport, batch);
 		tablaPrincipal = new Table();
 		tablaPrincipal.top().left();
 		tablaPrincipal.setFillParent(true);
 		tablaPrincipal.pad(20);
-		Image imagenCara = new Image(cara);
+		Image imagenCara = new Image(jugador.getTEXTURA_HUD());
 		contenedorCorazones = new Table();
 		tablaPrincipal.add(imagenCara).size(TAMANO_CARA, TAMANO_CARA);
 		tablaPrincipal.add(contenedorCorazones).padLeft(10).center();
@@ -75,9 +74,5 @@ public class Hud {
 
 	public void dispose() {
 		stage.dispose();
-		cara.dispose();
-		corazonLleno.dispose();
-		corazonMitad.dispose();
-		corazonVacio.dispose();
 	}
 }
