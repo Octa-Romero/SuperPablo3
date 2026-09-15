@@ -31,8 +31,6 @@ public class PantallaJuego implements Screen {
         this.nivel = new Nivel();
         this.menuPausa = new MenuPausa(juego, this);
 
-        Gdx.input.setInputProcessor(entrada);
-
         jugador = personajeElegido.crear(50, 150);
 
         jugador.setEntrada(entrada);
@@ -46,8 +44,8 @@ public class PantallaJuego implements Screen {
     public void show() {
         InputMultiplexer mux = new InputMultiplexer();
 
-        mux.addProcessor(entrada);
         mux.addProcessor(menuPausa.getStage());
+        mux.addProcessor(entrada);
 
         Gdx.input.setInputProcessor(mux);
     }
@@ -67,6 +65,12 @@ public class PantallaJuego implements Screen {
 
         if (!pausado) {
             nivel.update(delta, entrada);
+        }
+
+        if (pausado) {
+            Gdx.input.setInputProcessor(menuPausa.getStage());
+        } else {
+            Gdx.input.setInputProcessor(entrada);
         }
 
         nivel.renderMapa();

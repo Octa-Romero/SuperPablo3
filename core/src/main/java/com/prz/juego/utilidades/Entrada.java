@@ -34,7 +34,7 @@ public class Entrada extends InputAdapter {
 			f1 = true;
 		}
 
-		return true;
+		return false;
 	}
 
 	@Override
@@ -52,7 +52,19 @@ public class Entrada extends InputAdapter {
 			izquierda = false;
 		}
 
-		return true;
+        if (keycode == Input.Keys.X || keycode == Input.Keys.J || keycode == Input.Keys.SPACE) {
+            ataca = false;
+        }
+
+        if (keycode == Input.Keys.ESCAPE) {
+            escape = false;
+        }
+
+        if (keycode == Input.Keys.F1) {
+            f1 = false;
+        }
+
+		return false;
 	}
 
 	public boolean mueveArriba() {
