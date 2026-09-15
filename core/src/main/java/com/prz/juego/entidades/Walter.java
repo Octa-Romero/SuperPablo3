@@ -103,6 +103,11 @@ public class Walter extends Jugador {
     @Override
     public void dispose() {
         super.dispose();
+
+        for (OrbeMagica o : ORBES) {
+            o.dispose();
+        }
+
         ORBES.clear();
     }
 }

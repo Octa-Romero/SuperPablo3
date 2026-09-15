@@ -169,6 +169,12 @@ public class Nivel {
         if (shapeRenderer != null) {
             shapeRenderer.dispose();
         }
+
+        for(Entidad e : entidades)
+        {
+            e.dispose();
+        }
+        entidades.clear();
     }
 
     public Camera getCamara() {
