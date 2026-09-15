@@ -16,12 +16,6 @@ public class GestorRecursos {
         return texturas.get(ruta);
     }
 
-    public static void cargarTextura(String ruta) {
-        if (!texturas.containsKey(ruta)) {
-            texturas.put(ruta, new Texture(ruta));
-        }
-    }
-
     public static void dispose() {
         for (Texture textura : texturas.values()) {
             textura.dispose();
