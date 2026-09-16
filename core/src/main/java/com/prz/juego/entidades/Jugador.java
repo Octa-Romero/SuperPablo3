@@ -1,6 +1,5 @@
 package com.prz.juego.entidades;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.prz.juego.sistemas.Hud;
 import com.prz.juego.utilidades.Entrada;
@@ -12,6 +11,7 @@ public abstract class Jugador extends Entidad {
 	private final Texture TEXTURA_HUD;
 	protected Hud hud;
 	protected boolean atacando;
+    protected float respawnY = 1000;
 
 	protected Jugador(float x, float y, float ancho, float alto, int velocidadX, double vida, double danio, Texture textura, Texture TEXTURA_HUD) {
 		super(x, y, ancho, alto, velocidadX, vida, danio, textura);
@@ -35,7 +35,7 @@ public abstract class Jugador extends Entidad {
 
 		if (y + alto < 0) {
 			restarVida(1);
-			setY(Gdx.graphics.getHeight() - alto);
+			setY(respawnY);
 			velocidadY = 0;
 		}
 
