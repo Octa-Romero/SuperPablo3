@@ -22,7 +22,6 @@ public class Principal extends Game {
     public void dispose() {
 
         Screen pantallaActual = getScreen();
-        setScreen(null);
         if (pantallaActual != null) {
             pantallaActual.dispose();
         }
