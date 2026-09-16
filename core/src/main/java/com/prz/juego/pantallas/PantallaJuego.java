@@ -97,6 +97,7 @@ public class PantallaJuego implements Screen {
     public void resize(int width, int height) {
         nivel.resize(width, height);
         menuPausa.resize(width, height);
+        hud.actualizarTamano(width, height);
     }
 
     public void setPausa(boolean valor)
