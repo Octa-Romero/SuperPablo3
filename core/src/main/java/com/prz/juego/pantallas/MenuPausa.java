@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.prz.juego.principal.Navegable;
 import com.prz.juego.principal.Principal;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Sonido;
@@ -18,7 +19,7 @@ import com.prz.juego.utilidades.Sonido;
 public class MenuPausa {
 
     private final Stage stage;
-    private final Principal juego;
+    private final Navegable nav;
     private boolean activo = false;
     private final PantallaJuego pantallaJuego;
     private final BitmapFont fontTitulo;
@@ -28,8 +29,8 @@ public class MenuPausa {
     private Image fondoOscuro;
     private Image panelOscuro;
 
-    public MenuPausa(Principal juego, PantallaJuego anteriorPantalla) {
-        this.juego = juego;
+    public MenuPausa(Navegable nav, PantallaJuego anteriorPantalla) {
+        this.nav = nav;
         this.pantallaJuego = anteriorPantalla;
 
         stage = new Stage(new FitViewport(Config.ANCHO_BASE, Config.ALTO_BASE));
@@ -84,7 +85,7 @@ public class MenuPausa {
                 public void clicked(InputEvent event, float x, float y) {
                     Sonido.CLICK.sonar();
                     pantallaJuego.guardarPosicionCamara();
-                    juego.setScreen(new PantallaOpciones(juego, pantallaJuego, true));
+                    nav.cambiarPantalla(new PantallaOpciones(nav, pantallaJuego, true));
                 }
             }
         );
@@ -94,7 +95,7 @@ public class MenuPausa {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Sonido.CLICK.sonar();
-                    juego.setScreen(new PantallaMenu(juego));
+                    nav.cambiarPantalla(new PantallaMenu(nav));
                 }
             }
         );

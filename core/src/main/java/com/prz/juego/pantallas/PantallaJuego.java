@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.prz.juego.entidades.Jugador;
 import com.prz.juego.entidades.Personajes;
+import com.prz.juego.principal.Navegable;
 import com.prz.juego.principal.Principal;
 import com.prz.juego.niveles.Nivel;
 import com.prz.juego.utilidades.Entrada;
@@ -15,7 +16,7 @@ import com.prz.juego.sistemas.Hud;
 
 public class PantallaJuego implements Screen {
 
-    private final Principal juego;
+    private final Navegable nav;
     private Jugador jugador;
     private final Nivel nivel;
     private final Entrada entrada;
@@ -23,11 +24,11 @@ public class PantallaJuego implements Screen {
     private boolean pausado = false;
     private final Hud hud;
 
-    public PantallaJuego(Principal juego, Personajes personajeElegido) {
-        this.juego = juego;
+    public PantallaJuego(Navegable nav, Personajes personajeElegido) {
+        this.nav = nav;
         this.entrada = new Entrada();
         this.nivel = new Nivel();
-        this.menuPausa = new MenuPausa(juego, this);
+        this.menuPausa = new MenuPausa(nav, this);
 
         jugador = personajeElegido.crear(50, 150);
 
@@ -89,7 +90,7 @@ public class PantallaJuego implements Screen {
         if(nivel.isGameOver())
         {
             Musica.parar();
-            juego.setScreen(new GameOver(juego));
+            nav.cambiarPantalla(new GameOver(nav));
         }
     }
 

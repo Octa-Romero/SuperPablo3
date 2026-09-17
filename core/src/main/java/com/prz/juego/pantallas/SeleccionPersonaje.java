@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.prz.juego.principal.Navegable;
 import com.prz.juego.principal.Principal;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Render;
@@ -16,15 +17,15 @@ import com.prz.juego.entidades.Personajes;
 
 public class SeleccionPersonaje implements Screen {
 
-    private final Principal juego;
+    private final Navegable nav;
     private Stage stage;
     private BitmapFont font;
 
     private Personajes personajeSeleccionado;
     private TextButton btnComenzar;
 
-    public SeleccionPersonaje(Principal juego) {
-        this.juego = juego;
+    public SeleccionPersonaje(Navegable nav) {
+        this.nav = nav;
     }
 
     @Override
@@ -83,12 +84,7 @@ public class SeleccionPersonaje implements Screen {
 
                 if (personajeSeleccionado == null) return;
 
-                juego.setScreen(
-                    new PantallaJuego(
-                        juego,
-                        personajeSeleccionado
-                    )
-                );
+                nav.cambiarPantalla(new PantallaJuego(nav, personajeSeleccionado));
             }
         });
 

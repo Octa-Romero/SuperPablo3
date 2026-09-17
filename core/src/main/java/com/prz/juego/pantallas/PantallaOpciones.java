@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.prz.juego.principal.Navegable;
 import com.prz.juego.principal.Principal;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
@@ -31,7 +32,7 @@ public class PantallaOpciones implements Screen {
     private BitmapFont fontTitulo;
     private BitmapFont fontBoton;
     private BitmapFont fontVolumen;
-    private final Principal juego;
+    private final Navegable nav;
     private final Screen pantallaAnterior;
     private final boolean VENIA_DE_JUEGO;
     private boolean mostrarResoluciones = false;
@@ -48,8 +49,8 @@ public class PantallaOpciones implements Screen {
     private Texture texturaSlider;
     private Texture texturaKnob;
 
-    public PantallaOpciones(Principal juego, Screen pantallaAnterior, boolean VENIA_DE_JUEGO) {
-        this.juego = juego;
+    public PantallaOpciones(Navegable nav, Screen pantallaAnterior, boolean VENIA_DE_JUEGO) {
+        this.nav = nav;
         this.pantallaAnterior = pantallaAnterior;
         this.VENIA_DE_JUEGO = VENIA_DE_JUEGO;
     }
@@ -185,12 +186,12 @@ public class PantallaOpciones implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     Sonido.CLICK.sonar();
                     if (VENIA_DE_JUEGO) {
-                        juego.setScreen(pantallaAnterior);
+                        nav.cambiarPantalla(pantallaAnterior);
                         PantallaJuego pantallaJuego = (PantallaJuego) pantallaAnterior;
                         pantallaJuego.restaurarPosicionCamara();
                         pantallaJuego.setPausa(true);
                     } else {
-                        juego.setScreen(new PantallaMenu(juego));
+                        nav.cambiarPantalla(new PantallaMenu(nav));
                     }
                 }
             }

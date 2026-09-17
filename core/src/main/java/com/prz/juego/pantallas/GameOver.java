@@ -9,18 +9,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.prz.juego.principal.Navegable;
 import com.prz.juego.principal.Principal;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Render;
 
 public class GameOver implements Screen {
 
-    private final Principal juego;
+    private final Navegable nav;
     private Stage stage;
     private BitmapFont font;
 
-    public GameOver(Principal juego) {
-        this.juego = juego;
+    public GameOver(Navegable nav) {
+        this.nav = nav;
     }
 
     @Override
@@ -65,7 +66,7 @@ public class GameOver implements Screen {
         volverMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                juego.setScreen(new PantallaMenu(juego));
+                nav.cambiarPantalla(new PantallaMenu(nav));
             }
         });
 

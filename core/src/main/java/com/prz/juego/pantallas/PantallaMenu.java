@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+import com.prz.juego.principal.Navegable;
 import com.prz.juego.principal.Principal;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
@@ -26,10 +27,10 @@ public class PantallaMenu implements Screen {
     private BitmapFont fontTitulo;
     private BitmapFont fontSubtitulo;
     private BitmapFont fontBoton;
-    private final Principal juego;
+    private final Navegable nav;
 
-    public PantallaMenu(Principal juego) {
-        this.juego = juego;
+    public PantallaMenu(Navegable nav) {
+        this.nav = nav;
     }
 
     @Override
@@ -94,7 +95,7 @@ public class PantallaMenu implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Sonido.CLICK.sonar();
-                    juego.setScreen(new SeleccionPersonaje(juego));
+                    nav.cambiarPantalla(new SeleccionPersonaje(nav));
                 }
             }
         );
@@ -104,7 +105,7 @@ public class PantallaMenu implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Sonido.CLICK.sonar();
-                    juego.setScreen(new PantallaOpciones(juego, PantallaMenu.this, false));
+                    nav.cambiarPantalla(new PantallaOpciones(nav, PantallaMenu.this, false));
                 }
             }
         );
@@ -112,7 +113,7 @@ public class PantallaMenu implements Screen {
         btnComoJugar.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                juego.setScreen(new ComoJugar(juego));
+                nav.cambiarPantalla(new ComoJugar(nav));
             }
         });
 

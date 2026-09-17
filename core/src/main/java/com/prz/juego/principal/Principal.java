@@ -10,7 +10,7 @@ import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
 import com.prz.juego.utilidades.Sonido;
 
-public class Principal extends Game {
+public class Principal extends Game implements Navegable{
 
     @Override
     public void create() {
@@ -35,5 +35,10 @@ public class Principal extends Game {
         Sonido.dispose();
 
         GestorRecursos.dispose();
+    }
+
+    @Override
+    public void cambiarPantalla(Screen screen) {
+        setScreen(screen);
     }
 }
