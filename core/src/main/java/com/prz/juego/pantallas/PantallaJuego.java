@@ -5,9 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.prz.juego.entidades.Jugador;
-import com.prz.juego.entidades.Pablo;
 import com.prz.juego.entidades.Personajes;
-import com.prz.juego.entidades.Walter;
+import com.prz.juego.principal.Navegable;
 import com.prz.juego.principal.Principal;
 import com.prz.juego.niveles.Nivel;
 import com.prz.juego.utilidades.Entrada;
@@ -17,21 +16,19 @@ import com.prz.juego.sistemas.Hud;
 
 public class PantallaJuego implements Screen {
 
-    private Principal juego;
+    private final Navegable nav;
     private Jugador jugador;
-    private Nivel nivel;
-    private Entrada entrada;
-    private MenuPausa menuPausa;
+    private final Nivel nivel;
+    private final Entrada entrada;
+    private final MenuPausa menuPausa;
     private boolean pausado = false;
-    private Hud hud;
+    private final Hud hud;
 
-    public PantallaJuego(Principal juego, Personajes personajeElegido) {
-        this.juego = juego;
+    public PantallaJuego(Navegable nav, Personajes personajeElegido) {
+        this.nav = nav;
         this.entrada = new Entrada();
         this.nivel = new Nivel();
-        this.menuPausa = new MenuPausa(juego, this);
-
-        Gdx.input.setInputProcessor(entrada);
+        this.menuPausa = new MenuPausa(nav, this);
 
         jugador = personajeElegido.crear(50, 150);
 
@@ -39,15 +36,15 @@ public class PantallaJuego implements Screen {
 
         nivel.cargar("Niveles/Niveles/Nivel2.2.tmx", jugador);
 
-        hud = new Hud(jugador, jugador.getTexturaHud(), Render.batch);
+        hud = new Hud(jugador, Render.batch);
     }
 
     @Override
     public void show() {
         InputMultiplexer mux = new InputMultiplexer();
 
-        mux.addProcessor(entrada);
         mux.addProcessor(menuPausa.getStage());
+        mux.addProcessor(entrada);
 
         Gdx.input.setInputProcessor(mux);
     }
@@ -69,6 +66,12 @@ public class PantallaJuego implements Screen {
             nivel.update(delta, entrada);
         }
 
+        if (pausado) {
+            Gdx.input.setInputProcessor(menuPausa.getStage());
+        } else {
+            Gdx.input.setInputProcessor(entrada);
+        }
+
         nivel.renderMapa();
 
         Render.begin(nivel.getCamara());
@@ -87,7 +90,7 @@ public class PantallaJuego implements Screen {
         if(nivel.isGameOver())
         {
             Musica.parar();
-            juego.setScreen(new GameOver(juego));
+            nav.cambiarPantalla(new GameOver(nav));
         }
     }
 
@@ -95,6 +98,7 @@ public class PantallaJuego implements Screen {
     public void resize(int width, int height) {
         nivel.resize(width, height);
         menuPausa.resize(width, height);
+        hud.actualizarTamano(width, height);
     }
 
     public void setPausa(boolean valor)

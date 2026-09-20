@@ -8,8 +8,8 @@ import com.prz.juego.utilidades.Config;
 
 public class Camara {
 
-    private OrthographicCamera camera;
-    private Viewport viewport;
+    private final OrthographicCamera camera;
+    private final Viewport viewport;
     public static final float V_WIDTH = Config.ANCHO_BASE;
     public static final float V_HEIGHT = Config.ALTO_BASE;
     private float limiteMinX, limiteMaxX;

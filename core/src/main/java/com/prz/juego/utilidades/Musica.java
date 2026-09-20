@@ -7,13 +7,13 @@ public enum Musica {
 	MENU("Musicas/musica_menu.mp3"),
 	NIVEL1("Musicas/musica_nivel1.mp3");
 
-	private final String nombreArchivo;
+	private final String NOMBRE_ARCHIVO;
 	private Music music;
 	private static Musica actual;
 	private static float volumenGlobal = 0.5f;
 
-	private Musica(String nombreArchivo) {
-		this.nombreArchivo = nombreArchivo;
+	private Musica(String NOMBRE_ARCHIVO) {
+		this.NOMBRE_ARCHIVO = NOMBRE_ARCHIVO;
 	}
 
 	public void sonar() {
@@ -24,7 +24,7 @@ public enum Musica {
 		parar();
 		// Cargar si todavía no fue cargada
 		if (music == null) {
-			music = Gdx.audio.newMusic(Gdx.files.internal(nombreArchivo));
+			music = Gdx.audio.newMusic(Gdx.files.internal(NOMBRE_ARCHIVO));
 		}
 		music.setLooping(true);
 		music.setVolume(volumenGlobal);

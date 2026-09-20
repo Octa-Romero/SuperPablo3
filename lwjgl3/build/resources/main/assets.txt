@@ -7,7 +7,7 @@ Hud/pablo_hud.png
 Hud/walter_hud.png
 Menu/menuSP3.png
 Musicas/musica_menu.mp3
-Musicas/musica_nivel1.MP3
+Musicas/musica_nivel1.mp3
 Niveles/BosqueNivel2Parallax/back.png
 Niveles/BosqueNivel2Parallax/far.png
 Niveles/BosqueNivel2Parallax/middle.png

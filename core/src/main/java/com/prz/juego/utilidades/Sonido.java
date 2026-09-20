@@ -9,12 +9,12 @@ public enum Sonido {
     BOLA_FUEGO("Sonidos/bola_fuego.WAV"),
 	CLICK("Sonidos/click.WAV");
 
-	private final String nombreArchivo;
+	private final String NOMBRE_ARCHIVO;
 	private Sound sound;
 	private static float volumenGlobal = 0.5f;
 
-	private Sonido(String nombreArchivo) {
-		this.nombreArchivo = nombreArchivo;
+	private Sonido(String NOMBRE_ARCHIVO) {
+		this.NOMBRE_ARCHIVO = NOMBRE_ARCHIVO;
 	}
 
 	public void sonar() {
@@ -24,7 +24,7 @@ public enum Sonido {
 
 	private void cargar() {
 		if (sound == null) {
-			sound = Gdx.audio.newSound(Gdx.files.internal(nombreArchivo));
+			sound = Gdx.audio.newSound(Gdx.files.internal(NOMBRE_ARCHIVO));
 		}
 	}
 

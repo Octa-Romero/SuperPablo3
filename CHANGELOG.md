@@ -4,6 +4,26 @@ Todos los cambios importantes de este proyecto serán documentados en este archi
 
 [Volver al repositorio](https://github.com/Octa-Romero/SuperPablo3)
 
+## [0.3.1] - 2026-09-19
+
+### Cambiado
+- Desacoplada la navegación de pantallas mediante la interfaz `Navegable`, eliminando la dependencia directa con `Principal`.
+- Unificación del uso de `GestorRecursos` para la carga de texturas reutilizables.
+- Optimización del HUD para evitar reconstrucción innecesaria de corazones en cada frame.
+- Reorganización del manejo de entrada eliminando asignaciones redundantes de `InputProcessor`.
+- Limpieza del repositorio eliminando archivos generados (`build/`) y ajuste de `.gitignore`.
+- Unificación del versionado entre `CHANGELOG` y `gradle.properties`.
+
+### Corregido
+- Corrección en el ciclo de vida de pantallas: gestión adecuada de `dispose()` en Screens.
+- Ajuste en `InputMultiplexer` para evitar conflictos entre el juego y el menú de pausa.
+- Corrección del respawn del jugador desacoplándolo de la resolución (`Gdx.graphics.getHeight()`).
+- Actualización del HUD en `resize()` mediante `actualizarTamano()`.
+- Liberación completa de entidades en `Nivel.dispose()`.
+- Corrección en la gestión de recursos compartidos (ownership de texturas).
+
+
+
 ## [0.3.0] - 2026-09-04
 
 ### Agregado

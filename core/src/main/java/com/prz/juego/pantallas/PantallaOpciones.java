@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.prz.juego.principal.Navegable;
 import com.prz.juego.principal.Principal;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
@@ -31,9 +32,9 @@ public class PantallaOpciones implements Screen {
     private BitmapFont fontTitulo;
     private BitmapFont fontBoton;
     private BitmapFont fontVolumen;
-    private Principal juego;
-    private Screen pantallaAnterior;
-    private boolean veniaDeJuego;
+    private final Navegable nav;
+    private final Screen pantallaAnterior;
+    private final boolean VENIA_DE_JUEGO;
     private boolean mostrarResoluciones = false;
     private Table contenedor;
     private Table listaResoluciones;
@@ -48,10 +49,10 @@ public class PantallaOpciones implements Screen {
     private Texture texturaSlider;
     private Texture texturaKnob;
 
-    public PantallaOpciones(Principal juego, Screen pantallaAnterior, boolean veniaDeJuego) {
-        this.juego = juego;
+    public PantallaOpciones(Navegable nav, Screen pantallaAnterior, boolean VENIA_DE_JUEGO) {
+        this.nav = nav;
         this.pantallaAnterior = pantallaAnterior;
-        this.veniaDeJuego = veniaDeJuego;
+        this.VENIA_DE_JUEGO = VENIA_DE_JUEGO;
     }
 
     @Override
@@ -184,13 +185,13 @@ public class PantallaOpciones implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Sonido.CLICK.sonar();
-                    if (veniaDeJuego) {
-                        juego.setScreen(pantallaAnterior);
+                    if (VENIA_DE_JUEGO) {
+                        nav.cambiarPantalla(pantallaAnterior);
                         PantallaJuego pantallaJuego = (PantallaJuego) pantallaAnterior;
                         pantallaJuego.restaurarPosicionCamara();
                         pantallaJuego.setPausa(true);
                     } else {
-                        juego.setScreen(new PantallaMenu(juego));
+                        nav.cambiarPantalla(new PantallaMenu(nav));
                     }
                 }
             }
