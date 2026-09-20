@@ -7,7 +7,7 @@ Hud/pablo_hud.png
 Hud/walter_hud.png
 Menu/menuSP3.png
 Musicas/musica_menu.mp3
-Musicas/musica_nivel1.MP3
+Musicas/musica_nivel1.mp3
 Niveles/BosqueNivel2Parallax/back.png
 Niveles/BosqueNivel2Parallax/far.png
 Niveles/BosqueNivel2Parallax/middle.png
@@ -18,10 +18,10 @@ Niveles/Niveles/Level 2.tmx
 Niveles/Niveles/Level1.tmx
 Niveles/Niveles/Level2.tmx
 Niveles/Niveles/Nivel 2.tmx
+Niveles/Niveles/Nivel2.1.tmx
+Niveles/Niveles/Nivel2.2.1.tmx
+Niveles/Niveles/Nivel2.2.tmx
 Niveles/Niveles/Nivel2.tmx
-Niveles/Niveles/hubTilset.tsx
-Niveles/Niveles/tileSetHub.tsx
-Niveles/Niveles/tileset.tsx
 Niveles/Tilesets/1.tsx
 Niveles/Tilesets/Background Parallax 1/Level_1.png
 Niveles/Tilesets/Background Parallax 1/Level_2.png
@@ -38,7 +38,28 @@ Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_14 AM (
 Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_20 AM (6) (1).png
 Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_21 AM (7) (1).png
 Niveles/Tilesets/Bridges.tsx
+Niveles/Tilesets/Cave Tileset Pack.rar
+Niveles/Tilesets/Cave Tileset Pack/Aseprite files/CaveBG.aseprite
+Niveles/Tilesets/Cave Tileset Pack/Aseprite files/CaveG.aseprite
+Niveles/Tilesets/Cave Tileset Pack/Aseprite files/ParallaxCave1.aseprite
+Niveles/Tilesets/Cave Tileset Pack/Aseprite files/ParallaxCave2.aseprite
+Niveles/Tilesets/Cave Tileset Pack/Aseprite files/ParallaxCave3.aseprite
+Niveles/Tilesets/Cave Tileset Pack/Aseprite files/ParallaxCave4.aseprite
+Niveles/Tilesets/Cave Tileset Pack/PNG files/CaveBG.png
+Niveles/Tilesets/Cave Tileset Pack/PNG files/CaveG.png
+Niveles/Tilesets/Cave Tileset Pack/PNG files/ParallaxCave1.png
+Niveles/Tilesets/Cave Tileset Pack/PNG files/ParallaxCave2.png
+Niveles/Tilesets/Cave Tileset Pack/PNG files/ParallaxCave3.png
+Niveles/Tilesets/Cave Tileset Pack/PNG files/ParallaxCave4.png
+Niveles/Tilesets/CaveAssetsMaaot.zip
+Niveles/Tilesets/CaveAssetsMaaot/Assets 1024 Cave/Cave - BigRocks1.png
+Niveles/Tilesets/CaveAssetsMaaot/Assets 1024 Cave/Cave - Floor.png
+Niveles/Tilesets/CaveAssetsMaaot/Assets 1024 Cave/Cave - Platforms.png
+Niveles/Tilesets/CaveAssetsMaaot/Assets 1024 Cave/Cave - RockCombinations1.png
+Niveles/Tilesets/CaveAssetsMaaot/Assets 1024 Cave/Cave - SmallRocks.png
+Niveles/Tilesets/CaveAssetsMaaot/Assets 1024 Cave/Square - Black.jpg
 Niveles/Tilesets/Cueva.tsx
+Niveles/Tilesets/Dark hand.png
 Niveles/Tilesets/MorningSheet.png
 Niveles/Tilesets/Parallax_Backgrounds_Cave/0.png
 Niveles/Tilesets/Parallax_Backgrounds_Cave/1.png
@@ -48,12 +69,20 @@ Niveles/Tilesets/Parallax_Backgrounds_Cave/4.png
 Niveles/Tilesets/Parallax_Backgrounds_Cave/5.png
 Niveles/Tilesets/Parallax_Backgrounds_Cave/6.png
 Niveles/Tilesets/Parallax_Backgrounds_Cave/7.png
+Niveles/Tilesets/Textures-16.png
 Niveles/Tilesets/TileSetForest2.tsx
+Niveles/Tilesets/bosqueGnomo.png
+Niveles/Tilesets/crystal cave tiles.png
+Niveles/Tilesets/crystal crab.png
+Niveles/Tilesets/cuevaTilesets.tsx
+Niveles/Tilesets/cuevaTilesets2.tsx
 Niveles/Tilesets/foresTileset.tsx
+Niveles/Tilesets/image.png
 Niveles/Tilesets/lvl2.png
 Niveles/Tilesets/morning_adventures_tileset_16x16.png
 Niveles/Tilesets/morning_adventures_tileset_16x16.tsx
 Niveles/Tilesets/propsFores.png
+Niveles/Tilesets/sueloTextura.tsx
 Niveles/Tilesets/tileset.png
 Personajes/Pablo/ataque_pablo.png
 Personajes/Pablo/pablo.png

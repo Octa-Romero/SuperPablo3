@@ -37,7 +37,7 @@ public class PantallaJuego implements Screen {
 
         jugador.setEntrada(entrada);
 
-        nivel.cargar("Niveles/Niveles/Level1.tmx", jugador);
+        nivel.cargar("Niveles/Niveles/Nivel2.2.tmx", jugador);
 
         hud = new Hud(jugador, jugador.getTexturaHud(), Render.batch);
     }
