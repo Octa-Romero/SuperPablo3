@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.principal.Navegable;
 import com.prz.juego.principal.Principal;
+import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Render;
 import com.prz.juego.entidades.Personajes;
@@ -20,7 +22,8 @@ public class SeleccionPersonaje implements Screen {
     private final Navegable nav;
     private Stage stage;
     private BitmapFont font;
-
+    private BitmapFont fontBoton;
+    private Imagen fondo;
     private Personajes personajeSeleccionado;
     private TextButton btnComenzar;
 
@@ -32,10 +35,49 @@ public class SeleccionPersonaje implements Screen {
     public void show() {
         stage = new Stage(new FitViewport(Config.ANCHO_BASE, Config.ALTO_BASE));
         Gdx.input.setInputProcessor(stage);
+        inicializarFuentes();
+        inicializarFondo();
 
-        font = new BitmapFont();
 
         crearInterfaz();
+    }
+
+    private void inicializarFuentes() {
+
+        FreeTypeFontGenerator titulo = new FreeTypeFontGenerator(Gdx.files.internal("assets/Fuentes/alagard.ttf"));
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parametro = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parametro.size = 48;
+        parametro.color = Color.WHITE;
+        parametro.shadowOffsetX = 3;
+        parametro.shadowOffsetY = 3;
+        parametro.shadowColor = new Color(0, 0, 0, 0.9f);
+        font = titulo.generateFont(parametro);
+        titulo.dispose();
+
+
+        FreeTypeFontGenerator boton = new FreeTypeFontGenerator( Gdx.files.internal( "assets/Fuentes/alagard.ttf" ) );
+        FreeTypeFontGenerator.FreeTypeFontParameter parametroBoton = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parametroBoton.size = 28;
+        parametroBoton.color = Color.WHITE;
+        parametroBoton.shadowOffsetX = 2;
+        parametroBoton.shadowOffsetY = 2;
+        parametroBoton.shadowColor = new Color(0, 0, 0, 0.9f);
+        fontBoton = boton.generateFont(parametroBoton);
+        boton.dispose();
+    }
+
+    private void inicializarFondo() {
+        fondo = new Imagen("Menu/seleccionPersonaje.png");
+        actualizarFondo();
+    }
+
+    private void actualizarFondo() {
+
+        float ancho = stage.getViewport().getWorldWidth();
+        float alto = stage.getViewport().getWorldHeight();
+        fondo.setSize(ancho, alto); fondo.setPosition(0, 0);
     }
 
     private void crearInterfaz() {
@@ -48,10 +90,10 @@ public class SeleccionPersonaje implements Screen {
 
         Label titulo = new Label("SELECCIÓN DE PERSONAJE",
             new Label.LabelStyle(font, Color.WHITE));
-        titulo.setFontScale(2f);
+
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = font;
+        style.font = fontBoton;
         style.fontColor = Color.WHITE;
         style.overFontColor = Color.GOLD;
         style.downFontColor = Color.RED;
@@ -101,7 +143,9 @@ public class SeleccionPersonaje implements Screen {
     @Override
     public void render(float delta) {
         Render.limpiarPantalla();
-
+        Render.begin(stage.getCamera());
+        fondo.dibujar(Render.batch);
+        Render.end();
         stage.act(delta);
         stage.draw();
     }
@@ -123,5 +167,7 @@ public class SeleccionPersonaje implements Screen {
     public void dispose() {
         stage.dispose();
         font.dispose();
+        fontBoton.dispose();
+        fondo.dispose();
     }
 }

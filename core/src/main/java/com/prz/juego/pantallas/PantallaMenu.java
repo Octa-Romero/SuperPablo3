@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 import com.prz.juego.principal.Navegable;
 import com.prz.juego.principal.Principal;
@@ -63,14 +64,49 @@ public class PantallaMenu implements Screen {
     }
 
     private void inicializarFuentes() {
-        fontTitulo = new BitmapFont();
-        fontTitulo.getData().setScale(5f);
 
-        fontSubtitulo = new BitmapFont();
-        fontSubtitulo.getData().setScale(3f);
+        String tildes = FreeTypeFontGenerator.DEFAULT_CHARS + "áéíóúÁÉÍÓÚñÑüÜ¿¡";
 
-        fontBoton = new BitmapFont();
-        fontBoton.getData().setScale(2f);
+        FreeTypeFontGenerator titulo = new FreeTypeFontGenerator(Gdx.files.internal("assets/Fuentes/alagard.ttf"));
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parametro = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parametro.size = 64;
+        parametro.color = Color.WHITE;
+        parametro.characters = tildes;
+
+        fontTitulo = titulo.generateFont(parametro);
+
+        titulo.dispose();
+
+
+        FreeTypeFontGenerator subtitulo =
+            new FreeTypeFontGenerator(
+                Gdx.files.internal("fuentes/alagard.ttf")
+            );
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parametroSubtitulo =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parametroSubtitulo.size = 36;
+
+        fontSubtitulo = subtitulo.generateFont(parametroSubtitulo);
+
+        subtitulo.dispose();
+
+        FreeTypeFontGenerator boton =
+            new FreeTypeFontGenerator(
+                Gdx.files.internal("fuentes/alagard.ttf")
+            );
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parametroBoton =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parametroBoton.size = 28;
+
+        fontBoton = boton.generateFont(parametroBoton);
+
+        boton.dispose();
     }
 
     private void crearInterfaz() {

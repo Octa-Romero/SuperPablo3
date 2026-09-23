@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -70,7 +71,7 @@ public class PantallaOpciones implements Screen {
     }
 
     private void inicializarFondo() {
-        fondo = new Imagen("Menu/menuSP3.png");
+        fondo = new Imagen("Menu/fondoAjustes.png");
         actualizarFondo();
     }
 
@@ -82,15 +83,57 @@ public class PantallaOpciones implements Screen {
         fondo.setPosition(0, 0);
     }
 
+
     private void inicializarFuentes() {
-        fontTitulo = new BitmapFont();
-        fontTitulo.getData().setScale(3.5f);
 
-        fontBoton = new BitmapFont();
-        fontBoton.getData().setScale(2f);
+        FreeTypeFontGenerator titulo =
+            new FreeTypeFontGenerator(
+                Gdx.files.internal("assets/Fuentes/alagard.ttf")
+            );
 
-        fontVolumen = new BitmapFont();
-        fontVolumen.getData().setScale(1.5f);
+        FreeTypeFontGenerator.FreeTypeFontParameter parametroTitulo =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parametroTitulo.size = 56;
+        parametroTitulo.color = Color.WHITE;
+        parametroTitulo.shadowOffsetX = 3;
+        parametroTitulo.shadowOffsetY = 3;
+        parametroTitulo.shadowColor = new Color(0, 0, 0, 0.9f);
+
+        fontTitulo = titulo.generateFont(parametroTitulo);
+
+        titulo.dispose();
+
+
+        FreeTypeFontGenerator generadorBoton =
+            new FreeTypeFontGenerator(
+                Gdx.files.internal("assets/Fuentes/alagard.ttf")
+            );
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parametroBoton =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parametroBoton.size = 32;
+        parametroBoton.color = Color.WHITE;
+        parametroBoton.shadowOffsetX = 2;
+        parametroBoton.shadowOffsetY = 2;
+        parametroBoton.shadowColor = new Color(0, 0, 0, 0.9f);
+
+        fontBoton = generadorBoton.generateFont(parametroBoton);
+
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parametroVolumen =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parametroVolumen.size = 24;
+        parametroVolumen.color = Color.WHITE;
+        parametroVolumen.shadowOffsetX = 2;
+        parametroVolumen.shadowOffsetY = 2;
+        parametroVolumen.shadowColor = new Color(0, 0, 0, 0.9f);
+
+        fontVolumen = generadorBoton.generateFont(parametroVolumen);
+
+        generadorBoton.dispose();
     }
 
     private void crearUI() {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -13,11 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.principal.Navegable;
 import com.prz.juego.principal.Principal;
+import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Render;
 
 public class ComoJugar implements Screen {
 
+    private Imagen fondo;
     private final Navegable nav;
     private Stage stage;
     private BitmapFont font;
@@ -29,10 +32,25 @@ public class ComoJugar implements Screen {
     @Override
     public void show() {
         inicializarStage();
+        inicializarFondo();
         inicializarFuentes();
         crearInterfaz();
 
         Gdx.input.setInputProcessor(stage);
+    }
+
+    private void inicializarFondo() {
+        fondo = new Imagen("Menu/fondoComoJugar.png");
+        actualizarFondo();
+    }
+
+    private void actualizarFondo() {
+        float w = stage.getViewport().getWorldWidth();
+        float h = stage.getViewport().getWorldHeight();
+
+        fondo.setSize(w, h);
+        fondo.setPosition(0, 0);
+
     }
 
     private void inicializarStage() {
@@ -40,7 +58,19 @@ public class ComoJugar implements Screen {
     }
 
     private void inicializarFuentes() {
-        font = new BitmapFont();
+        FreeTypeFontGenerator titulo = new FreeTypeFontGenerator(Gdx.files.internal("assets/Fuentes/alagard.ttf"));
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parametro = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parametro.size = 32;
+        parametro.color = Color.WHITE;
+        parametro.shadowOffsetX = 3;
+        parametro.shadowOffsetY = 3;
+        parametro.shadowColor = new Color(0, 0, 0, 0.9f);
+
+        font = titulo.generateFont(parametro);
+
+        titulo.dispose();
     }
 
     private void crearInterfaz() {
@@ -118,6 +148,12 @@ public class ComoJugar implements Screen {
     @Override
     public void render(float delta) {
         Render.limpiarPantalla();
+
+        Render.begin(stage.getCamera());
+
+        fondo.dibujar(Render.batch);
+
+        Render.end();
 
         stage.act(delta);
         stage.draw();

@@ -1,11 +1,15 @@
 Enemigos/Bicho1/ataque_bicho1.png
 Enemigos/Bicho1/bicho1.png
+Fuentes/alagard.ttf
 Hud/corazon_lleno.png
 Hud/corazon_mitad.png
 Hud/corazon_vacio.png
 Hud/pablo_hud.png
 Hud/walter_hud.png
+Menu/fondoAjustes.png
+Menu/fondoComoJugar.png
 Menu/menuSP3.png
+Menu/seleccionPersonaje.png
 Musicas/musica_menu.mp3
 Musicas/musica_nivel1.mp3
 Niveles/BosqueNivel2Parallax/back.png
@@ -15,6 +19,7 @@ Niveles/Niveles.tiled-project
 Niveles/Niveles.tiled-session
 Niveles/Niveles/Hub.tmx
 Niveles/Niveles/Level 2.tmx
+Niveles/Niveles/Level1 - copia.tmx
 Niveles/Niveles/Level1.tmx
 Niveles/Niveles/Level2.tmx
 Niveles/Niveles/Nivel 2.tmx
@@ -22,6 +27,8 @@ Niveles/Niveles/Nivel2.1.tmx
 Niveles/Niveles/Nivel2.2.1.tmx
 Niveles/Niveles/Nivel2.2.tmx
 Niveles/Niveles/Nivel2.tmx
+Niveles/Niveles/Nivel3.1.tmx
+Niveles/Niveles/Nivel3.tmx
 Niveles/Tilesets/1.tsx
 Niveles/Tilesets/Background Parallax 1/Level_1.png
 Niveles/Tilesets/Background Parallax 1/Level_2.png
@@ -37,6 +44,8 @@ Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_06 AM (
 Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_14 AM (5).png
 Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_20 AM (6) (1).png
 Niveles/Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_21 AM (7) (1).png
+Niveles/Tilesets/Background_0.png
+Niveles/Tilesets/Background_1.png
 Niveles/Tilesets/Bridges.tsx
 Niveles/Tilesets/Cave Tileset Pack.rar
 Niveles/Tilesets/Cave Tileset Pack/Aseprite files/CaveBG.aseprite
@@ -59,7 +68,38 @@ Niveles/Tilesets/CaveAssetsMaaot/Assets 1024 Cave/Cave - RockCombinations1.png
 Niveles/Tilesets/CaveAssetsMaaot/Assets 1024 Cave/Cave - SmallRocks.png
 Niveles/Tilesets/CaveAssetsMaaot/Assets 1024 Cave/Square - Black.jpg
 Niveles/Tilesets/Cueva.tsx
+Niveles/Tilesets/Cursed Fishing Village.zip
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Background Gradient.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Background.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Enemy/Enemy - Attack.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Enemy/Enemy – Idle.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Enemy/Enemy – Walk.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Enviroment.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Player/Attack.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Player/Idle.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Player/Jump - Start.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Player/Jump – Flying.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Player/Run.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Props.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/Tileset.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/casa1.png
+Niveles/Tilesets/Cursed Fishing Village/Cursed Fishing Village/casa2.png
 Niveles/Tilesets/Dark hand.png
+Niveles/Tilesets/Enviroment.tsx
+Niveles/Tilesets/Final.zip
+Niveles/Tilesets/Final/Final/Background_0.png
+Niveles/Tilesets/Final/Final/Background_1.png
+Niveles/Tilesets/Final/Final/Grass_background_1.png
+Niveles/Tilesets/Final/Final/Grass_background_2.png
+Niveles/Tilesets/Final/Final/Salt.png
+Niveles/Tilesets/Final/Final/Social/Autor_note.txt
+Niveles/Tilesets/Final/Final/Social/moon.png
+Niveles/Tilesets/Final/Final/Social/test_1.png
+Niveles/Tilesets/Final/Final/Social/test_2.png
+Niveles/Tilesets/Final/Final/Tiles.png
+Niveles/Tilesets/Final/Final/brush.png
+Niveles/Tilesets/Grass_background_1.png
+Niveles/Tilesets/Grass_background_2.png
 Niveles/Tilesets/MorningSheet.png
 Niveles/Tilesets/Parallax_Backgrounds_Cave/0.png
 Niveles/Tilesets/Parallax_Backgrounds_Cave/1.png
@@ -69,21 +109,394 @@ Niveles/Tilesets/Parallax_Backgrounds_Cave/4.png
 Niveles/Tilesets/Parallax_Backgrounds_Cave/5.png
 Niveles/Tilesets/Parallax_Backgrounds_Cave/6.png
 Niveles/Tilesets/Parallax_Backgrounds_Cave/7.png
+Niveles/Tilesets/Props.tsx
+Niveles/Tilesets/Props2.tsx
 Niveles/Tilesets/Textures-16.png
 Niveles/Tilesets/TileSetForest2.tsx
+Niveles/Tilesets/[FREE] Mine Tileset.zip
+Niveles/Tilesets/[FREE] Mine Tileset/1. Read Me.txt
+Niveles/Tilesets/[FREE] Mine Tileset/2. How To ... Part 1.png
+Niveles/Tilesets/[FREE] Mine Tileset/3. How To ... Part 2.png
+Niveles/Tilesets/[FREE] Mine Tileset/4. License.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 16p/0_Template_Tileset_16.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 16p/1_Mine_Tileset_1_16.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 16p/2_Mine_Tileset_1_Background_16.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 16p/3_Far_Background_Tile_16.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 16p/4_Foreground_1B_Tile_16.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 16p/4_Foreground_1_Tile_16.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 16p/Mine_Tileset_1B_16.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 16p/Mine_Tileset_1B_Background_16.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 32p/0_Template_Tileset.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 32p/1_Mine_Tileset_1.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 32p/2_Mine_Tileset_1_Background.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 32p/3_Far_Background_Tile.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 32p/4_Foreground_1B_Tile.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 32p/4_Foreground_1_Tile.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 32p/Mine_Tileset_1B.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/5. Mine Tileset - Starter Pack 32p/Mine_Tileset_1B_Background.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Jump1_v1_16.gif
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Jump1_v1_16_frames/1.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Jump1_v1_16_frames/2.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Jump1_v1_16_frames/3.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Jump1_v1_16_frames/4.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Jump1_v1_16_frames/5.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Jump1_v1_16_frames/6.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Jump1_v1_16_frames/7.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Jump1_v1_16_spritesheet.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Walk1_v1_16.gif
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Walk1_v1_16_frames/1.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Walk1_v1_16_frames/2.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Walk1_v1_16_frames/3.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 16p/Anim_Robot_Walk1_v1_16_spritesheet.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Jump1_v1.1_frames/1.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Jump1_v1.1_frames/2.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Jump1_v1.1_frames/3.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Jump1_v1.1_frames/4.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Jump1_v1.1_frames/5.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Jump1_v1.1_frames/6.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Jump1_v1.1_frames/7.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Jump1_v1.1_frames/8.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Jump1_v1.1_spritesheet.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Jump1_v1.gif
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Walk1_v1.1_frames/1.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Walk1_v1.1_frames/2.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Walk1_v1.1_frames/3.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Walk1_v1.1_frames/4.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Walk1_v1.1_frames/5.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Walk1_v1.1_frames/6.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Walk1_v1.1_spritesheet.png
+Niveles/Tilesets/[FREE] Mine Tileset/FREE/6. Character Animations 32p/Anim_Robot_Walk1_v1.gif
+Niveles/Tilesets/arbol nivel 3.png
+Niveles/Tilesets/arbol3.png
+Niveles/Tilesets/arbolNivel3.png
+Niveles/Tilesets/arbolRuinas.png
+Niveles/Tilesets/background.png
 Niveles/Tilesets/bosqueGnomo.png
 Niveles/Tilesets/crystal cave tiles.png
 Niveles/Tilesets/crystal crab.png
 Niveles/Tilesets/cuevaTilesets.tsx
 Niveles/Tilesets/cuevaTilesets2.tsx
+Niveles/Tilesets/fondo2 Nivel 3.png
 Niveles/Tilesets/foresTileset.tsx
+Niveles/Tilesets/gothicvania church files.zip
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/ENVIRONMENT/backgrounds.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/ENVIRONMENT/column.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/ENVIRONMENT/tileset.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/ENVIRONMENT/title-screen.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/PSD/concepts.psd
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/PSD/title-screen.psd
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/angel.ase
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/atlas.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/attack/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/attack/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/attack/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/attack/sprites/f-03.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/attack/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/idle/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/idle/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/idle/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/idle/sprites/f-03.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/idle/sprites/f-04.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/idle/sprites/f-05.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/idle/sprites/f-06.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/idle/sprites/f-07.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/idle/sprites/f-08.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/angel/idle/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/atlas.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/burning-ghoul.ase
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 1/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 1/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 1/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 1/sprites/f-03.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 1/sprites/f-04.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 1/sprites/f-05.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 1/sprites/f-06.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 1/sprites/f-07.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 1/sprites/f-08.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 1/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 2/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 2/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 2/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 2/sprites/f-03.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 2/sprites/f-04.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 2/sprites/f-05.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 2/sprites/f-06.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 2/sprites/f-07.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 2/sprites/f-08.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/burning-ghoul/run 2/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death-preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death-sprites/enemy-death1.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death-sprites/enemy-death2.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death-sprites/enemy-death3.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death-sprites/enemy-death4.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death-sprites/enemy-death5.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death-sprites/enemy-death6.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death-sprites/enemy-death7.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death-sprites/enemy-death8.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death-sprites/enemy-death9.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death-spritesheet/enemy-death.json
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death-spritesheet/enemy-death.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/enemy-death/enemy-death.ase
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/fireball/fireball-preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/fireball/fireball-sprites/fireball1.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/fireball/fireball-sprites/fireball2.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/fireball/fireball-sprites/fireball3.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/fireball/fireball-spritesheet/fireball.json
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/fireball/fireball-spritesheet/fireball.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/fx/fireball/fireball.ase
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Flying Kick/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Flying Kick/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Flying Kick/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Flying Kick/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Hurt/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Hurt/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Hurt/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Hurt/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Idle/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Idle/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Idle/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Idle/sprites/f-03.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Idle/sprites/f-04.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Idle/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Kick/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Kick/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Kick/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Kick/sprites/f-03.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Kick/sprites/f-04.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Kick/sprites/f-05.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Kick/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Punch/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Punch/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Punch/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Punch/sprites/f-03.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Punch/sprites/f-04.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Punch/sprites/f-05.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Punch/sprites/f-06.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Punch/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Walk/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Walk/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Walk/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Walk/sprites/f-03.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Walk/sprites/f-04.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Walk/sprites/f-05.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Walk/sprites/f-06.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/Walk/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/atlas.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/chrouch/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/chrouch/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/chrouch/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/chrouch/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/crouch-kick/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/crouch-kick/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/crouch-kick/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/crouch-kick/sprites/f-03.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/crouch-kick/sprites/f-04.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/crouch-kick/sprites/f-05.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/crouch-kick/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/fall/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/fall/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/fall/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/fall/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/jump/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/jump/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/jump/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/jump/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/player/player.ase
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Fire/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Fire/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Fire/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Fire/sprites/f-03.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Fire/sprites/f-04.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Fire/sprites/f-05.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Fire/sprites/f-06.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Fire/sprites/f-07.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Fire/sprites/f-08.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Fire/sprites/f-09.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Fire/sprites/f-10.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Fire/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Idle/preview.gif
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Idle/sprites/f-01.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Idle/sprites/f-02.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Idle/sprites/f-03.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Idle/sprites/f-04.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Idle/sprites/f-05.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/Idle/spritesheet.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/atlas.png
+Niveles/Tilesets/gothicvania church files/gothicvania church files/Assets/SPRITES/wizard/wizard.ase
+Niveles/Tilesets/gothicvania church files/gothicvania church files/looking-for-more.pdf
+Niveles/Tilesets/gothicvania church files/gothicvania church files/public-license.pdf
+Niveles/Tilesets/gothicvania-cemetery-files.zip
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/EnemyDeath/Sprites/enemy-death-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/EnemyDeath/Sprites/enemy-death-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/EnemyDeath/Sprites/enemy-death-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/EnemyDeath/Sprites/enemy-death-4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/EnemyDeath/Sprites/enemy-death-5.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/EnemyDeath/preview.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/ghost/Preview/ghost-halo.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/ghost/Preview/ghost.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/ghost/Sprites/ghost-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/ghost/Sprites/ghost-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/ghost/Sprites/ghost-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/ghost/Sprites/ghost-4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/ghost/SpritesHalo/ghost-halo-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/ghost/SpritesHalo/ghost-halo-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/ghost/SpritesHalo/ghost-halo-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/ghost/SpritesHalo/ghost-halo-4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/hell-gato/Sprites/hell-gato-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/hell-gato/Sprites/hell-gato-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/hell-gato/Sprites/hell-gato-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/hell-gato/Sprites/hell-gato-4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/hell-gato/preview.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Previews/skeleton-clothed.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Previews/skeleton-rise-clothed.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Previews/skeleton-rise.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Previews/skeleton.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/Walk/skeleton-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/Walk/skeleton-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/Walk/skeleton-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/Walk/skeleton-4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/Walk/skeleton-5.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/Walk/skeleton-6.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/Walk/skeleton-7.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/Walk/skeleton-8.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/walk-clothed/skeleton-clothed-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/walk-clothed/skeleton-clothed-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/walk-clothed/skeleton-clothed-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/walk-clothed/skeleton-clothed-4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/walk-clothed/skeleton-clothed-5.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/walk-clothed/skeleton-clothed-6.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/walk-clothed/skeleton-clothed-7.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/Sprites/walk-clothed/skeleton-clothed-8.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/skeleton-rise-clothed/skeleton-rise-clothed-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/skeleton-rise-clothed/skeleton-rise-clothed-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/skeleton-rise-clothed/skeleton-rise-clothed-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/skeleton-rise-clothed/skeleton-rise-clothed-4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/skeleton-rise-clothed/skeleton-rise-clothed-5.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/skeleton-rise-clothed/skeleton-rise-clothed-6.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/skeleton-rise/skeleton-rise-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/skeleton-rise/skeleton-rise-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/skeleton-rise/skeleton-rise-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/skeleton-rise/skeleton-rise-4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/skeleton-rise/skeleton-rise-5.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Enemies/skeleton/skeleton-rise/skeleton-rise-6.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/Death/frame1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/Death/frame2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/Death/frame3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/Death/frame4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/Death/frame5.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/Death/frame6.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/Death/frame7.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-attack/frame1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-attack/frame2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-attack/frame3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-attack/frame4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-attack/frame5.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-attack/frame6.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-crouch/hero-crouch.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-hurt/hero-hurt.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-idle/hero-idle-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-idle/hero-idle-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-idle/hero-idle-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-idle/hero-idle-4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-jump/hero-jump-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-jump/hero-jump-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-jump/hero-jump-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-jump/hero-jump-4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-run/hero-run-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-run/hero-run-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-run/hero-run-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-run/hero-run-4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-run/hero-run-5.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Sprites/hero-run/hero-run-6.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Spritesheets/death.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Spritesheets/hero-attack.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Spritesheets/hero-crouch.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Spritesheets/hero-hurt.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Spritesheets/hero-idle.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Spritesheets/hero-jump.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/Spritesheets/hero-run.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/previews/death.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/previews/hero-attack.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/previews/hero-crouch.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/previews/hero-hurt.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/previews/hero-idle.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/previews/hero-jump.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Characters/Hero/previews/hero-run.gif
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/background.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/graveyard.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/mountains.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/objects.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/sliced-objects/bush-large.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/sliced-objects/bush-small.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/sliced-objects/statue.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/sliced-objects/stone-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/sliced-objects/stone-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/sliced-objects/stone-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/sliced-objects/stone-4.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/sliced-objects/tree-1.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/sliced-objects/tree-2.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/sliced-objects/tree-3.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/tileset-sliced.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Environment/tileset.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/concepts.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/environment/environment.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/misc/title-screen.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/old-concept.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/sprites/enemy-death.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/sprites/ghost.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/sprites/hell-gato.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/sprites/hero/hero-attack.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/sprites/hero/hero-crouch.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/sprites/hero/hero-hurt.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/sprites/hero/hero-idle.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/sprites/hero/hero-jump.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/sprites/hero/hero-run.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/sprites/skeleton-rise.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/PSD/sprites/skeleton.psd
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/atlas/atlas-props.json
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/atlas/atlas-props.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/atlas/atlas-props.tps
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/atlas/atlas.json
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/atlas/atlas.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/atlas/atlas.tps
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/environment/bg-graveyard.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/environment/bg-moon.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/environment/bg-mountains.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/environment/objects.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/environment/tileset.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/maps/map.json
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/sounds/attack.ogg
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/sounds/hurt.ogg
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/sounds/jump.ogg
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/sounds/kill.ogg
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/sounds/rise.ogg
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/sounds/sci_fi_platformer04_main_loop.ogg
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/sprites/credits-text.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/sprites/game-over.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/sprites/instructions.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/sprites/loading.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/sprites/press-enter-text.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/assets/sprites/title-screen.png
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/game.js
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/index.html
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Phaser Demo/phaser.min.js
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Looking-for-more.pdf
+Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/public-license.pdf
+Niveles/Tilesets/graveyard.png
+Niveles/Tilesets/hubFondo.png
 Niveles/Tilesets/image.png
 Niveles/Tilesets/lvl2.png
+Niveles/Tilesets/montañasFondo Nivel 2.png
 Niveles/Tilesets/morning_adventures_tileset_16x16.png
 Niveles/Tilesets/morning_adventures_tileset_16x16.tsx
+Niveles/Tilesets/mountains.png
 Niveles/Tilesets/propsFores.png
+Niveles/Tilesets/puebloPesqueeroTileSet.tsx
+Niveles/Tilesets/sueloFondo 2 Nivel 3.png
 Niveles/Tilesets/sueloTextura.tsx
+Niveles/Tilesets/tileset-sliced.tsx
 Niveles/Tilesets/tileset.png
+Niveles/Tilesets/valdoriaTileSets.tsx
 Personajes/Pablo/ataque_pablo.png
 Personajes/Pablo/pablo.png
 Personajes/Walter/orbe.png
