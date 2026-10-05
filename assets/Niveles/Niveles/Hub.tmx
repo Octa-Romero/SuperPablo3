@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="53" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="4">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="53" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="5">
  <imagelayer id="2" name="fondoHub" offsetx="0" offsety="0.00520833">
   <image source="../Tilesets/hubFondo.png" width="1707" height="960"/>
  </imagelayer>
  <objectgroup id="4" name="colisiones" locked="1">
   <object id="3" name="colisiones" x="-4" y="844" width="1706" height="114"/>
+ </objectgroup>
+ <objectgroup id="5" name="centroHub">
+  <object id="4" name="centroHub" x="828" y="721.333" width="72" height="124"/>
  </objectgroup>
 </map>

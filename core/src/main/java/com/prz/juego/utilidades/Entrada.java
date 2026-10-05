@@ -1,11 +1,12 @@
 package com.prz.juego.utilidades;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 
 public class Entrada extends InputAdapter {
 
-	private boolean arriba, derecha, izquierda, ataca, escape, f1;
+	private boolean arriba, derecha, izquierda, ataca, escape, f1, e;
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -34,6 +35,9 @@ public class Entrada extends InputAdapter {
 			f1 = true;
 		}
 
+        if(keycode == Input.Keys.E){
+            e = true;
+        }
 		return false;
 	}
 
@@ -64,6 +68,9 @@ public class Entrada extends InputAdapter {
             f1 = false;
         }
 
+        if(keycode == Input.Keys.E){
+            e = false;
+        }
 		return false;
 	}
 
@@ -102,4 +109,12 @@ public class Entrada extends InputAdapter {
 		}
 		return false;
 	}
+
+    public boolean aprietaE() {
+        if (e) {
+            e = false;
+            return true;
+        }
+        return false;
+    }
 }
