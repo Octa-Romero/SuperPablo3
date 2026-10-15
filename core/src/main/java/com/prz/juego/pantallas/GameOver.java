@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -38,7 +39,20 @@ public class GameOver implements Screen {
     }
 
     private void inicializarFuentes() {
-        font = new BitmapFont();
+        FreeTypeFontGenerator generator =
+            new FreeTypeFontGenerator(
+                Gdx.files.internal("Fuentes/alagard.ttf")
+            );
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parametro.size = 48;
+        parametro.color = Color.WHITE;
+
+        font = generator.generateFont(parametro);
+
+        generator.dispose();
     }
 
     private void crearInterfaz() {

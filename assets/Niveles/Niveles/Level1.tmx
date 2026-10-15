@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="250" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="25" nextobjectid="30">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="250" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="27" nextobjectid="30">
  <tileset firstgid="1" source="../Tilesets/sueloTextura.tsx"/>
- <group id="8" name="cielo" locked="1">
-  <imagelayer id="6" name="cielo" locked="1" offsetx="-1.56682" offsety="1.00276" parallaxx="0.02" parallaxy="0">
-   <image source="../Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_52_52 AM (1).png" width="1672" height="941"/>
-  </imagelayer>
- </group>
- <group id="17" name="montaña" locked="1" offsetx="230.303" offsety="45.4545">
-  <imagelayer id="12" name="montaña" locked="1" offsetx="38.7273" offsety="272.432" parallaxx="0.1" parallaxy="0">
-   <image source="../Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_14 AM (5).png" width="1672" height="941"/>
-  </imagelayer>
- </group>
- <group id="11" name="bosque" locked="1">
-  <imagelayer id="10" name="bosque" locked="1" offsetx="-0.483333" offsety="19.0907" parallaxx="0.3" parallaxy="0.25">
-   <image source="../Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_21 AM (7) (1).png" width="1672" height="941"/>
-  </imagelayer>
- </group>
- <objectgroup id="21" name="colisiones" locked="1">
+ <imagelayer id="6" name="cielo" locked="1" offsetx="-1.56682" offsety="1.00276" parallaxx="0" parallaxy="0">
+  <image source="../Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_52_52 AM (1).png" width="1672" height="941"/>
+ </imagelayer>
+ <imagelayer id="12" name="montaña" locked="1" offsetx="435.394" offsety="266.432" parallaxx="0.085" parallaxy="0">
+  <image source="../Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_14 AM (5).png" width="1672" height="941"/>
+ </imagelayer>
+ <imagelayer id="25" name="bosque" offsetx="1523.12" offsety="4.78767" parallaxx="0.1" parallaxy="0.25">
+  <image source="../Tilesets/Background Parallax 2/ChatGPT Image Jul 22, 2026, 09_53_21 AM (7) (1).png" width="1672" height="941"/>
+ </imagelayer>
+ <imagelayer id="26" name="Capa de Imagen 5" visible="0" offsetx="-242" offsety="182">
+  <image source="../Tilesets/montania.png" width="1800" height="941"/>
+ </imagelayer>
+ <imagelayer id="10" name="bosque" locked="1" offsetx="-1.48333" offsety="2.42403" parallaxx="0.09" parallaxy="0.25">
+  <image source="../Tilesets/montania.png" width="1800" height="941"/>
+ </imagelayer>
+ <objectgroup id="21" name="colisiones" visible="0" locked="1">
   <object id="6" name="colision1" x="0.181818" y="848" width="383.881" height="48"/>
   <object id="7" name="colision" x="384" y="785" width="159.5" height="47"/>
   <object id="8" name="colision" x="576" y="848.091" width="128.043" height="47.9526"/>

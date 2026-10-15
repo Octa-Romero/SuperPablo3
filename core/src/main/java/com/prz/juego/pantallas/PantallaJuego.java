@@ -4,10 +4,7 @@ package com.prz.juego.pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+
 import com.prz.juego.entidades.Jugador;
 import com.prz.juego.entidades.Personajes;
 import com.prz.juego.niveles.Hub;
@@ -23,44 +20,39 @@ public class PantallaJuego implements Screen {
 
     private final Navegable nav;
     private Jugador jugador;
+    private final Personajes personajeElegido;
     private final Nivel nivel;
     private final Entrada entrada;
     private final MenuPausa menuPausa;
     private boolean pausado = false;
     private final Hud hud;
-    private boolean hudActivo = true;
     private Hub hub;
-    private BitmapFont fontAlerta;
+
 
     public PantallaJuego(Navegable nav, Personajes personajeElegido) {
+        this(nav, personajeElegido, null);
+    }
+
+    public PantallaJuego(Navegable nav, Personajes personajeElegido,String rutaNivel) {
         this.nav = nav;
+        this.personajeElegido = personajeElegido;
+
         this.entrada = new Entrada();
         this.nivel = new Nivel();
         this.menuPausa = new MenuPausa(nav, this);
 
         jugador = personajeElegido.crear(50, 150);
-
         jugador.setEntrada(entrada);
-        hub = new Hub();
-        hub.cargar("Niveles/Niveles/Hub.tmx", jugador);
-        //nivel.cargar("Niveles/Niveles/nivel4.tmx", jugador);
+
+        if (rutaNivel == null) {
+            hub = new Hub();
+            hub.cargar("Niveles/Niveles/Hub.tmx", jugador);
+        } else {
+            hub = null;
+            nivel.cargar(rutaNivel, jugador);
+        }
 
         hud = new Hud(jugador, Render.batch);
-        FreeTypeFontGenerator generator =
-            new FreeTypeFontGenerator(Gdx.files.internal("assets/Fuentes/alagard.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
-            new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametro.size = 28;
-        parametro.color = Color.WHITE;
-        parametro.shadowOffsetX = 2;
-        parametro.shadowOffsetY = 2;
-        parametro.shadowColor = new Color(0, 0, 0, 0.9f);
-
-        fontAlerta = generator.generateFont(parametro);
-
-        generator.dispose();
     }
 
     @Override
@@ -88,26 +80,52 @@ public class PantallaJuego implements Screen {
         }
 
         if (!pausado) {
-            hub.update(delta, entrada);
+            if (hub != null) {
+                hub.update(delta, entrada);
+            } else {
+                nivel.update(delta, entrada);
+
+
+
+            }
         }
-        if(hub.estaEnCentroHub() && entrada.aprietaE()){
-            nav.cambiarPantalla(new SeleccionNivel(nav));
+
+        // Ir a la selección de niveles desde el Hub
+        if (!pausado && hub != null
+            && hub.estaEnCentroHub()
+            && entrada.aprietaE()) {
+
+            nav.cambiarPantalla(
+                new SeleccionNivel(nav, personajeElegido)
+            );
             return;
         }
 
-        hub.renderMapa();
+        // Dibujar el Hub o el nivel seleccionado
+        if (hub != null) {
+            hub.renderMapa();
 
-        Render.begin(hub.getCamara());
-        hub.render();
-        Render.end();
+            Render.begin(hub.getCamara());
+            hub.render();
+            hub.dibujarAlertaCentro();
+            Render.end();
 
-        Render.begin(hub.getCamara());
-        dibujarAlertaCentro();
-        Render.end();
+        } else {
+            nivel.renderMapa();
 
+            Render.begin(nivel.getCamara());
+            nivel.render();
+            Render.end();
+
+            nivel.renderDebug();
+
+            if (nivel.isGameOver()) {
+                nav.cambiarPantalla(new GameOver(nav));
+                return;
+            }
+        }
 
         hud.dibujar();
-
 
         if (pausado) {
             menuPausa.update(delta);
@@ -117,8 +135,12 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        hub.resize(width, height);
-      //  nivel.resize(width, height);
+        if (hub != null) {
+            hub.resize(width, height);
+        } else {
+            nivel.resize(width, height);
+        }
+
         menuPausa.resize(width, height);
         hud.actualizarTamano(width, height);
     }
@@ -142,25 +164,12 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void dispose() {
-        hub.dispose();
-        //nivel.dispose();
-        menuPausa.dispose();
-        fontAlerta.dispose();
-    }
-
-    private void dibujarAlertaCentro() {
-
-        if (!hub.estaEnCentroHub()) {
-            return;
+        if (hub != null) {
+            hub.dispose();
+        } else {
+            nivel.dispose();
         }
-
-        String mensaje = "PRESIONA E PARA SELECCIONAR NIVEL";
-
-        GlyphLayout layout = new GlyphLayout(fontAlerta, mensaje);
-
-        float x = (hub.getCamara().viewportWidth - layout.width) / 2f;
-        float y = 80;
-
-        fontAlerta.draw(Render.batch, mensaje, x, y);
+        menuPausa.dispose();
     }
+
 }

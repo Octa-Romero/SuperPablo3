@@ -22,6 +22,11 @@ public class Camara {
         viewport = new FitViewport(V_WIDTH, V_HEIGHT, camera);
         camera.position.set(V_WIDTH / 2f, V_HEIGHT / 2f, 0);
         camera.update();
+
+        System.out.println(
+            "Viewport: " + camera.viewportWidth + " x " + camera.viewportHeight
+                + " | Zoom: " + camera.zoom
+        );
     }
 
     public void setLimitesMapa(float anchoMapaPx, float altoMapaPx) {
@@ -33,15 +38,25 @@ public class Camara {
     }
 
     public void seguirPersonaje(float targetX, float targetY, float delta) {
-        float lerp = 10f * delta;
+        float lerp = Math.min(1f, 10f * delta);
+
         camera.position.x += (targetX - camera.position.x) * lerp;
         camera.position.y += (targetY - camera.position.y) * lerp;
 
-        if (limiteMaxX > limiteMinX) {
-            camera.position.x = MathUtils.clamp(camera.position.x, limiteMinX, limiteMaxX);
+        if (limiteMaxX <= limiteMinX) {
+            camera.position.x = limiteMinX;
+        } else {
+            camera.position.x = MathUtils.clamp(
+                camera.position.x, limiteMinX, limiteMaxX
+            );
         }
-        if (limiteMaxY > limiteMinY) {
-            camera.position.y = MathUtils.clamp(camera.position.y, limiteMinY, limiteMaxY);
+
+        if (limiteMaxY <= limiteMinY) {
+            camera.position.y = limiteMinY;
+        } else {
+            camera.position.y = MathUtils.clamp(
+                camera.position.y, limiteMinY, limiteMaxY
+            );
         }
 
         camera.update();
@@ -65,4 +80,6 @@ public class Camara {
         camera.position.y = posicionGuardadaY;
         camera.update();
     }
+
+
 }

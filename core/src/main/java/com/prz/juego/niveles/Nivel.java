@@ -43,6 +43,7 @@ public class Nivel {
         mapa = mapLoader.load(ruta);
 
         colision = new Colisiones(mapa);
+        jugador.setColisiones(colision);
 
         if(jugador instanceof Pablo){
             ((Pablo) jugador).setEntidades(entidades);
@@ -59,6 +60,7 @@ public class Nivel {
 
         float mapTotalWidth = tileWidth * mapWidthTiles;
         float mapTotalHeight = tileHeight * mapHeightTiles;
+        System.out.println("Ancho real del mapa: " + mapTotalWidth);
 
         camara.setLimitesMapa(mapTotalWidth, mapTotalHeight);
 

@@ -110,4 +110,12 @@ public class Walter extends Jugador {
 
         ORBES.clear();
     }
+
+    @Override
+    public double getDanio() {
+        if(Math.random() < 0.25){
+            return danio*2;
+        }
+        return danio;
+    }
 }

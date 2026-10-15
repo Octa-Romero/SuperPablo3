@@ -1,10 +1,12 @@
 package com.prz.juego.pantallas;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -38,11 +40,8 @@ public class MenuPausa {
         stage.setKeyboardFocus(null);
         stage.setScrollFocus(null);
 
-        fontTitulo = new BitmapFont();
-        fontTitulo.getData().setScale(3.0f);
-
-        fontBotones = new BitmapFont();
-        fontBotones.getData().setScale(2.0f);
+        fontTitulo = crearFuente(42);
+        fontBotones = crearFuente(28);
 
         mostrar();
 
@@ -118,6 +117,24 @@ public class MenuPausa {
         stage.addActor(fondoOscuro);
         stage.addActor(panelOscuro);
         stage.addActor(contenedor);
+    }
+
+    private BitmapFont crearFuente(int tamano) {
+        FreeTypeFontGenerator generator =
+            new FreeTypeFontGenerator(
+                Gdx.files.internal("Fuentes/alagard.ttf")
+            );
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parametro.size = tamano;
+        parametro.color = Color.WHITE;
+
+        BitmapFont fuente = generator.generateFont(parametro);
+        generator.dispose();
+
+        return fuente;
     }
 
     private void crearFondos() {

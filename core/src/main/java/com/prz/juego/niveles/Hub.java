@@ -1,6 +1,7 @@
 package com.prz.juego.niveles;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
@@ -10,6 +11,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.prz.juego.utilidades.Render;
 import com.prz.juego.entidades.Entidad;
 import com.prz.juego.entidades.Enemigo;
 import com.prz.juego.entidades.Jugador;
@@ -19,7 +23,9 @@ import com.prz.juego.sistemas.Camara;
 import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Debug;
 import com.prz.juego.utilidades.Entrada;
-import com.prz.juego.utilidades.Render;
+
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -33,6 +39,7 @@ public class Hub {
     private Colisiones colision;
     private ShapeRenderer shapeRenderer;
     private Rectangle centroHub;
+    private BitmapFont fontAlerta;
 
     private final ArrayList<Entidad> entidades = new ArrayList<>();
 
@@ -40,6 +47,8 @@ public class Hub {
         camara = new Camara();
         this.jugador = jugador;
         shapeRenderer = new ShapeRenderer();
+
+        inicializarFuenteAlerta();
 
         TmxMapLoader mapLoader = new TmxMapLoader();
         mapa = mapLoader.load(ruta);
@@ -66,6 +75,25 @@ public class Hub {
         camara.setLimitesMapa(mapTotalWidth, mapTotalHeight);
 
         mapRenderer = new OrthogonalTiledMapRenderer(mapa, 1f);
+    }
+
+    private void inicializarFuenteAlerta() {
+        FreeTypeFontGenerator generator =
+            new FreeTypeFontGenerator(
+                Gdx.files.internal("Fuentes/alagard.ttf")
+            );
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parametro = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parametro.size = 28;
+        parametro.color = Color.WHITE;
+        parametro.shadowOffsetX = 2;
+        parametro.shadowOffsetY = 2;
+        parametro.shadowColor = new Color(0, 0, 0, 0.9f);
+
+        fontAlerta = generator.generateFont(parametro);
+
+        generator.dispose();
     }
 
     public void renderMapa() {
@@ -162,6 +190,8 @@ public class Hub {
         if (shapeRenderer != null) {
             shapeRenderer.dispose();
         }
+
+        fontAlerta.dispose();
     }
 
     public boolean estaEnCentroHub() {
@@ -183,5 +213,20 @@ public class Hub {
 
     public void restaurarPosicionCamara() {
         camara.restaurarPosicion();
+    }
+
+    public void dibujarAlertaCentro() {
+        if (!estaEnCentroHub()) {
+            return;
+        }
+
+        String mensaje = "PRESIONA E PARA SELECCIONAR NIVEL";
+
+        GlyphLayout layout = new GlyphLayout(fontAlerta, mensaje);
+
+        float x = (getCamara().viewportWidth - layout.width) / 2f;
+        float y = 80;
+
+        fontAlerta.draw(Render.batch, mensaje, x, y);
     }
 }

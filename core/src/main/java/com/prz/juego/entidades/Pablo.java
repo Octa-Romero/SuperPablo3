@@ -92,6 +92,14 @@ public class Pablo extends Jugador {
 		}
 	}
 
+    @Override
+
+    public void saltar() {
+        velocidadY = 300*2;
+        enSuelo = false;
+        Sonido.SALTO.sonar();
+    }
+
 	private void comprobarDanio() {
 		if (entidades == null) {
 			return;

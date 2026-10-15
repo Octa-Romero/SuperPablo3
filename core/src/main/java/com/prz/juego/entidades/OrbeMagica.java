@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class OrbeMagica {
 
     private static final float VELOCIDAD = 400f;
-    private static final float DISTANCIA_MAXIMA = 400f;
+    private static final float DISTANCIA_MAXIMA = 1000;
     private static final float RADIO = 12f;
     private float x;
     private float y;
