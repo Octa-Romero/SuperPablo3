@@ -1,9 +1,9 @@
 {
     "activeFile": "Niveles/Nivel2.1.tmx",
     "expandedProjectPaths": [
+        ".",
         "Tilesets",
-        "Niveles",
-        "."
+        "Niveles"
     ],
     "file.lastUsedOpenFilter": "Todos los archivos (*)",
     "fileStates": {
@@ -106,11 +106,11 @@
                 6,
                 7
             ],
-            "scale": 0.33,
-            "selectedLayer": 1,
+            "scale": 0.75,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 4060.606060606061,
-                "y": 675.7575757575758
+                "x": 4372,
+                "y": 809.3333333333333
             }
         },
         "Niveles/Nivel2.2.1.tmx": {
@@ -320,10 +320,10 @@
     ],
     "project": "Niveles.tiled-project",
     "recentFiles": [
-        "Niveles/Nivel2.1.tmx",
-        "Niveles/nivel4.tmx",
         "Niveles/Nivel6.tmx",
         "Niveles/Level1.tmx",
+        "Niveles/Nivel2.1.tmx",
+        "Niveles/nivel4.tmx",
         "Niveles/Nivel 2.tmx",
         "Niveles/Nivel2.2.tmx",
         "Niveles/Nivel2.2.1.tmx",
