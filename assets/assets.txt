@@ -501,6 +501,8 @@ Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Assets/Ph
 Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Looking-for-more.pdf
 Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/public-license.pdf
 Niveles/Tilesets/graveyard.png
+Niveles/Tilesets/hubFondo (1).png
+Niveles/Tilesets/hubFondo.jfif
 Niveles/Tilesets/hubFondo.png
 Niveles/Tilesets/image.png
 Niveles/Tilesets/lvl2.png
@@ -524,6 +526,8 @@ Niveles/Tilesets/tileset.tsx
 Niveles/Tilesets/valdoriaTileSets.tsx
 Personajes/Pablo/ataque_pablo.png
 Personajes/Pablo/pablo.png
+Personajes/Pancrasio/vendedor (1).png
+Personajes/Pancrasio/vendedor.png
 Personajes/Walter/orbe.png
 Personajes/Walter/walter.png
 Personajes/Walter/walter_ataque.png

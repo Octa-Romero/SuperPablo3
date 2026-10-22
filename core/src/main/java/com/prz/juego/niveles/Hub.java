@@ -13,12 +13,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.prz.juego.entidades.*;
+import com.prz.juego.sistemas.CuadroDialogo;
+import com.prz.juego.utilidades.Dialogo;
 import com.prz.juego.utilidades.Render;
-import com.prz.juego.entidades.Entidad;
-import com.prz.juego.entidades.Enemigo;
-import com.prz.juego.entidades.Jugador;
-import com.prz.juego.entidades.Pablo;
-import com.prz.juego.entidades.Walter;
 import com.prz.juego.sistemas.Camara;
 import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Debug;
@@ -40,6 +38,9 @@ public class Hub {
     private ShapeRenderer shapeRenderer;
     private Rectangle centroHub;
     private BitmapFont fontAlerta;
+    private Rectangle zonaPancrasio;
+    private Dialogo dialogoPancrasio;
+    private CuadroDialogo cuadroDialogo;
 
     private final ArrayList<Entidad> entidades = new ArrayList<>();
 
@@ -52,6 +53,24 @@ public class Hub {
 
         TmxMapLoader mapLoader = new TmxMapLoader();
         mapa = mapLoader.load(ruta);
+
+        if (mapa.getLayers().get("pancrasio") != null) {
+            for (MapObject object : mapa.getLayers().get("pancrasio").getObjects()) {
+                if (object instanceof RectangleMapObject) {
+                    zonaPancrasio =
+                        ((RectangleMapObject) object).getRectangle();
+                    break;
+                }
+            }
+        }
+
+        dialogoPancrasio = new Dialogo(
+            "¡Bienvenidos, aventureros!",
+            "Pronto tendre mercancia para ustedes.",
+            "Vuelvan cuando este todo preparado."
+        );
+
+        cuadroDialogo = new CuadroDialogo();
 
         for (MapObject object : mapa.getLayers().get("centroHub").getObjects()){
             if(object instanceof RectangleMapObject){
@@ -75,6 +94,11 @@ public class Hub {
         camara.setLimitesMapa(mapTotalWidth, mapTotalHeight);
 
         mapRenderer = new OrthogonalTiledMapRenderer(mapa, 1f);
+
+    }
+
+    private boolean estaCercaPancrasio() {
+        return zonaPancrasio != null && zonaPancrasio.overlaps(jugador.getBounds());
     }
 
     private void inicializarFuenteAlerta() {
@@ -121,6 +145,15 @@ public class Hub {
         if (jugador instanceof Walter) {
             ((Walter) jugador).dibujarOrbes();
         }
+
+        if (cuadroDialogo.estaVisible()) {
+            cuadroDialogo.dibujar(
+                Render.batch,
+                camara.getCamera()
+            );
+        } else if (estaCercaPancrasio()) {
+            dibujarAlertaPancrasio();
+        }
     }
 
     public void renderDebug() {
@@ -166,12 +199,27 @@ public class Hub {
                 }
             }
         }
+        camara.seguirPersonaje(jugador.getX() + jugador.getAncho() / 2f, jugador.getY() + jugador.getAlto() / 2f, delta);
 
-        camara.seguirPersonaje(
-            jugador.getX() + jugador.getAncho() / 2f,
-            jugador.getY() + jugador.getAlto() / 2f,
-            delta
-        );
+        if (entrada.aprietaE()) {
+            if (cuadroDialogo.estaVisible()) {
+                dialogoPancrasio.avanzar();
+
+                if (dialogoPancrasio.estaActivo()) {
+                    cuadroDialogo.mostrar(
+                        dialogoPancrasio.getMensajeActual()
+                    );
+                } else {
+                    cuadroDialogo.ocultar();
+                }
+            } else if (estaCercaPancrasio()) {
+                dialogoPancrasio.iniciar();
+
+                cuadroDialogo.mostrar(
+                    dialogoPancrasio.getMensajeActual()
+                );
+            }
+        }
     }
 
     public void resize(int width, int height) {
@@ -192,6 +240,10 @@ public class Hub {
         }
 
         fontAlerta.dispose();
+
+        if (cuadroDialogo != null) {
+            cuadroDialogo.dispose();
+        }
     }
 
     public boolean estaEnCentroHub() {
@@ -226,6 +278,25 @@ public class Hub {
 
         float x = (getCamara().viewportWidth - layout.width) / 2f;
         float y = 80;
+
+        fontAlerta.draw(Render.batch, mensaje, x, y);
+    }
+
+    private void dibujarAlertaPancrasio() {
+        String mensaje = "PRESIONA E PARA HABLAR";
+
+        GlyphLayout layout = new GlyphLayout(fontAlerta, mensaje);
+
+        float ancho = getCamara().viewportWidth;
+        float alto = getCamara().viewportHeight;
+
+        float x = getCamara().position.x
+            - ancho / 2f
+            + (ancho - layout.width) / 2f;
+
+        float y = getCamara().position.y
+            - alto / 2f
+            + 80;
 
         fontAlerta.draw(Render.batch, mensaje, x, y);
     }
