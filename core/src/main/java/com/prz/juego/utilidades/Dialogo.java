@@ -3,18 +3,18 @@ package com.prz.juego.utilidades;
 
 public class Dialogo {
 
-    private final String[] mensajes;
+    private final String[] MENSAJES;
     private int indice;
     private boolean activo;
 
-    public Dialogo(String ... mensajes) {
-        this.mensajes = mensajes;
+    public Dialogo(String ... MENSAJES) {
+        this.MENSAJES = MENSAJES;
         indice = 0;
         activo = false;
     }
 
     public void iniciar() {
-        if (mensajes.length > 0) {
+        if (MENSAJES.length > 0) {
             indice = 0;
             activo = true;
         }
@@ -27,7 +27,7 @@ public class Dialogo {
 
         indice++;
 
-        if (indice >= mensajes.length) {
+        if (indice >= MENSAJES.length) {
             activo = false;
         }
     }
@@ -37,7 +37,7 @@ public class Dialogo {
             return null;
         }
 
-        return mensajes[indice];
+        return MENSAJES[indice];
     }
 
     public boolean estaActivo() {

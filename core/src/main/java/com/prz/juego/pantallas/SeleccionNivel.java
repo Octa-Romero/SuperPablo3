@@ -7,13 +7,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -22,13 +22,16 @@ import com.prz.juego.principal.Navegable;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
+import com.prz.juego.utilidades.FuenteJuego;
 import com.prz.juego.utilidades.Render;
+import com.prz.juego.utilidades.Sonido;
 import com.prz.juego.entidades.Personajes;
 
 public class SeleccionNivel implements Screen {
 
-    private final Navegable nav;
-    private final Personajes personajeElegido;
+    private final Navegable NAV;
+    private final Personajes PERSONAJE_ELEGIDO;
+    private final PantallaJuego PANTALLA_HUB;
 
     private Stage stage;
     private BitmapFont font;
@@ -41,9 +44,10 @@ public class SeleccionNivel implements Screen {
     private Texture texturaPortal5;
     private Texture texturaPortal6;
 
-    public SeleccionNivel(Navegable nav, Personajes personajeElegido) {
-        this.nav = nav;
-        this.personajeElegido = personajeElegido;
+    public SeleccionNivel(Navegable NAV, Personajes PERSONAJE_ELEGIDO, PantallaJuego PANTALLA_HUB) {
+        this.NAV = NAV;
+        this.PERSONAJE_ELEGIDO = PERSONAJE_ELEGIDO;
+        this.PANTALLA_HUB = PANTALLA_HUB;
     }
 
     @Override
@@ -60,20 +64,7 @@ public class SeleccionNivel implements Screen {
     }
 
     private void inicializarFuentes() {
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametro.size = 48;
-        parametro.color = Color.WHITE;
-        parametro.shadowOffsetX = 3;
-        parametro.shadowOffsetY = 3;
-        parametro.shadowColor = new Color(0, 0, 0, 0.9f);
-
-        font = generator.generateFont(parametro);
-
-        generator.dispose();
+        font = FuenteJuego.generar(48);
     }
 
     private void inicializarFondo() {
@@ -96,7 +87,7 @@ public class SeleccionNivel implements Screen {
         texturaPortal6 = GestorRecursos.obtenerTextura("Menu/Portales/portal6.png");
     }
 
-    private ImageButton crearPortal(Texture textura, final int numeroNivel) {
+    private ImageButton crearPortal(Texture textura, final int NUMERO_NIVEL) {
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
 
@@ -110,7 +101,7 @@ public class SeleccionNivel implements Screen {
 
                 String rutaNivel;
 
-                switch (numeroNivel) {
+                switch (NUMERO_NIVEL) {
                     case 1:
                         rutaNivel = "Niveles/Niveles/Level1.tmx";
                         break;
@@ -121,7 +112,7 @@ public class SeleccionNivel implements Screen {
                         rutaNivel = "Niveles/Niveles/Nivel3.tmx";
                         break;
                     case 4:
-                        rutaNivel = "Niveles/Niveles/Nivel4.tmx";
+                        rutaNivel = "Niveles/Niveles/nivel4.tmx";
                         break;
                     case 5:
                         rutaNivel = "Niveles/Niveles/Nivel5.tmx";
@@ -133,7 +124,7 @@ public class SeleccionNivel implements Screen {
                         return;
                 }
 
-                nav.cambiarPantalla(new PantallaJuego(nav,personajeElegido, rutaNivel));
+                NAV.cambiarPantalla(new PantallaJuego(NAV,PERSONAJE_ELEGIDO, rutaNivel));
             }
         });
 
@@ -152,7 +143,7 @@ public class SeleccionNivel implements Screen {
         Table principal = new Table();
         principal.setFillParent(true);
 
-        Label titulo = new Label("SELECCIÓN DE NIVEL", new Label.LabelStyle(font, Color.WHITE));
+        Label titulo = new Label("SELECCION DE NIVEL", new Label.LabelStyle(font, Color.WHITE));
 
 
         titulo.getColor().a = 0f;
@@ -165,6 +156,23 @@ public class SeleccionNivel implements Screen {
         ImageButton portal4 = crearPortal(texturaPortal4, 4);
         ImageButton portal5 = crearPortal(texturaPortal5, 5);
         ImageButton portal6 = crearPortal(texturaPortal6, 6);
+
+        TextButton.TextButtonStyle estiloCancelar = new TextButton.TextButtonStyle();
+        estiloCancelar.font = font;
+        estiloCancelar.fontColor = Color.WHITE;
+        estiloCancelar.overFontColor = Color.GOLD;
+        estiloCancelar.downFontColor = Color.RED;
+
+        TextButton botonCancelar = new TextButton("Cancelar", estiloCancelar);
+        botonCancelar.getLabel().setFontScale(0.65f);
+        botonCancelar.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Sonido.CLICK.sonar();
+                PANTALLA_HUB.restaurarPosicionCamara();
+                NAV.cambiarPantalla(PANTALLA_HUB);
+            }
+        });
 
         animarPortal(portal1, 0.5f);
         animarPortal(portal2, 0.7f);
@@ -180,7 +188,8 @@ public class SeleccionNivel implements Screen {
         principal.add(portal3).width(170).height(170).pad(5).row();
         principal.add(portal4).width(170).height(170).pad(5);
         principal.add(portal5).width(170).height(170).pad(5);
-        principal.add(portal6).width(170).height(170).pad(5);
+        principal.add(portal6).width(170).height(170).pad(5).row();
+        principal.add(botonCancelar).colspan(3).width(200).height(48).padTop(12);
 
         stage.addActor(principal);
     }

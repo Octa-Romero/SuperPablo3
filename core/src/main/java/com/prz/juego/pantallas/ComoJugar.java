@@ -21,12 +21,12 @@ import com.prz.juego.utilidades.Render;
 public class ComoJugar implements Screen {
 
     private Imagen fondo;
-    private final Navegable nav;
+    private final Navegable NAV;
     private Stage stage;
     private BitmapFont font;
 
-    public ComoJugar(Navegable nav) {
-        this.nav = nav;
+    public ComoJugar(Navegable NAV) {
+        this.NAV = NAV;
     }
 
     @Override
@@ -58,16 +58,14 @@ public class ComoJugar implements Screen {
     }
 
     private void inicializarFuentes() {
-        FreeTypeFontGenerator titulo = new FreeTypeFontGenerator(Gdx.files.internal("assets/Fuentes/alagard.ttf"));
+        FreeTypeFontGenerator titulo = new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parametro = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametro.size = 32;
         parametro.color = Color.WHITE;
-        parametro.shadowOffsetX = 3;
-        parametro.shadowOffsetY = 3;
-        parametro.shadowColor = new Color(0, 0, 0, 0.9f);
-
+        parametro.borderWidth = 2f;
+        parametro.borderColor = Color.BLACK;
         font = titulo.generateFont(parametro);
 
         titulo.dispose();
@@ -81,7 +79,7 @@ public class ComoJugar implements Screen {
 
         table.defaults().pad(6);
 
-        Label titulo = new Label("CÓMO JUGAR", new Label.LabelStyle(font, Color.WHITE));
+        Label titulo = new Label("COMO JUGAR", new Label.LabelStyle(font, Color.WHITE));
         titulo.setFontScale(1.6f);
 
         Label separador1 = new Label("---------------------------", new Label.LabelStyle(font, Color.WHITE));
@@ -119,7 +117,7 @@ public class ComoJugar implements Screen {
         volver.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                nav.cambiarPantalla(new PantallaMenu(nav));
+                NAV.cambiarPantalla(new PantallaMenu(NAV));
             }
         });
 

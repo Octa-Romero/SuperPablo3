@@ -42,11 +42,14 @@ public class Hub {
     private Dialogo dialogoPancrasio;
     private CuadroDialogo cuadroDialogo;
 
-    private final ArrayList<Entidad> entidades = new ArrayList<>();
+    private final ArrayList<Entidad> ENTIDADES = new ArrayList<>();
 
     public void cargar(String ruta, Jugador jugador) {
         camara = new Camara();
         this.jugador = jugador;
+        this.jugador.escalarSpriteVisual(2f);
+        this.jugador.setVelocidadX(Math.round(this.jugador.getVelocidadX() * 1.5f));
+        this.jugador.setAccionesHabilitadas(false);
         shapeRenderer = new ShapeRenderer();
 
         inicializarFuenteAlerta();
@@ -65,7 +68,7 @@ public class Hub {
         }
 
         dialogoPancrasio = new Dialogo(
-            "¡Bienvenidos, aventureros!",
+            "Bienvenidos, aventureros!",
             "Pronto tendre mercancia para ustedes.",
             "Vuelvan cuando este todo preparado."
         );
@@ -111,10 +114,8 @@ public class Hub {
 
         parametro.size = 28;
         parametro.color = Color.WHITE;
-        parametro.shadowOffsetX = 2;
-        parametro.shadowOffsetY = 2;
-        parametro.shadowColor = new Color(0, 0, 0, 0.9f);
-
+        parametro.borderWidth = 2f;
+        parametro.borderColor = Color.BLACK;
         fontAlerta = generator.generateFont(parametro);
 
         generator.dispose();
@@ -128,7 +129,7 @@ public class Hub {
     public void render() {
         Render.batch.setProjectionMatrix(camara.getCamera().combined);
 
-        for (Entidad entidad : entidades) {
+        for (Entidad entidad : ENTIDADES) {
             entidad.dibujar();
 
             if (entidad instanceof Enemigo) {
@@ -143,7 +144,7 @@ public class Hub {
         }
 
         if (jugador instanceof Walter) {
-            ((Walter) jugador).dibujarOrbes();
+            ((Walter) jugador).dibujarBolas();
         }
 
         if (cuadroDialogo.estaVisible()) {
@@ -166,12 +167,12 @@ public class Hub {
 
         colision.dibujarHitboxes(shapeRenderer);
 
-        for (Entidad entidad : entidades) {
+        for (Entidad entidad : ENTIDADES) {
             entidad.dibujarHitbox(shapeRenderer);
         }
 
         if (jugador instanceof Walter) {
-            ((Walter) jugador).dibujarOrbesHitbox(shapeRenderer);
+            ((Walter) jugador).dibujarBolasHitbox(shapeRenderer);
         }
 
         shapeRenderer.end();
@@ -182,26 +183,28 @@ public class Hub {
         jugador.update(delta);
         colision.chequearColision(jugador);
 
-        for (Entidad entidad : entidades) {
+        for (Entidad entidad : ENTIDADES) {
             entidad.update(delta);
             colision.chequearColision(entidad);
         }
 
-        for (int i = entidades.size() - 1; i >= 0; i--) {
-            Entidad entidad = entidades.get(i);
+        for (int i = ENTIDADES.size() - 1; i >= 0; i--) {
+            Entidad entidad = ENTIDADES.get(i);
 
             if (entidad instanceof Enemigo) {
                 Enemigo enemigo = (Enemigo) entidad;
 
                 if (enemigo.estaMuerto()) {
                     enemigo.dispose();
-                    entidades.remove(i);
+                    ENTIDADES.remove(i);
                 }
             }
         }
         camara.seguirPersonaje(jugador.getX() + jugador.getAncho() / 2f, jugador.getY() + jugador.getAlto() / 2f, delta);
 
-        if (entrada.aprietaE()) {
+        // La tecla E tambien abre la seleccion de nivel desde el centro del hub.
+        // Solo consumirla aqui cuando haya una interaccion con Pancrasio.
+        if ((cuadroDialogo.estaVisible() || estaCercaPancrasio()) && entrada.aprietaE()) {
             if (cuadroDialogo.estaVisible()) {
                 dialogoPancrasio.avanzar();
 
@@ -272,12 +275,12 @@ public class Hub {
             return;
         }
 
-        String mensaje = "PRESIONA E PARA SELECCIONAR NIVEL";
+        String mensaje = "PRESIONA E PARA ELEGIR NIVEL";
 
         GlyphLayout layout = new GlyphLayout(fontAlerta, mensaje);
 
-        float x = (getCamara().viewportWidth - layout.width) / 2f;
-        float y = 80;
+        float x = centroHub.x + centroHub.width / 2f - layout.width / 2f;
+        float y = centroHub.y + centroHub.height + 100f;
 
         fontAlerta.draw(Render.batch, mensaje, x, y);
     }

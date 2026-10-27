@@ -24,7 +24,7 @@ public class Nivel {
     private OrthogonalTiledMapRenderer mapRenderer;
     private Jugador jugador;
     private Colisiones colision;
-    private final ArrayList<Entidad> entidades = new ArrayList<>();
+    private final ArrayList<Entidad> ENTIDADES = new ArrayList<>();
     private ShapeRenderer shapeRenderer;
     private boolean gameOver = false;
 
@@ -33,9 +33,9 @@ public class Nivel {
 
         this.jugador = jugador;
 
-        entidades.add(jugador);
-        entidades.add(new Bicho1(2000, 300, jugador));
-        entidades.add(new Bicho1(2200, 300, jugador));
+        ENTIDADES.add(jugador);
+        ENTIDADES.add(new Bicho1(2000, 300, jugador));
+        ENTIDADES.add(new Bicho1(2200, 300, jugador));
 
         shapeRenderer = new ShapeRenderer();
 
@@ -46,9 +46,9 @@ public class Nivel {
         jugador.setColisiones(colision);
 
         if(jugador instanceof Pablo){
-            ((Pablo) jugador).setEntidades(entidades);
+            ((Pablo) jugador).setEntidades(ENTIDADES);
         } else {
-            ((Walter) jugador).configurarAtaque(entidades, colision);
+            ((Walter) jugador).configurarAtaque(ENTIDADES, colision);
         }
 
         MapProperties props = mapa.getProperties();
@@ -77,7 +77,7 @@ public class Nivel {
     public void render() {
         Render.batch.setProjectionMatrix(camara.getCamera().combined);
 
-        for (Entidad entidad : entidades) {
+        for (Entidad entidad : ENTIDADES) {
             entidad.dibujar();
 
             if (entidad instanceof Enemigo) {
@@ -90,7 +90,7 @@ public class Nivel {
         }
 
         if (jugador instanceof Walter) {
-            ((Walter) jugador).dibujarOrbes();
+            ((Walter) jugador).dibujarBolas();
         }
     }
 
@@ -104,12 +104,12 @@ public class Nivel {
 
         colision.dibujarHitboxes(shapeRenderer);
 
-        for (Entidad entidad : entidades) {
+        for (Entidad entidad : ENTIDADES) {
             entidad.dibujarHitbox(shapeRenderer);
         }
 
         if (jugador instanceof Walter) {
-            ((Walter) jugador).dibujarOrbesHitbox(shapeRenderer);
+            ((Walter) jugador).dibujarBolasHitbox(shapeRenderer);
         }
 
         shapeRenderer.end();
@@ -117,22 +117,22 @@ public class Nivel {
 
     public void update(float delta, Entrada entrada) {
 
-        // Actualizar entidades
-        for (Entidad entidad : entidades) {
+        // Actualizar ENTIDADES
+        for (Entidad entidad : ENTIDADES) {
             entidad.update(delta);
             colision.chequearColision(entidad);
         }
 
         // Eliminar enemigos muertos
-        for (int i = entidades.size() - 1; i >= 0; i--) {
-            Entidad entidad = entidades.get(i);
+        for (int i = ENTIDADES.size() - 1; i >= 0; i--) {
+            Entidad entidad = ENTIDADES.get(i);
 
             if (entidad instanceof Enemigo) {
                 Enemigo enemigo = (Enemigo) entidad;
 
                 if (enemigo.estaMuerto()) {
                     enemigo.dispose();
-                    entidades.remove(i);
+                    ENTIDADES.remove(i);
                 }
             }
         }
@@ -172,11 +172,11 @@ public class Nivel {
             shapeRenderer.dispose();
         }
 
-        for(Entidad e : entidades)
+        for(Entidad e : ENTIDADES)
         {
             e.dispose();
         }
-        entidades.clear();
+        ENTIDADES.clear();
     }
 
     public Camera getCamara() {

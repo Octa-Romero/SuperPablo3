@@ -3,7 +3,6 @@ package com.prz.juego.entidades;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
@@ -12,7 +11,7 @@ import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Render;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class OrbeMagica {
+public class BolaFuego {
 
     private static final float VELOCIDAD = 400f;
     private static final float DISTANCIA_MAXIMA = 1000;
@@ -24,19 +23,19 @@ public class OrbeMagica {
     private final Sprite SPRITE;
     private final Circle BOUNDS;
     private boolean activa = true;
-    private final Walter walter;
-    private final Colisiones colision;
-    private final ArrayList<Entidad> entidades;
+    private final Walter WALTER;
+    private final Colisiones COLISION;
+    private final ArrayList<Entidad> ENTIDADES;
 
-    public OrbeMagica(float x, float y, float DIRECCION, Walter walter, Colisiones colision, ArrayList<Entidad> entidades) {
+    public BolaFuego(float x, float y, float DIRECCION, Walter WALTER, Colisiones COLISION, ArrayList<Entidad> ENTIDADES) {
         this.x = x;
         this.y = y;
         this.DIRECCION = DIRECCION;
-        this.walter = walter;
-        this.colision = colision;
-        this.entidades = entidades;
+        this.WALTER = WALTER;
+        this.COLISION = COLISION;
+        this.ENTIDADES = ENTIDADES;
         SPRITE = new Sprite(
-            GestorRecursos.obtenerTextura("Personajes/Walter/orbe.png")
+            GestorRecursos.obtenerTextura("Personajes/Walter/bola_fuego.png")
         );
         SPRITE.setSize(RADIO * 2, RADIO * 2);
         SPRITE.setPosition(x - RADIO, y - RADIO);
@@ -66,7 +65,7 @@ public class OrbeMagica {
             return;
         }
 
-        for (Entidad entidad : entidades) {
+        for (Entidad entidad : ENTIDADES) {
             if (!(entidad instanceof Enemigo)) {
                 continue;
             }
@@ -78,7 +77,7 @@ public class OrbeMagica {
             }
 
             if (chocaConEnemigo(enemigo)) {
-                enemigo.restarVida(walter.getDanio());
+                enemigo.restarVida(WALTER.getDanio());
                 activa = false;
                 return;
             }
@@ -86,7 +85,7 @@ public class OrbeMagica {
     }
 
     private boolean chocaConPared() {
-        for (Rectangle pared : colision.getColisiones()) {
+        for (Rectangle pared : COLISION.getColisiones()) {
             float puntoX = Math.max(pared.x, Math.min(x, pared.x + pared.width));
             float puntoY = Math.max(pared.y, Math.min(y, pared.y + pared.height));
             float distanciaX = x - puntoX;

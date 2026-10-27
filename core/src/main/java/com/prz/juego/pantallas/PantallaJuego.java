@@ -4,6 +4,8 @@ package com.prz.juego.pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Vector3;
 
 import com.prz.juego.entidades.Jugador;
 import com.prz.juego.entidades.Personajes;
@@ -18,49 +20,49 @@ import com.prz.juego.sistemas.Hud;
 
 public class PantallaJuego implements Screen {
 
-    private final Navegable nav;
+    private final Navegable NAV;
     private Jugador jugador;
-    private final Personajes personajeElegido;
-    private final Nivel nivel;
-    private final Entrada entrada;
-    private final MenuPausa menuPausa;
+    private final Personajes PERSONAJE_ELEGIDO;
+    private final Nivel NIVEL;
+    private final Entrada ENTRADA;
+    private final MenuPausa MENU_PAUSA;
     private boolean pausado = false;
-    private final Hud hud;
+    private final Hud HUD;
     private Hub hub;
 
 
-    public PantallaJuego(Navegable nav, Personajes personajeElegido) {
-        this(nav, personajeElegido, null);
+    public PantallaJuego(Navegable NAV, Personajes PERSONAJE_ELEGIDO) {
+        this(NAV, PERSONAJE_ELEGIDO, null);
     }
 
-    public PantallaJuego(Navegable nav, Personajes personajeElegido,String rutaNivel) {
-        this.nav = nav;
-        this.personajeElegido = personajeElegido;
+    public PantallaJuego(Navegable NAV, Personajes PERSONAJE_ELEGIDO,String rutaNivel) {
+        this.NAV = NAV;
+        this.PERSONAJE_ELEGIDO = PERSONAJE_ELEGIDO;
 
-        this.entrada = new Entrada();
-        this.nivel = new Nivel();
-        this.menuPausa = new MenuPausa(nav, this);
+        this.ENTRADA = new Entrada();
+        this.NIVEL = new Nivel();
+        this.MENU_PAUSA = new MenuPausa(NAV, this);
 
-        jugador = personajeElegido.crear(50, 150);
-        jugador.setEntrada(entrada);
+        jugador = PERSONAJE_ELEGIDO.crear(50, 150);
+        jugador.setEntrada(ENTRADA);
 
         if (rutaNivel == null) {
             hub = new Hub();
             hub.cargar("Niveles/Niveles/Hub.tmx", jugador);
         } else {
             hub = null;
-            nivel.cargar(rutaNivel, jugador);
+            NIVEL.cargar(rutaNivel, jugador);
         }
 
-        hud = new Hud(jugador, Render.batch);
+        HUD = new Hud(jugador, Render.batch);
     }
 
     @Override
     public void show() {
         InputMultiplexer mux = new InputMultiplexer();
 
-        mux.addProcessor(menuPausa.getStage());
-        mux.addProcessor(entrada);
+        mux.addProcessor(MENU_PAUSA.getStage());
+        mux.addProcessor(ENTRADA);
 
         Gdx.input.setInputProcessor(mux);
     }
@@ -69,39 +71,43 @@ public class PantallaJuego implements Screen {
     public void render(float delta) {
         Render.limpiarPantalla();
 
-        if (entrada.aprietaEscape()) {
+        if (ENTRADA.aprietaEscape()) {
             pausado = !pausado;
 
             if (pausado) {
-                menuPausa.activar();
+                MENU_PAUSA.activar();
             } else {
-                menuPausa.desactivar();
+                MENU_PAUSA.desactivar();
             }
         }
 
         if (!pausado) {
             if (hub != null) {
-                hub.update(delta, entrada);
+                hub.update(delta, ENTRADA);
             } else {
-                nivel.update(delta, entrada);
+                NIVEL.update(delta, ENTRADA);
 
 
 
             }
+
+            limitarJugadorDentroDePantalla();
         }
 
-        // Ir a la selección de niveles desde el Hub
+        // Ir a la seleccion de niveles desde el Hub
         if (!pausado && hub != null
             && hub.estaEnCentroHub()
-            && entrada.aprietaE()) {
+            && ENTRADA.aprietaE()) {
 
-            nav.cambiarPantalla(
-                new SeleccionNivel(nav, personajeElegido)
+            guardarPosicionCamara();
+            ENTRADA.limpiar();
+            NAV.cambiarPantalla(
+                new SeleccionNivel(NAV, PERSONAJE_ELEGIDO, this)
             );
             return;
         }
 
-        // Dibujar el Hub o el nivel seleccionado
+        // Dibujar el Hub o el NIVEL seleccionado
         if (hub != null) {
             hub.renderMapa();
 
@@ -111,25 +117,27 @@ public class PantallaJuego implements Screen {
             Render.end();
 
         } else {
-            nivel.renderMapa();
+            NIVEL.renderMapa();
 
-            Render.begin(nivel.getCamara());
-            nivel.render();
+            Render.begin(NIVEL.getCamara());
+            NIVEL.render();
             Render.end();
 
-            nivel.renderDebug();
+            NIVEL.renderDebug();
 
-            if (nivel.isGameOver()) {
-                nav.cambiarPantalla(new GameOver(nav));
+            if (NIVEL.isGameOver()) {
+                NAV.cambiarPantalla(new GameOver(NAV));
                 return;
             }
         }
 
-        hud.dibujar();
+        if (hub == null) {
+            HUD.dibujar();
+        }
 
         if (pausado) {
-            menuPausa.update(delta);
-            menuPausa.render();
+            MENU_PAUSA.update(delta);
+            MENU_PAUSA.render();
         }
     }
 
@@ -138,11 +146,11 @@ public class PantallaJuego implements Screen {
         if (hub != null) {
             hub.resize(width, height);
         } else {
-            nivel.resize(width, height);
+            NIVEL.resize(width, height);
         }
 
-        menuPausa.resize(width, height);
-        hud.actualizarTamano(width, height);
+        MENU_PAUSA.resize(width, height);
+        HUD.actualizarTamano(width, height);
     }
 
     public void setPausa(boolean valor)
@@ -150,12 +158,33 @@ public class PantallaJuego implements Screen {
         this.pausado = valor;
     }
 
+    private void limitarJugadorDentroDePantalla() {
+        Camera CAMARA_ACTUAL = hub != null ? hub.getCamara() : NIVEL.getCamara();
+        float CENTRO_Y = Gdx.graphics.getHeight() / 2f;
+        float BORDE_IZQUIERDO = CAMARA_ACTUAL.unproject(
+            new Vector3(0, CENTRO_Y, 0)
+        ).x;
+        float BORDE_DERECHO = CAMARA_ACTUAL.unproject(
+            new Vector3(Gdx.graphics.getWidth(), CENTRO_Y, 0)
+        ).x;
+
+        jugador.limitarMovimientoHorizontal(BORDE_IZQUIERDO, BORDE_DERECHO);
+    }
+
     public void guardarPosicionCamara() {
-        nivel.guardarPosicionCamara();
+        if (hub != null) {
+            hub.guardarPosicionCamara();
+        } else {
+            NIVEL.guardarPosicionCamara();
+        }
     }
 
     public void restaurarPosicionCamara() {
-        nivel.restaurarPosicionCamara();
+        if (hub != null) {
+            hub.restaurarPosicionCamara();
+        } else {
+            NIVEL.restaurarPosicionCamara();
+        }
     }
 
     @Override public void pause() {}
@@ -167,9 +196,9 @@ public class PantallaJuego implements Screen {
         if (hub != null) {
             hub.dispose();
         } else {
-            nivel.dispose();
+            NIVEL.dispose();
         }
-        menuPausa.dispose();
+        MENU_PAUSA.dispose();
     }
 
 }

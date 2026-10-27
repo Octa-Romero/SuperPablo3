@@ -15,11 +15,13 @@ import com.prz.juego.principal.Principal;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Render;
+import com.prz.juego.utilidades.Sonido;
 import com.prz.juego.entidades.Personajes;
 
 public class SeleccionPersonaje implements Screen {
 
-    private final Navegable nav;
+    private final Navegable NAV;
+    private final PantallaMenu PANTALLA_MENU;
     private Stage stage;
     private BitmapFont font;
     private BitmapFont fontBoton;
@@ -27,8 +29,9 @@ public class SeleccionPersonaje implements Screen {
     private Personajes personajeSeleccionado;
     private TextButton btnComenzar;
 
-    public SeleccionPersonaje(Navegable nav) {
-        this.nav = nav;
+    public SeleccionPersonaje(Navegable NAV, PantallaMenu PANTALLA_MENU) {
+        this.NAV = NAV;
+        this.PANTALLA_MENU = PANTALLA_MENU;
     }
 
     @Override
@@ -44,26 +47,24 @@ public class SeleccionPersonaje implements Screen {
 
     private void inicializarFuentes() {
 
-        FreeTypeFontGenerator titulo = new FreeTypeFontGenerator(Gdx.files.internal("assets/Fuentes/alagard.ttf"));
+        FreeTypeFontGenerator titulo = new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parametro = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametro.size = 48;
         parametro.color = Color.WHITE;
-        parametro.shadowOffsetX = 3;
-        parametro.shadowOffsetY = 3;
-        parametro.shadowColor = new Color(0, 0, 0, 0.9f);
+        parametro.borderWidth = 2f;
+        parametro.borderColor = Color.BLACK;
         font = titulo.generateFont(parametro);
         titulo.dispose();
 
 
-        FreeTypeFontGenerator boton = new FreeTypeFontGenerator( Gdx.files.internal( "assets/Fuentes/alagard.ttf" ) );
+        FreeTypeFontGenerator boton = new FreeTypeFontGenerator( Gdx.files.internal( "Fuentes/alagard.ttf" ) );
         FreeTypeFontGenerator.FreeTypeFontParameter parametroBoton = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parametroBoton.size = 28;
         parametroBoton.color = Color.WHITE;
-        parametroBoton.shadowOffsetX = 2;
-        parametroBoton.shadowOffsetY = 2;
-        parametroBoton.shadowColor = new Color(0, 0, 0, 0.9f);
+        parametroBoton.borderWidth = 2f;
+        parametroBoton.borderColor = Color.BLACK;
         fontBoton = boton.generateFont(parametroBoton);
         boton.dispose();
     }
@@ -88,7 +89,7 @@ public class SeleccionPersonaje implements Screen {
 
         table.defaults().pad(10);
 
-        Label titulo = new Label("SELECCIÓN DE PERSONAJE",
+        Label titulo = new Label("SELECCION DE PERSONAJE",
             new Label.LabelStyle(font, Color.WHITE));
 
 
@@ -97,18 +98,20 @@ public class SeleccionPersonaje implements Screen {
         style.fontColor = Color.WHITE;
         style.overFontColor = Color.GOLD;
         style.downFontColor = Color.RED;
+        style.disabledFontColor = Color.GRAY;
 
         TextButton btnPablo = new TextButton("PABLO", style);
         TextButton btnWalter = new TextButton("WALTER", style);
+        TextButton btnCancelar = new TextButton("CANCELAR", style);
 
         btnComenzar = new TextButton("COMENZAR", style);
-        btnComenzar.setVisible(false);
+        btnComenzar.setDisabled(true);
 
         btnPablo.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 personajeSeleccionado = Personajes.PABLO;
-                btnComenzar.setVisible(true);
+                btnComenzar.setDisabled(false);
             }
         });
 
@@ -116,7 +119,7 @@ public class SeleccionPersonaje implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 personajeSeleccionado = Personajes.WALTER;
-                btnComenzar.setVisible(true);
+                btnComenzar.setDisabled(false);
             }
         });
 
@@ -126,16 +129,25 @@ public class SeleccionPersonaje implements Screen {
 
                 if (personajeSeleccionado == null) return;
 
-                nav.cambiarPantalla(new PantallaJuego(nav, personajeSeleccionado));
+                NAV.cambiarPantalla(new PantallaJuego(NAV, personajeSeleccionado));
             }
         });
 
-        table.add(titulo).padBottom(40).row();
+        btnCancelar.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Sonido.CLICK.sonar();
+                NAV.cambiarPantalla(PANTALLA_MENU);
+            }
+        });
 
-        table.add(btnPablo).width(250).height(60).padBottom(20).row();
-        table.add(btnWalter).width(250).height(60).padBottom(40).row();
+        table.add(titulo).colspan(2).center().padBottom(40).row();
 
-        table.add(btnComenzar).width(300).height(70);
+        table.add(btnPablo).width(250).height(60).padRight(255).padBottom(20);
+        table.add(btnWalter).width(250).height(60).padLeft(255).padBottom(20).row();
+
+        table.add(btnComenzar).colspan(2).center().width(300).height(70).padBottom(12).row();
+        table.add(btnCancelar).colspan(2).center().width(250).height(60);
 
         stage.addActor(table);
     }

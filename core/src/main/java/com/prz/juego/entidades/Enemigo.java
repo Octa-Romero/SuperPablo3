@@ -98,7 +98,7 @@ public abstract class Enemigo extends Entidad {
 			return;
 		}
 
-		actualizarAnimacion(delta, x != xAnterior, atacando);
+		ANIMACION.actualizar(sprite, delta, x != xAnterior, atacando);
 		actualizarOrientacionSprites();
 		actualizarSpriteVisual();
 		bounds.setPosition(x, y);
@@ -226,6 +226,12 @@ public abstract class Enemigo extends Entidad {
 	public boolean estaAtacando() {
 		return atacando;
 	}
+
+    public void saltar() {
+        velocidadY = 300;
+        enSuelo = false;
+        Sonido.SALTO.sonar(x, jugador.getX());
+    }
 
 	@Override
 	public void dibujar() {

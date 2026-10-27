@@ -18,12 +18,12 @@ import java.util.ArrayList;
 
 public class Colisiones {
 
-	private final ArrayList<Rectangle> colisiones;
-    private final ArrayList<Rectangle> escaleras = new ArrayList<>();
-    private final ArrayList<Polygon> pendientes = new ArrayList<>();;
+	private final ArrayList<Rectangle> COLISIONES;
+    private final ArrayList<Rectangle> ESCALERAS = new ArrayList<>();
+    private final ArrayList<Polygon> PENDIENTES = new ArrayList<>();;
 
 	public Colisiones(TiledMap tiledMap) {
-		colisiones = new ArrayList<>();
+		COLISIONES = new ArrayList<>();
 		cargarColisiones(tiledMap);
 	}
 
@@ -31,7 +31,7 @@ public class Colisiones {
 		for (MapObject object : tiledMap.getLayers().get("colisiones").getObjects()) {
 			if (object instanceof RectangleMapObject) {
 				Rectangle rect = ((RectangleMapObject) object).getRectangle();
-				colisiones.add(rect);
+				COLISIONES.add(rect);
 			}
 		}
         MapLayer capaPendientes = tiledMap.getLayers().get("pendiente");
@@ -40,7 +40,7 @@ public class Colisiones {
             for (MapObject object : capaPendientes.getObjects()) {
                 if (object instanceof PolygonMapObject) {
                     Polygon poligono = ((PolygonMapObject) object).getPolygon();
-                    pendientes.add(poligono);
+                    PENDIENTES.add(poligono);
                 }
             }
         }
@@ -51,7 +51,7 @@ public class Colisiones {
             for (MapObject object : capaEscaleras.getObjects()) {
                 if (object instanceof RectangleMapObject) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    escaleras.add(rect);
+                    ESCALERAS.add(rect);
                 }
             }
         }
@@ -59,7 +59,7 @@ public class Colisiones {
 	}
 
     public boolean estaEnEscalera(Jugador jugador) {
-        for (Rectangle escalera : escaleras) {
+        for (Rectangle escalera : ESCALERAS) {
             if (jugador.getBounds().overlaps(escalera)) {
                 return true;
             }
@@ -73,7 +73,7 @@ public class Colisiones {
 		entidad.setEnSuelo(false);
 		boolean chocoPared = false;
 
-		for (Rectangle suelo : colisiones) {
+		for (Rectangle suelo : COLISIONES) {
 			if (!entidad.getBounds().overlaps(suelo)) {
 				continue;
 			}
@@ -103,7 +103,7 @@ public class Colisiones {
 
 		entidad.getBounds().setPosition(entidad.getX(), entidad.getY());
 
-		for (Rectangle pared : colisiones) {
+		for (Rectangle pared : COLISIONES) {
 			if (!entidad.getBounds().overlaps(pared)) {
 				continue;
 			}
@@ -126,7 +126,7 @@ public class Colisiones {
 		if (!entidad.estaEnSuelo()) {
 			Rectangle pies = new Rectangle(entidad.getX(), entidad.getY() - 2, entidad.getAncho(), 3);
 
-			for (Rectangle suelo : colisiones) {
+			for (Rectangle suelo : COLISIONES) {
 				if (pies.overlaps(suelo)) {
 					entidad.setEnSuelo(true);
 					if (entidad.getVelocidadY() <= 0) {
@@ -146,7 +146,7 @@ public class Colisiones {
     private void chequearPendiente(Entidad entidad) {
         float centroX = entidad.getX() + entidad.getAncho() / 2f;
 
-        for (Polygon pendiente : pendientes) {
+        for (Polygon pendiente : PENDIENTES) {
             float[] puntos = pendiente.getTransformedVertices();
 
             float xInicio = puntos[0];
@@ -186,12 +186,12 @@ public class Colisiones {
     }
 
     public ArrayList<Rectangle> getColisiones() {
-		return colisiones;
+		return COLISIONES;
 	}
 
 	public void dibujarHitboxes(ShapeRenderer shapeRenderer) {
 		shapeRenderer.setColor(Color.BLUE);
-		for (Rectangle colision : colisiones) {
+		for (Rectangle colision : COLISIONES) {
 			shapeRenderer.rect(colision.x, colision.y, colision.width, colision.height);
 		}
 	}

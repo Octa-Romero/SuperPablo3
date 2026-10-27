@@ -17,12 +17,12 @@ import com.prz.juego.utilidades.Render;
 
 public class GameOver implements Screen {
 
-    private final Navegable nav;
+    private final Navegable NAV;
     private Stage stage;
     private BitmapFont font;
 
-    public GameOver(Navegable nav) {
-        this.nav = nav;
+    public GameOver(Navegable NAV) {
+        this.NAV = NAV;
     }
 
     @Override
@@ -49,7 +49,8 @@ public class GameOver implements Screen {
 
         parametro.size = 48;
         parametro.color = Color.WHITE;
-
+        parametro.borderWidth = 2f;
+        parametro.borderColor = Color.BLACK;
         font = generator.generateFont(parametro);
 
         generator.dispose();
@@ -80,7 +81,7 @@ public class GameOver implements Screen {
         volverMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                nav.cambiarPantalla(new PantallaMenu(nav));
+                NAV.cambiarPantalla(new PantallaMenu(NAV));
             }
         });
 

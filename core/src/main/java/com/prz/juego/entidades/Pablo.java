@@ -60,7 +60,7 @@ public class Pablo extends Jugador {
 
 	@Override
 	public void atacar() {
-		if (!atacando && !cooldownAtaque) {
+		if (accionesHabilitadas() && !atacando && !cooldownAtaque) {
 			atacando = true;
 			tiempoAtaque = 0;
 			yaDanio = false;
@@ -91,14 +91,6 @@ public class Pablo extends Jugador {
 			}
 		}
 	}
-
-    @Override
-
-    public void saltar() {
-        velocidadY = 300*2;
-        enSuelo = false;
-        Sonido.SALTO.sonar();
-    }
 
 	private void comprobarDanio() {
 		if (entidades == null) {

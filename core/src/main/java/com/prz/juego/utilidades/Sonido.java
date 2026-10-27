@@ -12,6 +12,7 @@ public enum Sonido {
 	private final String NOMBRE_ARCHIVO;
 	private Sound sound;
 	private static float volumenGlobal = 0.5f;
+    private final int RANGO_ESCUCHA = 700;
 
 	private Sonido(String NOMBRE_ARCHIVO) {
 		this.NOMBRE_ARCHIVO = NOMBRE_ARCHIVO;
@@ -21,6 +22,12 @@ public enum Sonido {
 		cargar();
 		sound.play(volumenGlobal);
 	}
+
+    public void sonar(float x, float xJugador) {
+        if((xJugador - RANGO_ESCUCHA) < x && (xJugador + RANGO_ESCUCHA) > x){
+            sonar();
+        }
+    }
 
 	private void cargar() {
 		if (sound == null) {

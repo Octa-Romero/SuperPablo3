@@ -4,31 +4,31 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.prz.juego.entidades.Jugador;
 import com.prz.juego.recursos.GestorRecursos;
+import com.prz.juego.recursos.Imagen;
 
 import java.util.ArrayList;
 
 public class Hud {
 
-    private final Jugador jugador;
-    private final Stage stage;
-    private final FitViewport viewport = new FitViewport(1280, 720, new OrthographicCamera());
+    private final Jugador JUGADOR;
+    private final Stage STAGE;
+    private final FitViewport VIEWPORT = new FitViewport(1280, 720, new OrthographicCamera());
 
-    private final Texture corazonLleno = GestorRecursos.obtenerTextura("Hud/corazon_lleno.png");
-    private final Texture corazonMitad = GestorRecursos.obtenerTextura("Hud/corazon_mitad.png");
-    private final Texture corazonVacio = GestorRecursos.obtenerTextura("Hud/corazon_vacio.png");
+    private final Texture CORAZON_LLENO = GestorRecursos.obtenerTextura("Hud/corazon_lleno.png");
+    private final Texture CORAZON_MITAD = GestorRecursos.obtenerTextura("Hud/corazon_mitad.png");
+    private final Texture CORAZON_VACIO = GestorRecursos.obtenerTextura("Hud/corazon_vacio.png");
 
-    private final TextureRegionDrawable llenoDrawable;
-    private final TextureRegionDrawable mitadDrawable;
-    private final TextureRegionDrawable vacioDrawable;
+    private final TextureRegionDrawable LLENO_DRAWABLE;
+    private final TextureRegionDrawable MITAD_DRAWABLE;
+    private final TextureRegionDrawable VACIO_DRAWABLE;
 
-    private final ArrayList<Image> corazones = new ArrayList<>();
+    private final ArrayList<Imagen> CORAZONES = new ArrayList<>();
 
     private Table tablaPrincipal;
     private Table contenedorCorazones;
@@ -39,41 +39,41 @@ public class Hud {
 
     private double ultimaVida = -1;
 
-    public Hud(Jugador jugador, SpriteBatch batch) {
-        this.jugador = jugador;
+    public Hud(Jugador JUGADOR, SpriteBatch batch) {
+        this.JUGADOR = JUGADOR;
 
-        stage = new Stage(viewport, batch);
+        STAGE = new Stage(VIEWPORT, batch);
 
         // cache de drawables (se crea una sola vez para ser reutilizado)
-        llenoDrawable = new TextureRegionDrawable(new TextureRegion(corazonLleno));
-        mitadDrawable = new TextureRegionDrawable(new TextureRegion(corazonMitad));
-        vacioDrawable = new TextureRegionDrawable(new TextureRegion(corazonVacio));
+        LLENO_DRAWABLE = new TextureRegionDrawable(new TextureRegion(CORAZON_LLENO));
+        MITAD_DRAWABLE = new TextureRegionDrawable(new TextureRegion(CORAZON_MITAD));
+        VACIO_DRAWABLE = new TextureRegionDrawable(new TextureRegion(CORAZON_VACIO));
 
         tablaPrincipal = new Table();
         tablaPrincipal.top().left();
         tablaPrincipal.setFillParent(true);
         tablaPrincipal.pad(20);
 
-        Image imagenCara = new Image(jugador.getTEXTURA_HUD());
+        Imagen imagenCara = new Imagen(JUGADOR.getTEXTURA_HUD(), true);
 
         contenedorCorazones = new Table();
 
         tablaPrincipal.add(imagenCara).size(TAMANO_CARA, TAMANO_CARA);
         tablaPrincipal.add(contenedorCorazones).padLeft(10).center();
 
-        stage.addActor(tablaPrincipal);
+        STAGE.addActor(tablaPrincipal);
 
         crearCorazones();
         actualizarCorazones();
     }
 
     private void crearCorazones() {
-        int max = (int) Math.ceil(jugador.getVidaMaxima());
+        int max = (int) Math.ceil(JUGADOR.getVidaMaxima());
 
         for (int i = 0; i < max; i++) {
-            Image corazon = new Image(vacioDrawable);
+            Imagen corazon = new Imagen(VACIO_DRAWABLE, true);
 
-            corazones.add(corazon);
+            CORAZONES.add(corazon);
 
             contenedorCorazones.add(corazon)
                 .size(TAMANO_CORAZON, TAMANO_CORAZON)
@@ -83,40 +83,41 @@ public class Hud {
 
     private void actualizarCorazones() {
 
-        double vida = jugador.getVida();
+        double vida = JUGADOR.getVida();
 
-        for (int i = 0; i < corazones.size(); i++) {
+        for (int i = 0; i < CORAZONES.size(); i++) {
 
             double vidaRestante = vida - i;
 
             if (vidaRestante >= 1.0) {
-                corazones.get(i).setDrawable(llenoDrawable);
+                CORAZONES.get(i).setDrawable(LLENO_DRAWABLE);
             } else if (vidaRestante >= 0.5) {
-                corazones.get(i).setDrawable(mitadDrawable);
+                CORAZONES.get(i).setDrawable(MITAD_DRAWABLE);
             } else {
-                corazones.get(i).setDrawable(vacioDrawable);
+                CORAZONES.get(i).setDrawable(VACIO_DRAWABLE);
             }
         }
     }
 
     public void dibujar() {
 
-        double vidaActual = jugador.getVida();
+        double vidaActual = JUGADOR.getVida();
 
         if (vidaActual != ultimaVida) {
             actualizarCorazones();
             ultimaVida = vidaActual;
         }
 
-        stage.act();
-        stage.draw();
+        STAGE.act();
+        STAGE.draw();
     }
 
     public void actualizarTamano(int width, int height) {
-        viewport.update(width, height, true);
+        VIEWPORT.update(width, height, true);
     }
 
     public void dispose() {
-        stage.dispose();
+        STAGE.dispose();
     }
+
 }

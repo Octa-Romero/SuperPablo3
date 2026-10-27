@@ -123,4 +123,15 @@ public class Entrada extends InputAdapter {
         }
         return false;
     }
+
+    public void limpiar() {
+        arriba = false;
+        abajo = false;
+        derecha = false;
+        izquierda = false;
+        ataca = false;
+        escape = false;
+        f1 = false;
+        e = false;
+    }
 }
