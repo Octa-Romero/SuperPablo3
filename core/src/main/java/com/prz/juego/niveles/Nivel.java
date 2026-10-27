@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.prz.juego.entidades.Entidad;
-import com.prz.juego.entidades.enemigos.*;
+import com.prz.juego.entidades.enemigos.Enemigo;
 import com.prz.juego.entidades.jugadores.*;
 import com.prz.juego.sistemas.Camara;
 import com.prz.juego.sistemas.Colisiones;
@@ -18,7 +18,7 @@ import com.prz.juego.utilidades.Render;
 
 import java.util.ArrayList;
 
-public class Nivel {
+public abstract class Nivel {
 
     private Camara camara;
     private TiledMap mapa;
@@ -28,20 +28,38 @@ public class Nivel {
     private final ArrayList<Entidad> ENTIDADES = new ArrayList<>();
     private ShapeRenderer shapeRenderer;
     private boolean gameOver = false;
+    private float anchoMapa;
 
-    public void cargar(String ruta, Jugador jugador) {
+    public static Nivel crear(String ruta) {
+        switch (ruta) {
+            case Nivel1.RUTA:
+                return new Nivel1();
+            case Nivel2.RUTA:
+                return new Nivel2();
+            case Nivel3.RUTA:
+                return new Nivel3();
+            case Nivel4.RUTA:
+                return new Nivel4();
+            case Nivel5.RUTA:
+                return new Nivel5();
+            case Nivel6.RUTA:
+                return new Nivel6();
+            default:
+                throw new IllegalArgumentException("No existe una clase para el nivel: " + ruta);
+        }
+    }
+
+    public final void cargar(Jugador jugador) {
         camara = new Camara();
 
         this.jugador = jugador;
 
         ENTIDADES.add(jugador);
-        ENTIDADES.add(new Bicho1(2000, 300, jugador));
-        ENTIDADES.add(new Bicho1(2200, 300, jugador));
 
         shapeRenderer = new ShapeRenderer();
 
         TmxMapLoader mapLoader = new TmxMapLoader();
-        mapa = mapLoader.load(ruta);
+        mapa = mapLoader.load(getRutaMapa());
 
         colision = new Colisiones(mapa);
         jugador.setColisiones(colision);
@@ -52,6 +70,8 @@ public class Nivel {
             ((Walter) jugador).configurarAtaque(ENTIDADES, colision);
         }
 
+        configurarContenidoEspecifico(jugador);
+
         MapProperties props = mapa.getProperties();
 
         int tileWidth = props.get("tilewidth", Integer.class);
@@ -61,11 +81,20 @@ public class Nivel {
 
         float mapTotalWidth = tileWidth * mapWidthTiles;
         float mapTotalHeight = tileHeight * mapHeightTiles;
+        anchoMapa = mapTotalWidth;
         camara.setLimitesMapa(mapTotalWidth, mapTotalHeight);
 
         mapRenderer = new OrthogonalTiledMapRenderer(mapa, 1f);
 
-        Musica.NIVEL1.sonar();
+        Musica.NIVEL.sonar();
+    }
+
+    protected abstract String getRutaMapa();
+
+    protected abstract void configurarContenidoEspecifico(Jugador jugador);
+
+    protected final void agregarEntidad(Entidad entidad) {
+        ENTIDADES.add(entidad);
     }
 
     public void renderMapa() {
@@ -120,6 +149,7 @@ public class Nivel {
         for (Entidad entidad : ENTIDADES) {
             entidad.update(delta);
             colision.chequearColision(entidad);
+            entidad.limitarMovimientoHorizontal(0, anchoMapa);
         }
 
         // Eliminar enemigos muertos

@@ -502,7 +502,6 @@ Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/Looking-f
 Niveles/Tilesets/gothicvania-cemetery-files/gothicvania-cemetery-files/public-license.pdf
 Niveles/Tilesets/graveyard.png
 Niveles/Tilesets/hubFondo (1).png
-Niveles/Tilesets/hubFondo.jfif
 Niveles/Tilesets/hubFondo.png
 Niveles/Tilesets/image.png
 Niveles/Tilesets/lvl2.png
@@ -528,7 +527,7 @@ Personajes/Pablo/ataque_pablo.png
 Personajes/Pablo/pablo.png
 Personajes/Pancrasio/vendedor (1).png
 Personajes/Pancrasio/vendedor.png
-Personajes/Walter/orbe.png
+Personajes/Walter/bola_fuego.png
 Personajes/Walter/walter.png
 Personajes/Walter/walter_ataque.png
 Personajes/Walter/walter_caminar1.png
@@ -536,10 +535,7 @@ Personajes/Walter/walter_caminar3.png
 Personajes/Walter/walter_caminar4.png
 Personajes/Walter/walter_caminar5.png
 Personajes/Walter/walter_caminar6.png
-Personajes/Walter/walter_caminar7.png
 Personajes/Walter/walter_spritesheet.png
-Personajes/Walter/walter_spritesheet2.png
-Personajes/Walter/wizard char.png
 README/readmegif.gif
 Sonidos/bola_fuego.WAV
 Sonidos/click.WAV
