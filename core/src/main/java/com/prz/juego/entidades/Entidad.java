@@ -103,6 +103,17 @@ public abstract class Entidad {
                 offsetSpriteY * escala);
     }
 
+    public void escalar(float escala) {
+        if (escala <= 0) {
+            throw new IllegalArgumentException("La escala debe ser positiva");
+        }
+
+        ancho *= escala;
+        alto *= escala;
+        bounds.setSize(ancho, alto);
+        escalarSpriteVisual(escala);
+    }
+
     private void validarTamanoSprite(float anchoSprite, float altoSprite) {
         if (anchoSprite <= 0 || altoSprite <= 0) {
             throw new IllegalArgumentException("El tamano visual del sprite debe ser positivo");
@@ -176,9 +187,7 @@ public abstract class Entidad {
     }
 
     public void limitarMovimientoHorizontal(float limiteIzquierdo, float limiteDerecho) {
-        float offsetSpriteX = sprite.isFlipX() ? offsetSpriteXIzquierda : offsetSpriteXDerecha;
-        float anchoPersonaje = Math.max(ancho, offsetSpriteX + anchoSprite);
-        float maximoX = limiteDerecho - anchoPersonaje;
+        float maximoX = limiteDerecho - bounds.width;
         if (maximoX < limiteIzquierdo) {
             maximoX = limiteIzquierdo;
         }

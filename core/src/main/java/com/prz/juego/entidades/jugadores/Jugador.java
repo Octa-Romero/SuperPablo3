@@ -95,7 +95,11 @@ public abstract class Jugador extends Entidad {
         }
 
         ANIMACION.actualizar(
-                sprite, delta, x != xAnterior || (trepando && y != yAnterior), atacando);
+                sprite,
+                delta,
+                x != xAnterior || (trepando && y != yAnterior),
+                !enSuelo && !trepando,
+                atacando);
 
         actualizarOrientacionSegunMovimiento();
         actualizarSpriteVisual();

@@ -107,7 +107,7 @@ public abstract class Enemigo extends Entidad {
             return;
         }
 
-        ANIMACION.actualizar(sprite, delta, x != xAnterior, atacando);
+        ANIMACION.actualizar(sprite, delta, x != xAnterior, !enSuelo, atacando);
         actualizarOrientacionSprites();
         actualizarSpriteVisual();
         bounds.setPosition(x, y);

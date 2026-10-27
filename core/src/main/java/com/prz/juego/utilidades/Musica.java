@@ -5,7 +5,7 @@ import com.badlogic.gdx.audio.Music;
 
 public enum Musica {
     MENU("Musicas/musica_menu.mp3"),
-    NIVEL1("Musicas/musica_nivel1.mp3");
+    NIVEL("Musicas/musica_nivel1.mp3");
 
     private final String NOMBRE_ARCHIVO;
     private Music music;

@@ -18,6 +18,7 @@ public class BolaFuego {
     private static final float VELOCIDAD = 400f;
     private static final float DISTANCIA_MAXIMA = 1000;
     private static final float RADIO = 12f;
+    private static final float VELOCIDAD_ROTACION = -720f;
     private float x;
     private float y;
     private final float DIRECCION;
@@ -44,6 +45,7 @@ public class BolaFuego {
         this.ENTIDADES = ENTIDADES;
         SPRITE = new Sprite(GestorRecursos.obtenerTextura("Personajes/Walter/bola_fuego.png"));
         SPRITE.setSize(RADIO * 2, RADIO * 2);
+        SPRITE.setOriginCenter();
         SPRITE.setPosition(x - RADIO, y - RADIO);
         BOUNDS = new Circle(x, y, RADIO);
     }
@@ -54,6 +56,7 @@ public class BolaFuego {
         }
 
         float movimiento = VELOCIDAD * delta;
+        SPRITE.rotate(VELOCIDAD_ROTACION * DIRECCION * delta);
 
         x += DIRECCION * movimiento;
         distanciaRecorrida += movimiento;

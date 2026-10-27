@@ -35,7 +35,7 @@ public class PantallaJuego implements Screen {
         this.PERSONAJE_ELEGIDO = PERSONAJE_ELEGIDO;
 
         this.ENTRADA = new Entrada();
-        this.NIVEL = new Nivel();
+        this.NIVEL = rutaNivel == null ? null : Nivel.crear(rutaNivel);
         this.MENU_PAUSA = new MenuPausa(NAV, this);
 
         jugador = PERSONAJE_ELEGIDO.crear(50, 150);
@@ -46,7 +46,7 @@ public class PantallaJuego implements Screen {
             hub.cargar("Niveles/Niveles/Hub.tmx", jugador);
         } else {
             hub = null;
-            NIVEL.cargar(rutaNivel, jugador);
+            NIVEL.cargar(jugador);
         }
 
         HUD = new Hud(jugador, Render.batch);
@@ -54,6 +54,8 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setCursorCatched(!pausado);
+
         InputMultiplexer mux = new InputMultiplexer();
 
         mux.addProcessor(MENU_PAUSA.getStage());
@@ -67,7 +69,7 @@ public class PantallaJuego implements Screen {
         Render.limpiarPantalla();
 
         if (ENTRADA.aprietaEscape()) {
-            pausado = !pausado;
+            setPausa(!pausado);
 
             if (pausado) {
                 MENU_PAUSA.activar();
@@ -143,6 +145,7 @@ public class PantallaJuego implements Screen {
 
     public void setPausa(boolean valor) {
         this.pausado = valor;
+        Gdx.input.setCursorCatched(!valor);
     }
 
     private void limitarJugadorDentroDePantalla() {
@@ -178,7 +181,9 @@ public class PantallaJuego implements Screen {
     public void resume() {}
 
     @Override
-    public void hide() {}
+    public void hide() {
+        Gdx.input.setCursorCatched(false);
+    }
 
     @Override
     public void dispose() {
