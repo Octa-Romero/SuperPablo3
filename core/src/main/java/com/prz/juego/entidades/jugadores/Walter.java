@@ -36,6 +36,7 @@ public class Walter extends Jugador {
                 450,
                 new int[] {0},
                 new int[] {2, 3, 4, 5, 6, 7},
+                null,
                 new int[] {1},
                 0.12f);
         configurarSpriteVisual(96f, 80f, 0f, -46f, 0f);

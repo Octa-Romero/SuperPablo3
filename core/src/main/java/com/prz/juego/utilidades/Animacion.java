@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Animacion {
 
-    private TextureRegion regionReposo;
     private Animation<TextureRegion> reposo;
     private Animation<TextureRegion> caminar;
+    private Animation<TextureRegion> salto;
     private Animation<TextureRegion> ataque;
     private Animation<TextureRegion> actual;
     private float tiempo;
@@ -18,24 +18,8 @@ public class Animacion {
         if (texturaReposo == null) {
             throw new IllegalArgumentException("La textura de reposo no puede ser null");
         }
-        regionReposo = new TextureRegion(texturaReposo);
-    }
-
-    public void configurar(
-            Texture spritesheet,
-            int anchoFrame,
-            int altoFrame,
-            int framesReposo,
-            int framesCaminar,
-            float duracionFrame) {
-        configurar(
-                spritesheet,
-                anchoFrame,
-                altoFrame,
-                crearIndices(0, framesReposo),
-                crearIndices(framesReposo, framesCaminar),
-                null,
-                duracionFrame);
+        reposo = new Animation<>(1f, new TextureRegion(texturaReposo));
+        reposo.setPlayMode(Animation.PlayMode.LOOP);
     }
 
     public void configurar(
@@ -44,45 +28,45 @@ public class Animacion {
             int altoFrame,
             int[] indicesReposo,
             int[] indicesCaminar,
+            int[] indicesSalto,
             int[] indicesAtaque,
             float duracionFrame) {
-        validarConfiguracion(spritesheet, anchoFrame, altoFrame, indicesCaminar, duracionFrame);
+        validarConfiguracion(spritesheet, anchoFrame, altoFrame, indicesReposo, duracionFrame);
 
         TextureRegion[][] grilla = TextureRegion.split(spritesheet, anchoFrame, altoFrame);
         TextureRegion[] frames = aplanar(grilla);
-        validarIndices(frames.length, indicesReposo, indicesCaminar, indicesAtaque);
+        validarIndices(frames.length, indicesReposo, indicesCaminar, indicesSalto, indicesAtaque);
 
-        reposo =
-                indicesReposo == null || indicesReposo.length == 0
-                        ? null
-                        : crearAnimacion(
-                                frames, indicesReposo, duracionFrame, Animation.PlayMode.LOOP);
-        caminar = crearAnimacion(frames, indicesCaminar, duracionFrame, Animation.PlayMode.LOOP);
+        reposo = crearAnimacion(frames, indicesReposo, duracionFrame, Animation.PlayMode.LOOP);
+        caminar =
+                crearAnimacionSiConfigurada(
+                        frames, indicesCaminar, duracionFrame, Animation.PlayMode.LOOP);
+        salto =
+                crearAnimacionSiConfigurada(
+                        frames, indicesSalto, duracionFrame, Animation.PlayMode.NORMAL);
         ataque =
-                indicesAtaque == null || indicesAtaque.length == 0
-                        ? null
-                        : crearAnimacion(
-                                frames, indicesAtaque, duracionFrame, Animation.PlayMode.NORMAL);
+                crearAnimacionSiConfigurada(
+                        frames, indicesAtaque, duracionFrame, Animation.PlayMode.NORMAL);
 
         actual = null;
         tiempo = 0f;
     }
 
-    public void actualizar(Sprite sprite, float delta, boolean caminando, boolean atacando) {
+    public void actualizar(
+            Sprite sprite, float delta, boolean caminando, boolean saltando, boolean atacando) {
         Animation<TextureRegion> siguiente;
 
         if (atacando && ataque != null) {
             siguiente = ataque;
+        } else if (saltando && salto != null) {
+            siguiente = salto;
         } else if (caminando) {
-            siguiente = caminar;
+            siguiente = caminar != null ? caminar : reposo;
         } else {
             siguiente = reposo;
         }
 
         if (siguiente == null) {
-            if (!caminando && regionReposo != null) {
-                sprite.setRegion(regionReposo);
-            }
             return;
         }
 
@@ -97,9 +81,9 @@ public class Animacion {
     }
 
     public void dispose() {
-        regionReposo = null;
         reposo = null;
         caminar = null;
+        salto = null;
         ataque = null;
         actual = null;
     }
@@ -108,18 +92,27 @@ public class Animacion {
             Texture spritesheet,
             int anchoFrame,
             int altoFrame,
-            int[] indicesCaminar,
+            int[] indicesReposo,
             float duracionFrame) {
         if (spritesheet == null
                 || anchoFrame <= 0
                 || altoFrame <= 0
                 || duracionFrame <= 0
-                || indicesCaminar == null
-                || indicesCaminar.length == 0
+                || indicesReposo == null
+                || indicesReposo.length == 0
                 || spritesheet.getWidth() % anchoFrame != 0
                 || spritesheet.getHeight() % altoFrame != 0) {
-            throw new IllegalArgumentException("Spritesheet o configuracion de frames invalida");
+            throw new IllegalArgumentException(
+                    "La spritesheet debe incluir una animacion de reposo valida");
         }
+    }
+
+    private Animation<TextureRegion> crearAnimacionSiConfigurada(
+            TextureRegion[] frames, int[] indices, float duracionFrame, Animation.PlayMode modo) {
+        if (indices == null || indices.length == 0) {
+            return null;
+        }
+        return crearAnimacion(frames, indices, duracionFrame, modo);
     }
 
     private Animation<TextureRegion> crearAnimacion(
@@ -132,18 +125,6 @@ public class Animacion {
         Animation<TextureRegion> animacion = new Animation<>(duracionFrame, regiones);
         animacion.setPlayMode(modo);
         return animacion;
-    }
-
-    private int[] crearIndices(int desde, int cantidad) {
-        if (cantidad < 0) {
-            throw new IllegalArgumentException("La cantidad de frames no puede ser negativa");
-        }
-
-        int[] indices = new int[cantidad];
-        for (int i = 0; i < cantidad; i++) {
-            indices[i] = desde + i;
-        }
-        return indices;
     }
 
     private void validarIndices(int totalFrames, int[]... grupos) {
