@@ -1,4 +1,3 @@
-
 package com.prz.juego.utilidades;
 
 public class Dialogo {
@@ -7,7 +6,7 @@ public class Dialogo {
     private int indice;
     private boolean activo;
 
-    public Dialogo(String ... MENSAJES) {
+    public Dialogo(String... MENSAJES) {
         this.MENSAJES = MENSAJES;
         indice = 0;
         activo = false;

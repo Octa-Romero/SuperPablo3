@@ -1,4 +1,3 @@
-
 package com.prz.juego.sistemas;
 
 import com.badlogic.gdx.Gdx;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 
-
 public class CuadroDialogo implements Disposable {
 
     private final BitmapFont FUENTE;
@@ -22,12 +20,10 @@ public class CuadroDialogo implements Disposable {
 
     public CuadroDialogo() {
         FreeTypeFontGenerator generator =
-            new FreeTypeFontGenerator(
-                Gdx.files.internal("Fuentes/alagard.ttf")
-            );
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parametro =
-            new FreeTypeFontGenerator.FreeTypeFontParameter();
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametro.size = 20;
         parametro.color = Color.WHITE;
@@ -37,7 +33,6 @@ public class CuadroDialogo implements Disposable {
         generator.dispose();
 
         SHAPE_RENDERER = new ShapeRenderer();
-
     }
 
     public void mostrar(String mensaje) {

@@ -4,17 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-
 import com.prz.juego.principal.Navegable;
-import com.prz.juego.principal.Principal;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Musica;
@@ -65,9 +63,11 @@ public class PantallaMenu implements Screen {
 
     private void inicializarFuentes() {
 
-        FreeTypeFontGenerator titulo = new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
+        FreeTypeFontGenerator titulo =
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametro.size = 64;
         parametro.color = Color.WHITE;
@@ -78,14 +78,11 @@ public class PantallaMenu implements Screen {
 
         titulo.dispose();
 
-
         FreeTypeFontGenerator subtitulo =
-            new FreeTypeFontGenerator(
-                Gdx.files.internal("Fuentes/alagard.ttf")
-            );
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parametroSubtitulo =
-            new FreeTypeFontGenerator.FreeTypeFontParameter();
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametroSubtitulo.size = 36;
         parametroSubtitulo.borderWidth = 2f;
@@ -95,12 +92,10 @@ public class PantallaMenu implements Screen {
         subtitulo.dispose();
 
         FreeTypeFontGenerator boton =
-            new FreeTypeFontGenerator(
-                Gdx.files.internal("Fuentes/alagard.ttf")
-            );
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parametroBoton =
-            new FreeTypeFontGenerator.FreeTypeFontParameter();
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametroBoton.size = 28;
         parametroBoton.borderWidth = 2f;
@@ -113,7 +108,8 @@ public class PantallaMenu implements Screen {
     private void crearInterfaz() {
 
         Label titulo = new Label("SUPER PABLO 3", new Label.LabelStyle(fontTitulo, Color.GOLD));
-        Label subtitulo = new Label("~ LA ULTIMA BATALLA ~", new Label.LabelStyle(fontSubtitulo, Color.RED));
+        Label subtitulo =
+                new Label("~ LA ULTIMA BATALLA ~", new Label.LabelStyle(fontSubtitulo, Color.RED));
 
         TextButton.TextButtonStyle estiloBoton = new TextButton.TextButtonStyle();
 
@@ -128,41 +124,39 @@ public class PantallaMenu implements Screen {
         TextButton btnSalir = new TextButton("SALIR", estiloBoton);
 
         btnJugar.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Sonido.CLICK.sonar();
-                    NAV.cambiarPantalla(new SeleccionPersonaje(NAV, PantallaMenu.this));
-                }
-            }
-        );
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
+                        NAV.cambiarPantalla(new SeleccionPersonaje(NAV, PantallaMenu.this));
+                    }
+                });
 
         btnOpciones.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Sonido.CLICK.sonar();
-                    NAV.cambiarPantalla(new PantallaOpciones(NAV, PantallaMenu.this, false));
-                }
-            }
-        );
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
+                        NAV.cambiarPantalla(new PantallaOpciones(NAV, PantallaMenu.this, false));
+                    }
+                });
 
-        btnComoJugar.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                NAV.cambiarPantalla(new ComoJugar(NAV));
-            }
-        });
+        btnComoJugar.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        NAV.cambiarPantalla(new ComoJugar(NAV));
+                    }
+                });
 
         btnSalir.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Sonido.CLICK.sonar();
-                    Gdx.app.exit();
-                }
-            }
-        );
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
+                        Gdx.app.exit();
+                    }
+                });
 
         Table contenedor = new Table();
         contenedor.setFillParent(true);
@@ -198,12 +192,10 @@ public class PantallaMenu implements Screen {
     }
 
     @Override
-    public void pause() {
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-    }
+    public void resume() {}
 
     @Override
     public void hide() {

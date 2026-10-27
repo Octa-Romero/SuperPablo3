@@ -3,12 +3,12 @@ package com.prz.juego.sistemas;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.prz.juego.entidades.Jugador;
+import com.prz.juego.entidades.jugadores.Jugador;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.recursos.Imagen;
 
@@ -75,9 +75,10 @@ public class Hud {
 
             CORAZONES.add(corazon);
 
-            contenedorCorazones.add(corazon)
-                .size(TAMANO_CORAZON, TAMANO_CORAZON)
-                .padRight(ESPACIO_CORAZONES);
+            contenedorCorazones
+                    .add(corazon)
+                    .size(TAMANO_CORAZON, TAMANO_CORAZON)
+                    .padRight(ESPACIO_CORAZONES);
         }
     }
 
@@ -119,5 +120,4 @@ public class Hud {
     public void dispose() {
         STAGE.dispose();
     }
-
 }

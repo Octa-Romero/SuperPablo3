@@ -1,8 +1,11 @@
 package com.prz.juego.niveles;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -11,19 +14,16 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.prz.juego.entidades.*;
-import com.prz.juego.sistemas.CuadroDialogo;
-import com.prz.juego.utilidades.Dialogo;
-import com.prz.juego.utilidades.Render;
+import com.prz.juego.entidades.Entidad;
+import com.prz.juego.entidades.enemigos.*;
+import com.prz.juego.entidades.jugadores.*;
 import com.prz.juego.sistemas.Camara;
 import com.prz.juego.sistemas.Colisiones;
+import com.prz.juego.sistemas.CuadroDialogo;
 import com.prz.juego.utilidades.Debug;
+import com.prz.juego.utilidades.Dialogo;
 import com.prz.juego.utilidades.Entrada;
-
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.prz.juego.utilidades.Render;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -60,25 +60,23 @@ public class Hub {
         if (mapa.getLayers().get("pancrasio") != null) {
             for (MapObject object : mapa.getLayers().get("pancrasio").getObjects()) {
                 if (object instanceof RectangleMapObject) {
-                    zonaPancrasio =
-                        ((RectangleMapObject) object).getRectangle();
+                    zonaPancrasio = ((RectangleMapObject) object).getRectangle();
                     break;
                 }
             }
         }
 
-        dialogoPancrasio = new Dialogo(
-            "Bienvenidos, aventureros!",
-            "Pronto tendre mercancia para ustedes.",
-            "Vuelvan cuando este todo preparado."
-        );
+        dialogoPancrasio =
+                new Dialogo(
+                        "Bienvenidos, aventureros!",
+                        "Pronto tendre mercancia para ustedes.",
+                        "Vuelvan cuando este todo preparado.");
 
         cuadroDialogo = new CuadroDialogo();
 
-        for (MapObject object : mapa.getLayers().get("centroHub").getObjects()){
-            if(object instanceof RectangleMapObject){
+        for (MapObject object : mapa.getLayers().get("centroHub").getObjects()) {
+            if (object instanceof RectangleMapObject) {
                 centroHub = ((RectangleMapObject) object).getRectangle();
-
             }
         }
 
@@ -97,7 +95,6 @@ public class Hub {
         camara.setLimitesMapa(mapTotalWidth, mapTotalHeight);
 
         mapRenderer = new OrthogonalTiledMapRenderer(mapa, 1f);
-
     }
 
     private boolean estaCercaPancrasio() {
@@ -106,11 +103,10 @@ public class Hub {
 
     private void inicializarFuenteAlerta() {
         FreeTypeFontGenerator generator =
-            new FreeTypeFontGenerator(
-                Gdx.files.internal("Fuentes/alagard.ttf")
-            );
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametro.size = 28;
         parametro.color = Color.WHITE;
@@ -148,10 +144,7 @@ public class Hub {
         }
 
         if (cuadroDialogo.estaVisible()) {
-            cuadroDialogo.dibujar(
-                Render.batch,
-                camara.getCamera()
-            );
+            cuadroDialogo.dibujar(Render.batch, camara.getCamera());
         } else if (estaCercaPancrasio()) {
             dibujarAlertaPancrasio();
         }
@@ -200,7 +193,10 @@ public class Hub {
                 }
             }
         }
-        camara.seguirPersonaje(jugador.getX() + jugador.getAncho() / 2f, jugador.getY() + jugador.getAlto() / 2f, delta);
+        camara.seguirPersonaje(
+                jugador.getX() + jugador.getAncho() / 2f,
+                jugador.getY() + jugador.getAlto() / 2f,
+                delta);
 
         // La tecla E tambien abre la seleccion de nivel desde el centro del hub.
         // Solo consumirla aqui cuando haya una interaccion con Pancrasio.
@@ -209,18 +205,14 @@ public class Hub {
                 dialogoPancrasio.avanzar();
 
                 if (dialogoPancrasio.estaActivo()) {
-                    cuadroDialogo.mostrar(
-                        dialogoPancrasio.getMensajeActual()
-                    );
+                    cuadroDialogo.mostrar(dialogoPancrasio.getMensajeActual());
                 } else {
                     cuadroDialogo.ocultar();
                 }
             } else if (estaCercaPancrasio()) {
                 dialogoPancrasio.iniciar();
 
-                cuadroDialogo.mostrar(
-                    dialogoPancrasio.getMensajeActual()
-                );
+                cuadroDialogo.mostrar(dialogoPancrasio.getMensajeActual());
             }
         }
     }
@@ -293,13 +285,9 @@ public class Hub {
         float ancho = getCamara().viewportWidth;
         float alto = getCamara().viewportHeight;
 
-        float x = getCamara().position.x
-            - ancho / 2f
-            + (ancho - layout.width) / 2f;
+        float x = getCamara().position.x - ancho / 2f + (ancho - layout.width) / 2f;
 
-        float y = getCamara().position.y
-            - alto / 2f
-            + 80;
+        float y = getCamara().position.y - alto / 2f + 80;
 
         fontAlerta.draw(Render.batch, mensaje, x, y);
     }

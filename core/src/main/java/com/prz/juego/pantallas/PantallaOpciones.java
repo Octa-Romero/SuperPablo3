@@ -19,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.principal.Navegable;
-import com.prz.juego.principal.Principal;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Musica;
@@ -83,16 +82,13 @@ public class PantallaOpciones implements Screen {
         fondo.setPosition(0, 0);
     }
 
-
     private void inicializarFuentes() {
 
         FreeTypeFontGenerator titulo =
-            new FreeTypeFontGenerator(
-                Gdx.files.internal("Fuentes/alagard.ttf")
-            );
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parametroTitulo =
-            new FreeTypeFontGenerator.FreeTypeFontParameter();
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametroTitulo.size = 56;
         parametroTitulo.color = Color.WHITE;
@@ -102,14 +98,11 @@ public class PantallaOpciones implements Screen {
 
         titulo.dispose();
 
-
         FreeTypeFontGenerator generadorBoton =
-            new FreeTypeFontGenerator(
-                Gdx.files.internal("Fuentes/alagard.ttf")
-            );
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parametroBoton =
-            new FreeTypeFontGenerator.FreeTypeFontParameter();
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametroBoton.size = 32;
         parametroBoton.color = Color.WHITE;
@@ -117,9 +110,8 @@ public class PantallaOpciones implements Screen {
         parametroBoton.borderColor = Color.BLACK;
         fontBoton = generadorBoton.generateFont(parametroBoton);
 
-
         FreeTypeFontGenerator.FreeTypeFontParameter parametroVolumen =
-            new FreeTypeFontGenerator.FreeTypeFontParameter();
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametroVolumen.size = 24;
         parametroVolumen.color = Color.WHITE;
@@ -139,8 +131,10 @@ public class PantallaOpciones implements Screen {
         style.downFontColor = Color.RED;
 
         titulo = new Label("OPCIONES", new Label.LabelStyle(fontTitulo, Color.GOLD));
-        btnResolucion = new TextButton("RESOLUCION: " + Config.getAncho() + "x" + Config.getAlto(), style);
-        btnToggleFullscreen = new TextButton(Config.fullscreen ? "MODO VENTANA" : "PANTALLA COMPLETA", style);
+        btnResolucion =
+                new TextButton("RESOLUCION: " + Config.getAncho() + "x" + Config.getAlto(), style);
+        btnToggleFullscreen =
+                new TextButton(Config.fullscreen ? "MODO VENTANA" : "PANTALLA COMPLETA", style);
         btnVolver = new TextButton("VOLVER", style);
 
         Slider.SliderStyle sliderStyle = crearEstiloSlider();
@@ -149,31 +143,36 @@ public class PantallaOpciones implements Screen {
         sliderMusica.setValue(Musica.getVolumen());
         sliderSonido.setValue(Sonido.getVolumen());
 
-        labelMusica = new Label(obtenerPorcentaje(Musica.getVolumen()), new Label.LabelStyle(fontVolumen, Color.WHITE));
-        labelSonido = new Label(obtenerPorcentaje(Sonido.getVolumen()), new Label.LabelStyle(fontVolumen, Color.WHITE));
+        labelMusica =
+                new Label(
+                        obtenerPorcentaje(Musica.getVolumen()),
+                        new Label.LabelStyle(fontVolumen, Color.WHITE));
+        labelSonido =
+                new Label(
+                        obtenerPorcentaje(Sonido.getVolumen()),
+                        new Label.LabelStyle(fontVolumen, Color.WHITE));
 
         sliderMusica.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, com.badlogic.gdx.scenes.scene2d.Actor actor) {
-                    float volumen = sliderMusica.getValue();
-                    Musica.setVolumen(volumen);
-                    labelMusica.setText(obtenerPorcentaje(volumen));
-                }
-            }
-        );
-
+                new ChangeListener() {
+                    @Override
+                    public void changed(
+                            ChangeEvent event, com.badlogic.gdx.scenes.scene2d.Actor actor) {
+                        float volumen = sliderMusica.getValue();
+                        Musica.setVolumen(volumen);
+                        labelMusica.setText(obtenerPorcentaje(volumen));
+                    }
+                });
 
         sliderSonido.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, com.badlogic.gdx.scenes.scene2d.Actor actor) {
-                    float volumen = sliderSonido.getValue();
-                    Sonido.setVolumen(volumen);
-                    labelSonido.setText(obtenerPorcentaje(volumen));
-                }
-            }
-        );
+                new ChangeListener() {
+                    @Override
+                    public void changed(
+                            ChangeEvent event, com.badlogic.gdx.scenes.scene2d.Actor actor) {
+                        float volumen = sliderSonido.getValue();
+                        Sonido.setVolumen(volumen);
+                        labelSonido.setText(obtenerPorcentaje(volumen));
+                    }
+                });
 
         listaResoluciones = new Table();
         listaResoluciones.setVisible(false);
@@ -184,55 +183,55 @@ public class PantallaOpciones implements Screen {
         agregarResolucion("1920x1080", 1920, 1080, style);
 
         btnResolucion.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Sonido.CLICK.sonar();
-                    mostrarResoluciones = !mostrarResoluciones;
-                    listaResoluciones.setVisible(mostrarResoluciones);
-                    actualizarInterfaz();
-                }
-            }
-        );
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
+                        mostrarResoluciones = !mostrarResoluciones;
+                        listaResoluciones.setVisible(mostrarResoluciones);
+                        actualizarInterfaz();
+                    }
+                });
 
         btnToggleFullscreen.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Sonido.CLICK.sonar();
-                    Config.toggleFullscreen();
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
+                        Config.toggleFullscreen();
 
-                    btnToggleFullscreen.setText(Config.fullscreen ? "MODO VENTANA" : "PANTALLA COMPLETA");
+                        btnToggleFullscreen.setText(
+                                Config.fullscreen ? "MODO VENTANA" : "PANTALLA COMPLETA");
 
-                    mostrarResoluciones = false;
-                    listaResoluciones.setVisible(false);
+                        mostrarResoluciones = false;
+                        listaResoluciones.setVisible(false);
 
-                    btnResolucion.setText("RESOLUCION: " + Config.getAncho() + "x" + Config.getAlto());
+                        btnResolucion.setText(
+                                "RESOLUCION: " + Config.getAncho() + "x" + Config.getAlto());
 
-                    stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+                        stage.getViewport()
+                                .update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-                    actualizarFondo();
-                    actualizarInterfaz();
-                }
-            }
-        );
+                        actualizarFondo();
+                        actualizarInterfaz();
+                    }
+                });
 
         btnVolver.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Sonido.CLICK.sonar();
-                    if (VENIA_DE_JUEGO) {
-                        NAV.cambiarPantalla(PANTALLA_ANTERIOR);
-                        PantallaJuego pantallaJuego = (PantallaJuego) PANTALLA_ANTERIOR;
-                        pantallaJuego.restaurarPosicionCamara();
-                        pantallaJuego.setPausa(true);
-                    } else {
-                        NAV.cambiarPantalla(new PantallaMenu(NAV));
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
+                        if (VENIA_DE_JUEGO) {
+                            NAV.cambiarPantalla(PANTALLA_ANTERIOR);
+                            PantallaJuego pantallaJuego = (PantallaJuego) PANTALLA_ANTERIOR;
+                            pantallaJuego.restaurarPosicionCamara();
+                            pantallaJuego.setPausa(true);
+                        } else {
+                            NAV.cambiarPantalla(new PantallaMenu(NAV));
+                        }
                     }
-                }
-            }
-        );
+                });
 
         contenedor = new Table();
         contenedor.setFillParent(true);
@@ -245,7 +244,10 @@ public class PantallaOpciones implements Screen {
     private void actualizarInterfaz() {
         contenedor.clearChildren();
         contenedor.add(titulo).padBottom(25).row();
-        contenedor.add(new Label("VOLUMEN MUSICA", new Label.LabelStyle(fontVolumen, Color.WHITE))).padBottom(5).row();
+        contenedor
+                .add(new Label("VOLUMEN MUSICA", new Label.LabelStyle(fontVolumen, Color.WHITE)))
+                .padBottom(5)
+                .row();
 
         Table filaMusica = new Table();
         filaMusica.add(sliderMusica).width(250).height(30);
@@ -253,7 +255,10 @@ public class PantallaOpciones implements Screen {
 
         contenedor.add(filaMusica).padBottom(15).row();
 
-        contenedor.add(new Label("VOLUMEN EFECTOS", new Label.LabelStyle(fontVolumen, Color.WHITE))).padBottom(5).row();
+        contenedor
+                .add(new Label("VOLUMEN EFECTOS", new Label.LabelStyle(fontVolumen, Color.WHITE)))
+                .padBottom(5)
+                .row();
 
         Table filaSonido = new Table();
 
@@ -274,32 +279,33 @@ public class PantallaOpciones implements Screen {
         contenedor.add(btnVolver).size(250, 50);
     }
 
-    private void agregarResolucion(String texto, int ancho, int alto, TextButton.TextButtonStyle style) {
+    private void agregarResolucion(
+            String texto, int ancho, int alto, TextButton.TextButtonStyle style) {
         TextButton btn = new TextButton(texto, style);
 
         btn.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Sonido.CLICK.sonar();
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
 
-                    Config.setWindowed(ancho, alto);
+                        Config.setWindowed(ancho, alto);
 
-                    btnResolucion.setText("RESOLUCION: " + texto);
+                        btnResolucion.setText("RESOLUCION: " + texto);
 
-                    mostrarResoluciones = false;
+                        mostrarResoluciones = false;
 
-                    listaResoluciones.setVisible(false);
+                        listaResoluciones.setVisible(false);
 
-                    stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+                        stage.getViewport()
+                                .update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-                    actualizarFondo();
-                    actualizarInterfaz();
+                        actualizarFondo();
+                        actualizarInterfaz();
 
-                    btnToggleFullscreen.setText("PANTALLA COMPLETA");
-                }
-            }
-        );
+                        btnToggleFullscreen.setText("PANTALLA COMPLETA");
+                    }
+                });
 
         listaResoluciones.add(btn).size(250, 40).row();
     }
@@ -351,16 +357,13 @@ public class PantallaOpciones implements Screen {
     }
 
     @Override
-    public void pause() {
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {

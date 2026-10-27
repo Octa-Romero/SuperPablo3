@@ -1,21 +1,22 @@
 package com.prz.juego.niveles;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.prz.juego.entidades.*;
+import com.prz.juego.entidades.Entidad;
+import com.prz.juego.entidades.enemigos.*;
+import com.prz.juego.entidades.jugadores.*;
 import com.prz.juego.sistemas.Camara;
 import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Debug;
 import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
+
+import java.util.ArrayList;
 
 public class Nivel {
 
@@ -45,7 +46,7 @@ public class Nivel {
         colision = new Colisiones(mapa);
         jugador.setColisiones(colision);
 
-        if(jugador instanceof Pablo){
+        if (jugador instanceof Pablo) {
             ((Pablo) jugador).setEntidades(ENTIDADES);
         } else {
             ((Walter) jugador).configurarAtaque(ENTIDADES, colision);
@@ -60,8 +61,6 @@ public class Nivel {
 
         float mapTotalWidth = tileWidth * mapWidthTiles;
         float mapTotalHeight = tileHeight * mapHeightTiles;
-        System.out.println("Ancho real del mapa: " + mapTotalWidth);
-
         camara.setLimitesMapa(mapTotalWidth, mapTotalHeight);
 
         mapRenderer = new OrthogonalTiledMapRenderer(mapa, 1f);
@@ -139,10 +138,9 @@ public class Nivel {
 
         // Cámara
         camara.seguirPersonaje(
-            jugador.getX() + jugador.getAncho() / 2f,
-            jugador.getY() + jugador.getAlto() / 2f,
-            delta
-        );
+                jugador.getX() + jugador.getAncho() / 2f,
+                jugador.getY() + jugador.getAlto() / 2f,
+                delta);
 
         // Alternar hitboxes
         if (entrada.aprietaF1()) {
@@ -152,7 +150,6 @@ public class Nivel {
         if (jugador.estaMuerto()) {
             gameOver = true;
         }
-
     }
 
     public void resize(int width, int height) {
@@ -172,8 +169,7 @@ public class Nivel {
             shapeRenderer.dispose();
         }
 
-        for(Entidad e : ENTIDADES)
-        {
+        for (Entidad e : ENTIDADES) {
             e.dispose();
         }
         ENTIDADES.clear();
@@ -191,5 +187,7 @@ public class Nivel {
         camara.restaurarPosicion();
     }
 
-    public boolean isGameOver(){return this.gameOver;}
+    public boolean isGameOver() {
+        return this.gameOver;
+    }
 }

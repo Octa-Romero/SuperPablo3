@@ -22,11 +22,6 @@ public class Camara {
         VIEWPORT = new FitViewport(V_WIDTH, V_HEIGHT, CAMERA);
         CAMERA.position.set(V_WIDTH / 2f, V_HEIGHT / 2f, 0);
         CAMERA.update();
-
-        System.out.println(
-            "Viewport: " + CAMERA.viewportWidth + " x " + CAMERA.viewportHeight
-                + " | Zoom: " + CAMERA.zoom
-        );
     }
 
     public void setLimitesMapa(float anchoMapaPx, float altoMapaPx) {
@@ -46,17 +41,13 @@ public class Camara {
         if (limiteMaxX <= limiteMinX) {
             CAMERA.position.x = limiteMinX;
         } else {
-            CAMERA.position.x = MathUtils.clamp(
-                CAMERA.position.x, limiteMinX, limiteMaxX
-            );
+            CAMERA.position.x = MathUtils.clamp(CAMERA.position.x, limiteMinX, limiteMaxX);
         }
 
         if (limiteMaxY <= limiteMinY) {
             CAMERA.position.y = limiteMinY;
         } else {
-            CAMERA.position.y = MathUtils.clamp(
-                CAMERA.position.y, limiteMinY, limiteMaxY
-            );
+            CAMERA.position.y = MathUtils.clamp(CAMERA.position.y, limiteMinY, limiteMaxY);
         }
 
         CAMERA.update();
@@ -81,6 +72,4 @@ public class Camara {
         CAMERA.position.y = posicionGuardadaY;
         CAMERA.update();
     }
-
-
 }

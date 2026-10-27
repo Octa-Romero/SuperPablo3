@@ -21,35 +21,48 @@ public class Animacion {
         regionReposo = new TextureRegion(texturaReposo);
     }
 
-    public void configurar(Texture spritesheet, int anchoFrame, int altoFrame,
-                           int framesReposo, int framesCaminar, float duracionFrame) {
+    public void configurar(
+            Texture spritesheet,
+            int anchoFrame,
+            int altoFrame,
+            int framesReposo,
+            int framesCaminar,
+            float duracionFrame) {
         configurar(
-            spritesheet,
-            anchoFrame,
-            altoFrame,
-            crearIndices(0, framesReposo),
-            crearIndices(framesReposo, framesCaminar),
-            null,
-            duracionFrame
-        );
+                spritesheet,
+                anchoFrame,
+                altoFrame,
+                crearIndices(0, framesReposo),
+                crearIndices(framesReposo, framesCaminar),
+                null,
+                duracionFrame);
     }
 
-    public void configurar(Texture spritesheet, int anchoFrame, int altoFrame,
-                           int[] indicesReposo, int[] indicesCaminar,
-                           int[] indicesAtaque, float duracionFrame) {
+    public void configurar(
+            Texture spritesheet,
+            int anchoFrame,
+            int altoFrame,
+            int[] indicesReposo,
+            int[] indicesCaminar,
+            int[] indicesAtaque,
+            float duracionFrame) {
         validarConfiguracion(spritesheet, anchoFrame, altoFrame, indicesCaminar, duracionFrame);
 
         TextureRegion[][] grilla = TextureRegion.split(spritesheet, anchoFrame, altoFrame);
         TextureRegion[] frames = aplanar(grilla);
         validarIndices(frames.length, indicesReposo, indicesCaminar, indicesAtaque);
 
-        reposo = indicesReposo == null || indicesReposo.length == 0
-            ? null
-            : crearAnimacion(frames, indicesReposo, duracionFrame, Animation.PlayMode.LOOP);
+        reposo =
+                indicesReposo == null || indicesReposo.length == 0
+                        ? null
+                        : crearAnimacion(
+                                frames, indicesReposo, duracionFrame, Animation.PlayMode.LOOP);
         caminar = crearAnimacion(frames, indicesCaminar, duracionFrame, Animation.PlayMode.LOOP);
-        ataque = indicesAtaque == null || indicesAtaque.length == 0
-            ? null
-            : crearAnimacion(frames, indicesAtaque, duracionFrame, Animation.PlayMode.NORMAL);
+        ataque =
+                indicesAtaque == null || indicesAtaque.length == 0
+                        ? null
+                        : crearAnimacion(
+                                frames, indicesAtaque, duracionFrame, Animation.PlayMode.NORMAL);
 
         actual = null;
         tiempo = 0f;
@@ -91,18 +104,26 @@ public class Animacion {
         actual = null;
     }
 
-    private void validarConfiguracion(Texture spritesheet, int anchoFrame, int altoFrame,
-                                      int[] indicesCaminar, float duracionFrame) {
-        if (spritesheet == null || anchoFrame <= 0 || altoFrame <= 0 || duracionFrame <= 0
-            || indicesCaminar == null || indicesCaminar.length == 0
-            || spritesheet.getWidth() % anchoFrame != 0
-            || spritesheet.getHeight() % altoFrame != 0) {
+    private void validarConfiguracion(
+            Texture spritesheet,
+            int anchoFrame,
+            int altoFrame,
+            int[] indicesCaminar,
+            float duracionFrame) {
+        if (spritesheet == null
+                || anchoFrame <= 0
+                || altoFrame <= 0
+                || duracionFrame <= 0
+                || indicesCaminar == null
+                || indicesCaminar.length == 0
+                || spritesheet.getWidth() % anchoFrame != 0
+                || spritesheet.getHeight() % altoFrame != 0) {
             throw new IllegalArgumentException("Spritesheet o configuracion de frames invalida");
         }
     }
 
-    private Animation<TextureRegion> crearAnimacion(TextureRegion[] frames, int[] indices,
-                                                     float duracionFrame, Animation.PlayMode modo) {
+    private Animation<TextureRegion> crearAnimacion(
+            TextureRegion[] frames, int[] indices, float duracionFrame, Animation.PlayMode modo) {
         TextureRegion[] regiones = new TextureRegion[indices.length];
         for (int i = 0; i < indices.length; i++) {
             regiones[i] = frames[indices[i]];
@@ -132,7 +153,8 @@ public class Animacion {
             }
             for (int indice : grupo) {
                 if (indice < 0 || indice >= totalFrames) {
-                    throw new IllegalArgumentException("El spritesheet no contiene el frame " + indice);
+                    throw new IllegalArgumentException(
+                            "El spritesheet no contiene el frame " + indice);
                 }
             }
         }

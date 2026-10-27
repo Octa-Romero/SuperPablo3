@@ -1,4 +1,4 @@
-package com.prz.juego.entidades;
+package com.prz.juego.entidades.jugadores;
 
 public enum Personajes {
     PABLO,
@@ -7,7 +7,6 @@ public enum Personajes {
     public Jugador crear(int x, int y) {
 
         switch (this) {
-
             case PABLO:
                 Pablo p = new Pablo(x, y);
                 return p;

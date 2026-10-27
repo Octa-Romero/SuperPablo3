@@ -1,22 +1,18 @@
 package com.prz.juego.pantallas;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
-
-import com.prz.juego.entidades.Jugador;
-import com.prz.juego.entidades.Personajes;
+import com.prz.juego.entidades.jugadores.Jugador;
+import com.prz.juego.entidades.jugadores.Personajes;
 import com.prz.juego.niveles.Hub;
-import com.prz.juego.principal.Navegable;
-import com.prz.juego.principal.Principal;
 import com.prz.juego.niveles.Nivel;
-import com.prz.juego.utilidades.Entrada;
-import com.prz.juego.utilidades.Musica;
-import com.prz.juego.utilidades.Render;
+import com.prz.juego.principal.Navegable;
 import com.prz.juego.sistemas.Hud;
+import com.prz.juego.utilidades.Entrada;
+import com.prz.juego.utilidades.Render;
 
 public class PantallaJuego implements Screen {
 
@@ -30,12 +26,11 @@ public class PantallaJuego implements Screen {
     private final Hud HUD;
     private Hub hub;
 
-
     public PantallaJuego(Navegable NAV, Personajes PERSONAJE_ELEGIDO) {
         this(NAV, PERSONAJE_ELEGIDO, null);
     }
 
-    public PantallaJuego(Navegable NAV, Personajes PERSONAJE_ELEGIDO,String rutaNivel) {
+    public PantallaJuego(Navegable NAV, Personajes PERSONAJE_ELEGIDO, String rutaNivel) {
         this.NAV = NAV;
         this.PERSONAJE_ELEGIDO = PERSONAJE_ELEGIDO;
 
@@ -86,24 +81,17 @@ public class PantallaJuego implements Screen {
                 hub.update(delta, ENTRADA);
             } else {
                 NIVEL.update(delta, ENTRADA);
-
-
-
             }
 
             limitarJugadorDentroDePantalla();
         }
 
         // Ir a la seleccion de niveles desde el Hub
-        if (!pausado && hub != null
-            && hub.estaEnCentroHub()
-            && ENTRADA.aprietaE()) {
+        if (!pausado && hub != null && hub.estaEnCentroHub() && ENTRADA.aprietaE()) {
 
             guardarPosicionCamara();
             ENTRADA.limpiar();
-            NAV.cambiarPantalla(
-                new SeleccionNivel(NAV, PERSONAJE_ELEGIDO, this)
-            );
+            NAV.cambiarPantalla(new SeleccionNivel(NAV, PERSONAJE_ELEGIDO, this));
             return;
         }
 
@@ -153,20 +141,16 @@ public class PantallaJuego implements Screen {
         HUD.actualizarTamano(width, height);
     }
 
-    public void setPausa(boolean valor)
-    {
+    public void setPausa(boolean valor) {
         this.pausado = valor;
     }
 
     private void limitarJugadorDentroDePantalla() {
         Camera CAMARA_ACTUAL = hub != null ? hub.getCamara() : NIVEL.getCamara();
         float CENTRO_Y = Gdx.graphics.getHeight() / 2f;
-        float BORDE_IZQUIERDO = CAMARA_ACTUAL.unproject(
-            new Vector3(0, CENTRO_Y, 0)
-        ).x;
-        float BORDE_DERECHO = CAMARA_ACTUAL.unproject(
-            new Vector3(Gdx.graphics.getWidth(), CENTRO_Y, 0)
-        ).x;
+        float BORDE_IZQUIERDO = CAMARA_ACTUAL.unproject(new Vector3(0, CENTRO_Y, 0)).x;
+        float BORDE_DERECHO =
+                CAMARA_ACTUAL.unproject(new Vector3(Gdx.graphics.getWidth(), CENTRO_Y, 0)).x;
 
         jugador.limitarMovimientoHorizontal(BORDE_IZQUIERDO, BORDE_DERECHO);
     }
@@ -187,9 +171,14 @@ public class PantallaJuego implements Screen {
         }
     }
 
-    @Override public void pause() {}
-    @Override public void resume() {}
-    @Override public void hide() {}
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
+
+    @Override
+    public void hide() {}
 
     @Override
     public void dispose() {
@@ -200,5 +189,4 @@ public class PantallaJuego implements Screen {
         }
         MENU_PAUSA.dispose();
     }
-
 }

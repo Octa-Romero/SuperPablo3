@@ -5,18 +5,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.prz.juego.entidades.jugadores.Personajes;
 import com.prz.juego.principal.Navegable;
-import com.prz.juego.principal.Principal;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Render;
 import com.prz.juego.utilidades.Sonido;
-import com.prz.juego.entidades.Personajes;
 
 public class SeleccionPersonaje implements Screen {
 
@@ -41,15 +40,16 @@ public class SeleccionPersonaje implements Screen {
         inicializarFuentes();
         inicializarFondo();
 
-
         crearInterfaz();
     }
 
     private void inicializarFuentes() {
 
-        FreeTypeFontGenerator titulo = new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
+        FreeTypeFontGenerator titulo =
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametro.size = 48;
         parametro.color = Color.WHITE;
@@ -58,9 +58,10 @@ public class SeleccionPersonaje implements Screen {
         font = titulo.generateFont(parametro);
         titulo.dispose();
 
-
-        FreeTypeFontGenerator boton = new FreeTypeFontGenerator( Gdx.files.internal( "Fuentes/alagard.ttf" ) );
-        FreeTypeFontGenerator.FreeTypeFontParameter parametroBoton = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator boton =
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parametroBoton =
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
         parametroBoton.size = 28;
         parametroBoton.color = Color.WHITE;
         parametroBoton.borderWidth = 2f;
@@ -78,7 +79,8 @@ public class SeleccionPersonaje implements Screen {
 
         float ancho = stage.getViewport().getWorldWidth();
         float alto = stage.getViewport().getWorldHeight();
-        fondo.setSize(ancho, alto); fondo.setPosition(0, 0);
+        fondo.setSize(ancho, alto);
+        fondo.setPosition(0, 0);
     }
 
     private void crearInterfaz() {
@@ -89,9 +91,7 @@ public class SeleccionPersonaje implements Screen {
 
         table.defaults().pad(10);
 
-        Label titulo = new Label("SELECCION DE PERSONAJE",
-            new Label.LabelStyle(font, Color.WHITE));
-
+        Label titulo = new Label("SELECCION DE PERSONAJE", new Label.LabelStyle(font, Color.WHITE));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = fontBoton;
@@ -107,39 +107,43 @@ public class SeleccionPersonaje implements Screen {
         btnComenzar = new TextButton("COMENZAR", style);
         btnComenzar.setDisabled(true);
 
-        btnPablo.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                personajeSeleccionado = Personajes.PABLO;
-                btnComenzar.setDisabled(false);
-            }
-        });
+        btnPablo.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        personajeSeleccionado = Personajes.PABLO;
+                        btnComenzar.setDisabled(false);
+                    }
+                });
 
-        btnWalter.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                personajeSeleccionado = Personajes.WALTER;
-                btnComenzar.setDisabled(false);
-            }
-        });
+        btnWalter.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        personajeSeleccionado = Personajes.WALTER;
+                        btnComenzar.setDisabled(false);
+                    }
+                });
 
-        btnComenzar.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
+        btnComenzar.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
 
-                if (personajeSeleccionado == null) return;
+                        if (personajeSeleccionado == null) return;
 
-                NAV.cambiarPantalla(new PantallaJuego(NAV, personajeSeleccionado));
-            }
-        });
+                        NAV.cambiarPantalla(new PantallaJuego(NAV, personajeSeleccionado));
+                    }
+                });
 
-        btnCancelar.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Sonido.CLICK.sonar();
-                NAV.cambiarPantalla(PANTALLA_MENU);
-            }
-        });
+        btnCancelar.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
+                        NAV.cambiarPantalla(PANTALLA_MENU);
+                    }
+                });
 
         table.add(titulo).colspan(2).center().padBottom(40).row();
 
@@ -167,8 +171,11 @@ public class SeleccionPersonaje implements Screen {
         stage.getViewport().update(width, height, true);
     }
 
-    @Override public void pause() {}
-    @Override public void resume() {}
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
 
     @Override
     public void hide() {

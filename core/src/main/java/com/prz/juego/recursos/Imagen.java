@@ -41,12 +41,11 @@ public class Imagen extends Image {
             Color colorAnterior = batch.getColor().cpy();
             batch.setColor(0f, 0f, 0f, getColor().a * parentAlpha);
             drawable.draw(
-                batch,
-                getX() - GROSOR_CONTORNO,
-                getY() - GROSOR_CONTORNO,
-                getWidth() + GROSOR_CONTORNO * 2,
-                getHeight() + GROSOR_CONTORNO * 2
-            );
+                    batch,
+                    getX() - GROSOR_CONTORNO,
+                    getY() - GROSOR_CONTORNO,
+                    getWidth() + GROSOR_CONTORNO * 2,
+                    getHeight() + GROSOR_CONTORNO * 2);
             batch.setColor(colorAnterior);
         }
 

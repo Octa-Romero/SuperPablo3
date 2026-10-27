@@ -154,6 +154,9 @@ Thumbs.db
 *#*#
 /.kotlin/
 /assets/assets.txt
+*.log
+*.hprof
+replay_pid*
 
 ## Special cases:
 

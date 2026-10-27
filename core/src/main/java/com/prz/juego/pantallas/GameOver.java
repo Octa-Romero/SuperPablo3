@@ -5,13 +5,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.principal.Navegable;
-import com.prz.juego.principal.Principal;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Render;
 
@@ -40,12 +39,10 @@ public class GameOver implements Screen {
 
     private void inicializarFuentes() {
         FreeTypeFontGenerator generator =
-            new FreeTypeFontGenerator(
-                Gdx.files.internal("Fuentes/alagard.ttf")
-            );
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parametro =
-            new FreeTypeFontGenerator.FreeTypeFontParameter();
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametro.size = 48;
         parametro.color = Color.WHITE;
@@ -67,7 +64,8 @@ public class GameOver implements Screen {
         Label titulo = new Label("GAME OVER", new Label.LabelStyle(font, Color.RED));
         titulo.setFontScale(3f);
 
-        Label mensaje = new Label("Has perdido la partida", new Label.LabelStyle(font, Color.LIGHT_GRAY));
+        Label mensaje =
+                new Label("Has perdido la partida", new Label.LabelStyle(font, Color.LIGHT_GRAY));
         mensaje.setFontScale(1.2f);
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
@@ -78,12 +76,13 @@ public class GameOver implements Screen {
 
         TextButton volverMenu = new TextButton("VOLVER AL MENU", style);
 
-        volverMenu.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                NAV.cambiarPantalla(new PantallaMenu(NAV));
-            }
-        });
+        volverMenu.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        NAV.cambiarPantalla(new PantallaMenu(NAV));
+                    }
+                });
 
         table.add(titulo).padBottom(20).row();
         table.add(mensaje).padBottom(30).row();
@@ -105,9 +104,11 @@ public class GameOver implements Screen {
         stage.getViewport().update(width, height, true);
     }
 
-    @Override public void pause() {}
+    @Override
+    public void pause() {}
 
-    @Override public void resume() {}
+    @Override
+    public void resume() {}
 
     @Override
     public void hide() {

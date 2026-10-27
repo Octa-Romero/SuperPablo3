@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.principal.Navegable;
-import com.prz.juego.principal.Principal;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Sonido;
 
@@ -68,36 +67,33 @@ public class MenuPausa {
         TextButton menu = new TextButton("SALIR AL MENU", style);
 
         reanudar.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Sonido.CLICK.sonar();
-                    PANTALLA_JUEGO.setPausa(false);
-                    desactivar();
-                }
-            }
-        );
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
+                        PANTALLA_JUEGO.setPausa(false);
+                        desactivar();
+                    }
+                });
 
         opciones.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Sonido.CLICK.sonar();
-                    PANTALLA_JUEGO.guardarPosicionCamara();
-                    NAV.cambiarPantalla(new PantallaOpciones(NAV, PANTALLA_JUEGO, true));
-                }
-            }
-        );
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
+                        PANTALLA_JUEGO.guardarPosicionCamara();
+                        NAV.cambiarPantalla(new PantallaOpciones(NAV, PANTALLA_JUEGO, true));
+                    }
+                });
 
         menu.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Sonido.CLICK.sonar();
-                    NAV.cambiarPantalla(new PantallaMenu(NAV));
-                }
-            }
-        );
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
+                        NAV.cambiarPantalla(new PantallaMenu(NAV));
+                    }
+                });
 
         contenedor.add(titulo).padBottom(40).row();
         contenedor.add(reanudar).width(250).height(50).padBottom(20).row();
@@ -110,7 +106,8 @@ public class MenuPausa {
 
         panelOscuro.setSize(anchoPanel, altoPanel);
 
-        panelOscuro.setPosition((Config.ANCHO_BASE - anchoPanel) / 2f, (Config.ALTO_BASE - altoPanel) / 2f);
+        panelOscuro.setPosition(
+                (Config.ANCHO_BASE - anchoPanel) / 2f, (Config.ALTO_BASE - altoPanel) / 2f);
 
         contenedor.setPosition(Config.ANCHO_BASE / 2f, Config.ALTO_BASE / 2f, Align.center);
 
@@ -121,12 +118,10 @@ public class MenuPausa {
 
     private BitmapFont crearFuente(int tamano) {
         FreeTypeFontGenerator generator =
-            new FreeTypeFontGenerator(
-                Gdx.files.internal("Fuentes/alagard.ttf")
-            );
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parametro =
-            new FreeTypeFontGenerator.FreeTypeFontParameter();
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametro.size = tamano;
         parametro.color = Color.WHITE;

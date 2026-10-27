@@ -1,15 +1,17 @@
-package com.prz.juego.entidades;
-
-import java.util.ArrayList;
+package com.prz.juego.entidades.jugadores;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.prz.juego.entidades.Entidad;
+import com.prz.juego.entidades.enemigos.Enemigo;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Render;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import java.util.ArrayList;
 
 public class BolaFuego {
 
@@ -27,16 +29,20 @@ public class BolaFuego {
     private final Colisiones COLISION;
     private final ArrayList<Entidad> ENTIDADES;
 
-    public BolaFuego(float x, float y, float DIRECCION, Walter WALTER, Colisiones COLISION, ArrayList<Entidad> ENTIDADES) {
+    public BolaFuego(
+            float x,
+            float y,
+            float DIRECCION,
+            Walter WALTER,
+            Colisiones COLISION,
+            ArrayList<Entidad> ENTIDADES) {
         this.x = x;
         this.y = y;
         this.DIRECCION = DIRECCION;
         this.WALTER = WALTER;
         this.COLISION = COLISION;
         this.ENTIDADES = ENTIDADES;
-        SPRITE = new Sprite(
-            GestorRecursos.obtenerTextura("Personajes/Walter/bola_fuego.png")
-        );
+        SPRITE = new Sprite(GestorRecursos.obtenerTextura("Personajes/Walter/bola_fuego.png"));
         SPRITE.setSize(RADIO * 2, RADIO * 2);
         SPRITE.setPosition(x - RADIO, y - RADIO);
         BOUNDS = new Circle(x, y, RADIO);
@@ -100,8 +106,10 @@ public class BolaFuego {
 
     private boolean chocaConEnemigo(Enemigo enemigo) {
         Rectangle enemigoBounds = enemigo.getBounds();
-        float puntoX = Math.max(enemigoBounds.x, Math.min(x, enemigoBounds.x + enemigoBounds.width));
-        float puntoY = Math.max(enemigoBounds.y, Math.min(y, enemigoBounds.y + enemigoBounds.height));
+        float puntoX =
+                Math.max(enemigoBounds.x, Math.min(x, enemigoBounds.x + enemigoBounds.width));
+        float puntoY =
+                Math.max(enemigoBounds.y, Math.min(y, enemigoBounds.y + enemigoBounds.height));
         float distanciaX = x - puntoX;
         float distanciaY = y - puntoY;
 

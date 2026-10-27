@@ -1,12 +1,11 @@
-
 package com.prz.juego.pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -17,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
+import com.prz.juego.entidades.jugadores.Personajes;
 import com.prz.juego.principal.Navegable;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.recursos.Imagen;
@@ -25,7 +24,6 @@ import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.FuenteJuego;
 import com.prz.juego.utilidades.Render;
 import com.prz.juego.utilidades.Sonido;
-import com.prz.juego.entidades.Personajes;
 
 public class SeleccionNivel implements Screen {
 
@@ -95,38 +93,39 @@ public class SeleccionNivel implements Screen {
 
         ImageButton portal = new ImageButton(style);
 
-        portal.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
+        portal.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
 
-                String rutaNivel;
+                        String rutaNivel;
 
-                switch (NUMERO_NIVEL) {
-                    case 1:
-                        rutaNivel = "Niveles/Niveles/Level1.tmx";
-                        break;
-                    case 2:
-                        rutaNivel = "Niveles/Niveles/Nivel2.1.tmx";
-                        break;
-                    case 3:
-                        rutaNivel = "Niveles/Niveles/Nivel3.tmx";
-                        break;
-                    case 4:
-                        rutaNivel = "Niveles/Niveles/nivel4.tmx";
-                        break;
-                    case 5:
-                        rutaNivel = "Niveles/Niveles/Nivel5.tmx";
-                        break;
-                    case 6:
-                        rutaNivel = "Niveles/Niveles/Nivel6.tmx";
-                        break;
-                    default:
-                        return;
-                }
+                        switch (NUMERO_NIVEL) {
+                            case 1:
+                                rutaNivel = "Niveles/Niveles/Level1.tmx";
+                                break;
+                            case 2:
+                                rutaNivel = "Niveles/Niveles/Nivel2.1.tmx";
+                                break;
+                            case 3:
+                                rutaNivel = "Niveles/Niveles/Nivel3.tmx";
+                                break;
+                            case 4:
+                                rutaNivel = "Niveles/Niveles/nivel4.tmx";
+                                break;
+                            case 5:
+                                rutaNivel = "Niveles/Niveles/Nivel5.tmx";
+                                break;
+                            case 6:
+                                rutaNivel = "Niveles/Niveles/Nivel6.tmx";
+                                break;
+                            default:
+                                return;
+                        }
 
-                NAV.cambiarPantalla(new PantallaJuego(NAV,PERSONAJE_ELEGIDO, rutaNivel));
-            }
-        });
+                        NAV.cambiarPantalla(new PantallaJuego(NAV, PERSONAJE_ELEGIDO, rutaNivel));
+                    }
+                });
 
         return portal;
     }
@@ -144,7 +143,6 @@ public class SeleccionNivel implements Screen {
         principal.setFillParent(true);
 
         Label titulo = new Label("SELECCION DE NIVEL", new Label.LabelStyle(font, Color.WHITE));
-
 
         titulo.getColor().a = 0f;
 
@@ -165,14 +163,15 @@ public class SeleccionNivel implements Screen {
 
         TextButton botonCancelar = new TextButton("Cancelar", estiloCancelar);
         botonCancelar.getLabel().setFontScale(0.65f);
-        botonCancelar.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Sonido.CLICK.sonar();
-                PANTALLA_HUB.restaurarPosicionCamara();
-                NAV.cambiarPantalla(PANTALLA_HUB);
-            }
-        });
+        botonCancelar.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
+                        PANTALLA_HUB.restaurarPosicionCamara();
+                        NAV.cambiarPantalla(PANTALLA_HUB);
+                    }
+                });
 
         animarPortal(portal1, 0.5f);
         animarPortal(portal2, 0.7f);
@@ -180,7 +179,6 @@ public class SeleccionNivel implements Screen {
         animarPortal(portal4, 1.1f);
         animarPortal(portal5, 1.3f);
         animarPortal(portal6, 1.5f);
-
 
         principal.add(titulo).colspan(3).padBottom(20).row();
         principal.add(portal1).width(170).height(170).pad(5);
@@ -216,12 +214,10 @@ public class SeleccionNivel implements Screen {
     }
 
     @Override
-    public void pause() {
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-    }
+    public void resume() {}
 
     @Override
     public void hide() {

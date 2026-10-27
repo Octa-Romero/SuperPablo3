@@ -3,14 +3,13 @@ package com.prz.juego.principal;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.prz.juego.pantallas.PantallaJuego;
 import com.prz.juego.pantallas.PantallaMenu;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
 import com.prz.juego.utilidades.Sonido;
 
-public class Principal extends Game implements Navegable{
+public class Principal extends Game implements Navegable {
 
     @Override
     public void create() {

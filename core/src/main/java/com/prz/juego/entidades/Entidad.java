@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.utilidades.Animacion;
-import com.prz.juego.utilidades.Sonido;
 
 public abstract class Entidad {
 
@@ -34,8 +33,15 @@ public abstract class Entidad {
     protected boolean mirandoDerecha = true;
     protected final Animacion ANIMACION;
 
-
-    protected Entidad(float x, float y, float ancho, float alto, int velocidadX, double vida, double danio, Texture textura) {
+    protected Entidad(
+            float x,
+            float y,
+            float ancho,
+            float alto,
+            int velocidadX,
+            double vida,
+            double danio,
+            Texture textura) {
         this.x = x;
         this.y = y;
         this.ancho = ancho;
@@ -54,7 +60,6 @@ public abstract class Entidad {
         actualizarSpriteVisual();
     }
 
-
     protected void configurarSpriteVisual(float anchoSprite, float altoSprite) {
         validarTamanoSprite(anchoSprite, altoSprite);
 
@@ -67,9 +72,12 @@ public abstract class Entidad {
         actualizarSpriteVisual();
     }
 
-
-    protected void configurarSpriteVisual(float anchoSprite, float altoSprite,
-                                                float offsetDerecha, float offsetIzquierda, float offsetY) {
+    protected void configurarSpriteVisual(
+            float anchoSprite,
+            float altoSprite,
+            float offsetDerecha,
+            float offsetIzquierda,
+            float offsetY) {
 
         validarTamanoSprite(anchoSprite, altoSprite);
 
@@ -88,14 +96,12 @@ public abstract class Entidad {
         }
 
         configurarSpriteVisual(
-            anchoSprite * escala,
-            altoSprite * escala,
-            offsetSpriteXDerecha * escala,
-            offsetSpriteXIzquierda * escala,
-            offsetSpriteY * escala
-        );
+                anchoSprite * escala,
+                altoSprite * escala,
+                offsetSpriteXDerecha * escala,
+                offsetSpriteXIzquierda * escala,
+                offsetSpriteY * escala);
     }
-
 
     private void validarTamanoSprite(float anchoSprite, float altoSprite) {
         if (anchoSprite <= 0 || altoSprite <= 0) {
@@ -103,25 +109,17 @@ public abstract class Entidad {
         }
     }
 
-
     protected void actualizarSpriteVisual() {
         if (sprite != null) {
             sprite.setSize(anchoSprite, altoSprite);
 
-            float offsetX = sprite.isFlipX()
-                ? offsetSpriteXIzquierda
-                : offsetSpriteXDerecha;
+            float offsetX = sprite.isFlipX() ? offsetSpriteXIzquierda : offsetSpriteXDerecha;
 
-            sprite.setPosition(
-                x + offsetX,
-                y + offsetSpriteY
-            );
+            sprite.setPosition(x + offsetX, y + offsetSpriteY);
         }
     }
 
-
     public abstract void update(float delta);
-
 
     protected void actualizarFisica(float delta) {
 
@@ -133,7 +131,6 @@ public abstract class Entidad {
 
         bounds.setPosition(x, y);
     }
-
 
     protected void actualizarInvencibilidad(float delta) {
 
@@ -155,7 +152,6 @@ public abstract class Entidad {
         }
     }
 
-
     public void restarVida(double cantidad) {
 
         if (tiempoInvencibilidad > 0) {
@@ -174,16 +170,13 @@ public abstract class Entidad {
         }
     }
 
-
     protected void guardarPosicionAnterior() {
         xAnterior = x;
         yAnterior = y;
     }
 
     public void limitarMovimientoHorizontal(float limiteIzquierdo, float limiteDerecho) {
-        float offsetSpriteX = sprite.isFlipX()
-            ? offsetSpriteXIzquierda
-            : offsetSpriteXDerecha;
+        float offsetSpriteX = sprite.isFlipX() ? offsetSpriteXIzquierda : offsetSpriteXDerecha;
         float anchoPersonaje = Math.max(ancho, offsetSpriteX + anchoSprite);
         float maximoX = limiteDerecho - anchoPersonaje;
         if (maximoX < limiteIzquierdo) {
@@ -194,7 +187,6 @@ public abstract class Entidad {
         bounds.setPosition(x, y);
         actualizarSpriteVisual();
     }
-
 
     protected void orientarSprite(Sprite sprite, float direccion) {
 
@@ -219,7 +211,9 @@ public abstract class Entidad {
         orientarSprite(sprite, x - xAnterior);
     }
 
-    protected void morir() {muerto = true;}
+    protected void morir() {
+        muerto = true;
+    }
 
     public boolean estaMuerto() {
         return muerto;
@@ -227,109 +221,84 @@ public abstract class Entidad {
 
     public abstract void dibujar();
 
-
     public void dibujarHitbox(ShapeRenderer shapeRenderer) {
 
         shapeRenderer.setColor(Color.GREEN);
 
-        shapeRenderer.rect(
-            bounds.x,
-            bounds.y,
-            bounds.width,
-            bounds.height
-        );
+        shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
     }
-
 
     public float getX() {
         return x;
     }
 
-
     public float getY() {
         return y;
     }
-
 
     public float getXAnterior() {
         return xAnterior;
     }
 
-
     public float getYAnterior() {
         return yAnterior;
     }
-
 
     public float getAncho() {
         return ancho;
     }
 
-
     public float getAlto() {
         return alto;
     }
-
 
     public Rectangle getBounds() {
         return bounds;
     }
 
-
     public int getVelocidadX() {
         return velocidadX;
     }
-
 
     public float getVelocidadY() {
         return velocidadY;
     }
 
-
     public double getVida() {
         return vida;
     }
-
 
     public double getVidaMaxima() {
         return vidaMaxima;
     }
 
-
     public double getDanio() {
         return danio;
     }
-
 
     public boolean estaEnSuelo() {
         return enSuelo;
     }
 
-
     public boolean chocoPared() {
         return chocoPared;
     }
-
 
     public void setChocoPared(boolean valor) {
         chocoPared = valor;
     }
 
-
     public void setVelocidadX(int valor) {
         velocidadX = valor;
     }
-
 
     public void setVelocidadY(float valor) {
         velocidadY = valor;
     }
 
-
     public void setEnSuelo(boolean valor) {
         enSuelo = valor;
     }
-
 
     public void setX(float x) {
         this.x = x;
@@ -337,13 +306,11 @@ public abstract class Entidad {
         actualizarSpriteVisual();
     }
 
-
     public void setY(float y) {
         this.y = y;
         bounds.setY(y);
         actualizarSpriteVisual();
     }
-
 
     public void dispose() {
         sprite = null;

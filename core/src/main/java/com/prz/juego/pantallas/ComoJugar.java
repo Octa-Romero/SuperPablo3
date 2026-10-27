@@ -1,19 +1,16 @@
 package com.prz.juego.pantallas;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.principal.Navegable;
-import com.prz.juego.principal.Principal;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
 import com.prz.juego.utilidades.Render;
@@ -50,7 +47,6 @@ public class ComoJugar implements Screen {
 
         fondo.setSize(w, h);
         fondo.setPosition(0, 0);
-
     }
 
     private void inicializarStage() {
@@ -58,9 +54,11 @@ public class ComoJugar implements Screen {
     }
 
     private void inicializarFuentes() {
-        FreeTypeFontGenerator titulo = new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
+        FreeTypeFontGenerator titulo =
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
 
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parametro.size = 32;
         parametro.color = Color.WHITE;
@@ -82,12 +80,16 @@ public class ComoJugar implements Screen {
         Label titulo = new Label("COMO JUGAR", new Label.LabelStyle(font, Color.WHITE));
         titulo.setFontScale(1.6f);
 
-        Label separador1 = new Label("---------------------------", new Label.LabelStyle(font, Color.WHITE));
+        Label separador1 =
+                new Label("---------------------------", new Label.LabelStyle(font, Color.WHITE));
 
         Label movTitulo = new Label("MOVIMIENTO", new Label.LabelStyle(font, Color.WHITE));
         movTitulo.setFontScale(1.2f);
 
-        Label mov = new Label("A/D o Flecha Izquierda/Flecha Derecha", new Label.LabelStyle(font, Color.WHITE));
+        Label mov =
+                new Label(
+                        "A/D o Flecha Izquierda/Flecha Derecha",
+                        new Label.LabelStyle(font, Color.WHITE));
 
         Label saltoTitulo = new Label("SALTO", new Label.LabelStyle(font, Color.WHITE));
         saltoTitulo.setFontScale(1.2f);
@@ -104,7 +106,8 @@ public class ComoJugar implements Screen {
 
         Label pausa = new Label("Esc", new Label.LabelStyle(font, Color.WHITE));
 
-        Label separador2 = new Label("---------------------------", new Label.LabelStyle(font, Color.WHITE));
+        Label separador2 =
+                new Label("---------------------------", new Label.LabelStyle(font, Color.WHITE));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = font;
@@ -114,12 +117,13 @@ public class ComoJugar implements Screen {
 
         TextButton volver = new TextButton("VOLVER", style);
 
-        volver.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                NAV.cambiarPantalla(new PantallaMenu(NAV));
-            }
-        });
+        volver.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        NAV.cambiarPantalla(new PantallaMenu(NAV));
+                    }
+                });
 
         table.add(titulo).padBottom(10).row();
         table.add(separador1).padBottom(20).row();
@@ -162,9 +166,11 @@ public class ComoJugar implements Screen {
         stage.getViewport().update(width, height, true);
     }
 
-    @Override public void pause() {}
+    @Override
+    public void pause() {}
 
-    @Override public void resume() {}
+    @Override
+    public void resume() {}
 
     @Override
     public void hide() {

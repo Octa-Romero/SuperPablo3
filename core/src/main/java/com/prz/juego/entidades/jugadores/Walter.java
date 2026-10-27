@@ -1,11 +1,12 @@
-package com.prz.juego.entidades;
-
-import java.util.ArrayList;
+package com.prz.juego.entidades.jugadores;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.prz.juego.entidades.Entidad;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Sonido;
+
+import java.util.ArrayList;
 
 public class Walter extends Jugador {
 
@@ -19,8 +20,24 @@ public class Walter extends Jugador {
     private Colisiones colision;
 
     public Walter(float x, float y) {
-        super(x, y, 50, 80, 140, 5, 0.5, GestorRecursos.obtenerTextura("Personajes/Walter/walter.png"), GestorRecursos.obtenerTextura("Hud/walter_hud.png"));
-        ANIMACION.configurar(GestorRecursos.obtenerTextura("Personajes/Walter/walter_spritesheet2.png"), 540, 450, new int[]{0}, new int[]{2, 3, 4, 5, 6, 7}, new int[]{1}, 0.12f);
+        super(
+                x,
+                y,
+                50,
+                80,
+                140,
+                5,
+                0.5,
+                GestorRecursos.obtenerTextura("Personajes/Walter/walter.png"),
+                GestorRecursos.obtenerTextura("Hud/walter_hud.png"));
+        ANIMACION.configurar(
+                GestorRecursos.obtenerTextura("Personajes/Walter/walter_spritesheet2.png"),
+                540,
+                450,
+                new int[] {0},
+                new int[] {2, 3, 4, 5, 6, 7},
+                new int[] {1},
+                0.12f);
         configurarSpriteVisual(96f, 80f, 0f, -46f, 0f);
     }
 
@@ -113,8 +130,8 @@ public class Walter extends Jugador {
 
     @Override
     public double getDanio() {
-        if(Math.random() < 0.25){
-            return danio*2;
+        if (Math.random() < 0.25) {
+            return danio * 2;
         }
         return danio;
     }
