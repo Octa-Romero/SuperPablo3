@@ -47,7 +47,7 @@ public class Hub {
     public void cargar(String ruta, Jugador jugador) {
         camara = new Camara();
         this.jugador = jugador;
-        this.jugador.escalarSpriteVisual(2f);
+        this.jugador.escalar(2f);
         this.jugador.setVelocidadX(Math.round(this.jugador.getVelocidadX() * 1.5f));
         this.jugador.setAccionesHabilitadas(false);
         shapeRenderer = new ShapeRenderer();
