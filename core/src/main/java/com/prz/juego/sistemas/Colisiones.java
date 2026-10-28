@@ -193,5 +193,19 @@ public class Colisiones {
         for (Rectangle colision : COLISIONES) {
             shapeRenderer.rect(colision.x, colision.y, colision.width, colision.height);
         }
+
+        shapeRenderer.setColor(Color.PINK);
+        for (Polygon pendiente : PENDIENTES) {
+            float[] vertices = pendiente.getTransformedVertices();
+            if (vertices.length >= 6) {
+                shapeRenderer.polygon(vertices);
+            } else if (vertices.length >= 4) {
+                shapeRenderer.polyline(vertices);
+            }
+        }
+
+        for (Rectangle escalera : ESCALERAS) {
+            shapeRenderer.rect(escalera.x, escalera.y, escalera.width, escalera.height);
+        }
     }
 }

@@ -7,7 +7,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.prz.juego.entidades.Entidad;
+import com.prz.juego.entidades.Lanzable;
 import com.prz.juego.entidades.enemigos.Enemigo;
+import com.prz.juego.entidades.enemigos.rango.EnemigoRango;
 import com.prz.juego.entidades.jugadores.*;
 import com.prz.juego.sistemas.Camara;
 import com.prz.juego.sistemas.Colisiones;
@@ -26,6 +28,7 @@ public abstract class Nivel {
     private Jugador jugador;
     private Colisiones colision;
     private final ArrayList<Entidad> ENTIDADES = new ArrayList<>();
+    private final ArrayList<Lanzable> PROYECTILES = new ArrayList<>();
     private ShapeRenderer shapeRenderer;
     private boolean gameOver = false;
     private float anchoMapa;
@@ -53,6 +56,8 @@ public abstract class Nivel {
         camara = new Camara();
 
         this.jugador = jugador;
+        jugador.setX(getPosicionInicialX());
+        jugador.setY(getPosicionInicialY());
 
         ENTIDADES.add(jugador);
 
@@ -66,8 +71,9 @@ public abstract class Nivel {
 
         if (jugador instanceof Pablo) {
             ((Pablo) jugador).setEntidades(ENTIDADES);
+            ((Pablo) jugador).setProyectiles(PROYECTILES);
         } else {
-            ((Walter) jugador).configurarAtaque(ENTIDADES, colision);
+            ((Walter) jugador).configurarAtaque(ENTIDADES, colision, PROYECTILES);
         }
 
         configurarContenidoEspecifico(jugador);
@@ -93,7 +99,19 @@ public abstract class Nivel {
 
     protected abstract void configurarContenidoEspecifico(Jugador jugador);
 
+    protected float getPosicionInicialX() {
+        return 50;
+    }
+
+    protected float getPosicionInicialY() {
+        return 150;
+    }
+
     protected final void agregarEntidad(Entidad entidad) {
+        if (entidad instanceof EnemigoRango) {
+            ((EnemigoRango) entidad).configurarDisparo(colision, PROYECTILES);
+        }
+
         ENTIDADES.add(entidad);
     }
 
@@ -117,8 +135,8 @@ public abstract class Nivel {
             ((Pablo) jugador).dibujarAtaque();
         }
 
-        if (jugador instanceof Walter) {
-            ((Walter) jugador).dibujarBolas();
+        for (Lanzable proyectil : PROYECTILES) {
+            proyectil.dibujar();
         }
     }
 
@@ -136,8 +154,8 @@ public abstract class Nivel {
             entidad.dibujarHitbox(shapeRenderer);
         }
 
-        if (jugador instanceof Walter) {
-            ((Walter) jugador).dibujarBolasHitbox(shapeRenderer);
+        for (Lanzable proyectil : PROYECTILES) {
+            proyectil.dibujarHitbox(shapeRenderer);
         }
 
         shapeRenderer.end();
@@ -150,6 +168,15 @@ public abstract class Nivel {
             entidad.update(delta);
             colision.chequearColision(entidad);
             entidad.limitarMovimientoHorizontal(0, anchoMapa);
+        }
+
+        for (int i = PROYECTILES.size() - 1; i >= 0; i--) {
+            Lanzable proyectil = PROYECTILES.get(i);
+            proyectil.update(delta);
+
+            if (!proyectil.estaActiva()) {
+                PROYECTILES.remove(i);
+            }
         }
 
         // Eliminar enemigos muertos
@@ -203,6 +230,7 @@ public abstract class Nivel {
             e.dispose();
         }
         ENTIDADES.clear();
+        PROYECTILES.clear();
     }
 
     public Camera getCamara() {

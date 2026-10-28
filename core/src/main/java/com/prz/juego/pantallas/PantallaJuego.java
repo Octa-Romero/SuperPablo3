@@ -12,6 +12,7 @@ import com.prz.juego.niveles.Nivel;
 import com.prz.juego.principal.Navegable;
 import com.prz.juego.sistemas.Hud;
 import com.prz.juego.utilidades.Entrada;
+import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
 
 public class PantallaJuego implements Screen {
@@ -116,7 +117,7 @@ public class PantallaJuego implements Screen {
             NIVEL.renderDebug();
 
             if (NIVEL.isGameOver()) {
-                NAV.cambiarPantalla(new GameOver(NAV));
+                NAV.cambiarPantalla(new GameOver(NAV, PERSONAJE_ELEGIDO));
                 return;
             }
         }
@@ -164,6 +165,15 @@ public class PantallaJuego implements Screen {
         } else {
             NIVEL.guardarPosicionCamara();
         }
+    }
+
+    public boolean estaEnHub() {
+        return NIVEL == null;
+    }
+
+    public void volverAlHub() {
+        Musica.MENU.sonar();
+        NAV.cambiarPantalla(new PantallaJuego(NAV, PERSONAJE_ELEGIDO));
     }
 
     public void restaurarPosicionCamara() {

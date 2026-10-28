@@ -10,18 +10,22 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.prz.juego.entidades.jugadores.Personajes;
 import com.prz.juego.principal.Navegable;
 import com.prz.juego.utilidades.Config;
+import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
 
 public class GameOver implements Screen {
 
     private final Navegable NAV;
+    private final Personajes PERSONAJE_ELEGIDO;
     private Stage stage;
     private BitmapFont font;
 
-    public GameOver(Navegable NAV) {
+    public GameOver(Navegable NAV, Personajes PERSONAJE_ELEGIDO) {
         this.NAV = NAV;
+        this.PERSONAJE_ELEGIDO = PERSONAJE_ELEGIDO;
     }
 
     @Override
@@ -74,7 +78,17 @@ public class GameOver implements Screen {
         style.overFontColor = Color.GOLD;
         style.downFontColor = Color.RED;
 
+        TextButton volverHub = new TextButton("VOLVER AL HUB", style);
         TextButton volverMenu = new TextButton("VOLVER AL MENU", style);
+
+        volverHub.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Musica.MENU.sonar();
+                        NAV.cambiarPantalla(new PantallaJuego(NAV, PERSONAJE_ELEGIDO));
+                    }
+                });
 
         volverMenu.addListener(
                 new ClickListener() {
@@ -86,6 +100,7 @@ public class GameOver implements Screen {
 
         table.add(titulo).padBottom(20).row();
         table.add(mensaje).padBottom(30).row();
+        table.add(volverHub).width(300).height(60).row();
         table.add(volverMenu).width(300).height(60);
 
         stage.addActor(table);

@@ -1,6 +1,6 @@
 package com.prz.juego.niveles;
 
-import com.prz.juego.entidades.enemigos.Bicho1;
+import com.prz.juego.entidades.enemigos.melee.BichoMelee;
 import com.prz.juego.entidades.jugadores.Jugador;
 
 public class Nivel1 extends Nivel {
@@ -14,7 +14,7 @@ public class Nivel1 extends Nivel {
 
     @Override
     protected void configurarContenidoEspecifico(Jugador jugador) {
-        agregarEntidad(new Bicho1(2000, 300, jugador));
-        agregarEntidad(new Bicho1(2200, 300, jugador));
+        agregarEntidad(new BichoMelee(2000, 300, jugador));
+        agregarEntidad(new BichoMelee(2200, 300, jugador));
     }
 }

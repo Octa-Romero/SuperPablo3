@@ -6,14 +6,16 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.entidades.Entidad;
+import com.prz.juego.entidades.Lanzable;
 import com.prz.juego.entidades.enemigos.Enemigo;
+import com.prz.juego.entidades.enemigos.rango.Proyectil;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Render;
 
 import java.util.ArrayList;
 
-public class BolaFuego {
+public class BolaFuego implements Lanzable {
 
     private static final float VELOCIDAD = 400f;
     private static final float DISTANCIA_MAXIMA = 1000;
@@ -29,6 +31,7 @@ public class BolaFuego {
     private final Walter WALTER;
     private final Colisiones COLISION;
     private final ArrayList<Entidad> ENTIDADES;
+    private final ArrayList<Lanzable> PROYECTILES;
 
     public BolaFuego(
             float x,
@@ -36,13 +39,15 @@ public class BolaFuego {
             float DIRECCION,
             Walter WALTER,
             Colisiones COLISION,
-            ArrayList<Entidad> ENTIDADES) {
+            ArrayList<Entidad> ENTIDADES,
+            ArrayList<Lanzable> PROYECTILES) {
         this.x = x;
         this.y = y;
         this.DIRECCION = DIRECCION;
         this.WALTER = WALTER;
         this.COLISION = COLISION;
         this.ENTIDADES = ENTIDADES;
+        this.PROYECTILES = PROYECTILES;
         SPRITE = new Sprite(GestorRecursos.obtenerTextura("Personajes/Walter/bola_fuego.png"));
         SPRITE.setSize(RADIO * 2, RADIO * 2);
         SPRITE.setOriginCenter();
@@ -50,6 +55,7 @@ public class BolaFuego {
         BOUNDS = new Circle(x, y, RADIO);
     }
 
+    @Override
     public void update(float delta) {
         if (!activa) {
             return;
@@ -91,6 +97,20 @@ public class BolaFuego {
                 return;
             }
         }
+
+        for (Lanzable lanzable : PROYECTILES) {
+            if (!(lanzable instanceof Proyectil)) {
+                continue;
+            }
+
+            Proyectil proyectil = (Proyectil) lanzable;
+
+            if (proyectil.estaActiva() && proyectil.chocaCon(BOUNDS)) {
+                proyectil.restarVida(WALTER.getDanio());
+                activa = false;
+                return;
+            }
+        }
     }
 
     private boolean chocaConPared() {
@@ -119,12 +139,14 @@ public class BolaFuego {
         return distanciaX * distanciaX + distanciaY * distanciaY <= RADIO * RADIO;
     }
 
+    @Override
     public void dibujar() {
         if (activa) {
             SPRITE.draw(Render.batch);
         }
     }
 
+    @Override
     public void dibujarHitbox(ShapeRenderer shapeRenderer) {
         if (!activa) {
             return;
@@ -134,11 +156,8 @@ public class BolaFuego {
         shapeRenderer.circle(BOUNDS.x, BOUNDS.y, BOUNDS.radius);
     }
 
+    @Override
     public boolean estaActiva() {
         return activa;
-    }
-
-    public void dispose() {
-        activa = false;
     }
 }

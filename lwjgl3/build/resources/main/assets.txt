@@ -1,8 +1,10 @@
 Cinematicas/Escena 1.png
 Cinematicas/Escena 2.png
 Cinematicas/caidaAlNivel2.jfif
-Enemigos/Bicho1/ataque_bicho1.png
-Enemigos/Bicho1/bicho1.png
+Enemigos/BichoMelee/bichoMelee.png
+Enemigos/BichoMelee/espada.png
+Enemigos/BichoRango/bichoRango.png
+Enemigos/BichoRango/flecha.png
 Fuentes/alagard.ttf
 Hud/corazon_lleno.png
 Hud/corazon_mitad.png

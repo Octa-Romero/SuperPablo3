@@ -139,10 +139,6 @@ public class Hub {
             ((Pablo) jugador).dibujarAtaque();
         }
 
-        if (jugador instanceof Walter) {
-            ((Walter) jugador).dibujarBolas();
-        }
-
         if (cuadroDialogo.estaVisible()) {
             cuadroDialogo.dibujar(Render.batch, camara.getCamera());
         } else if (estaCercaPancrasio()) {
@@ -162,10 +158,6 @@ public class Hub {
 
         for (Entidad entidad : ENTIDADES) {
             entidad.dibujarHitbox(shapeRenderer);
-        }
-
-        if (jugador instanceof Walter) {
-            ((Walter) jugador).dibujarBolasHitbox(shapeRenderer);
         }
 
         shapeRenderer.end();

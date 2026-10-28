@@ -1,7 +1,7 @@
 package com.prz.juego.entidades.jugadores;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.prz.juego.entidades.Entidad;
+import com.prz.juego.entidades.Lanzable;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.sistemas.Colisiones;
 import com.prz.juego.utilidades.Sonido;
@@ -15,7 +15,7 @@ public class Walter extends Jugador {
     private static final float COOLDOWN_ATAQUE = 0.8f;
     private float tiempoCooldown;
     private boolean cooldownAtaque;
-    private final ArrayList<BolaFuego> BOLAS = new ArrayList<>();
+    private ArrayList<Lanzable> proyectiles;
     private ArrayList<Entidad> entidades;
     private Colisiones colision;
 
@@ -42,9 +42,13 @@ public class Walter extends Jugador {
         configurarSpriteVisual(96f, 80f, 0f, -46f, 0f);
     }
 
-    public void configurarAtaque(ArrayList<Entidad> entidades, Colisiones colision) {
+    public void configurarAtaque(
+            ArrayList<Entidad> entidades,
+            Colisiones colision,
+            ArrayList<Lanzable> proyectiles) {
         this.entidades = entidades;
         this.colision = colision;
+        this.proyectiles = proyectiles;
     }
 
     @Override
@@ -65,19 +69,6 @@ public class Walter extends Jugador {
                 tiempoCooldown = 0f;
             }
         }
-
-        actualizarOrbes(delta);
-    }
-
-    private void actualizarOrbes(float delta) {
-        for (int i = BOLAS.size() - 1; i >= 0; i--) {
-            BolaFuego orbe = BOLAS.get(i);
-            orbe.update(delta);
-            if (!orbe.estaActiva()) {
-                orbe.dispose();
-                BOLAS.remove(i);
-            }
-        }
     }
 
     @Override
@@ -90,7 +81,7 @@ public class Walter extends Jugador {
     }
 
     private void lanzarOrbe() {
-        if (entidades == null || colision == null) {
+        if (entidades == null || colision == null || proyectiles == null) {
             return;
         }
         float direccion = mirandoDerecha ? 1f : -1f;
@@ -103,30 +94,9 @@ public class Walter extends Jugador {
         float posicionY = y + alto / 2f - 10f;
 
         Sonido.BOLA_FUEGO.sonar();
-        BOLAS.add(new BolaFuego(posicionX, posicionY, direccion, this, colision, entidades));
-    }
-
-    public void dibujarBolas() {
-        for (BolaFuego bola : BOLAS) {
-            bola.dibujar();
-        }
-    }
-
-    public void dibujarBolasHitbox(ShapeRenderer shapeRenderer) {
-        for (BolaFuego bola : BOLAS) {
-            bola.dibujarHitbox(shapeRenderer);
-        }
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        for (BolaFuego o : BOLAS) {
-            o.dispose();
-        }
-
-        BOLAS.clear();
+        proyectiles.add(
+                new BolaFuego(
+                        posicionX, posicionY, direccion, this, colision, entidades, proyectiles));
     }
 
     @Override

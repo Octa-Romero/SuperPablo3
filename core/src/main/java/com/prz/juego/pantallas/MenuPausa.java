@@ -64,6 +64,7 @@ public class MenuPausa {
 
         TextButton reanudar = new TextButton("REANUDAR", style);
         TextButton opciones = new TextButton("OPCIONES", style);
+        TextButton hub = new TextButton("VOLVER AL HUB", style);
         TextButton menu = new TextButton("SALIR AL MENU", style);
 
         reanudar.addListener(
@@ -86,6 +87,15 @@ public class MenuPausa {
                     }
                 });
 
+        hub.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Sonido.CLICK.sonar();
+                        PANTALLA_JUEGO.volverAlHub();
+                    }
+                });
+
         menu.addListener(
                 new ClickListener() {
                     @Override
@@ -98,6 +108,9 @@ public class MenuPausa {
         contenedor.add(titulo).padBottom(40).row();
         contenedor.add(reanudar).width(250).height(50).padBottom(20).row();
         contenedor.add(opciones).width(250).height(50).padBottom(20).row();
+        if (!PANTALLA_JUEGO.estaEnHub()) {
+            contenedor.add(hub).width(250).height(50).padBottom(20).row();
+        }
         contenedor.add(menu).width(250).height(50).padBottom(20).row();
         contenedor.pack();
 

@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.entidades.Entidad;
+import com.prz.juego.entidades.Lanzable;
 import com.prz.juego.entidades.enemigos.Enemigo;
+import com.prz.juego.entidades.enemigos.rango.Proyectil;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.utilidades.Sonido;
 
@@ -22,6 +24,8 @@ public class Pablo extends Jugador {
     private boolean cooldownAtaque = false;
     private boolean yaDanio = false;
     private ArrayList<Entidad> entidades;
+    private ArrayList<Lanzable> proyectiles;
+    private final ArrayList<Proyectil> PROYECTILES_GOLPEADOS = new ArrayList<>();
     private final Sprite SPRITE_ATAQUE;
 
     public Pablo(float x, float y) {
@@ -43,6 +47,10 @@ public class Pablo extends Jugador {
 
     public void setEntidades(ArrayList<Entidad> entidades) {
         this.entidades = entidades;
+    }
+
+    public void setProyectiles(ArrayList<Lanzable> proyectiles) {
+        this.proyectiles = proyectiles;
     }
 
     @Override
@@ -73,6 +81,7 @@ public class Pablo extends Jugador {
             atacando = true;
             tiempoAtaque = 0;
             yaDanio = false;
+            PROYECTILES_GOLPEADOS.clear();
             Sonido.ESPADA.sonar();
         }
     }
@@ -84,6 +93,7 @@ public class Pablo extends Jugador {
                 comprobarDanio();
                 yaDanio = true;
             }
+            comprobarDanioProyectiles();
             if (tiempoAtaque >= duracionAtaque) {
                 atacando = false;
                 cooldownAtaque = true;
@@ -116,6 +126,29 @@ public class Pablo extends Jugador {
                 if (ataque.overlaps(entidad.getBounds())) {
                     entidad.restarVida(danio);
                 }
+            }
+        }
+    }
+
+    private void comprobarDanioProyectiles() {
+        if (proyectiles == null) {
+            return;
+        }
+
+        Rectangle ataque = getBoundsAtaque();
+
+        for (Lanzable lanzable : proyectiles) {
+            if (!(lanzable instanceof Proyectil)) {
+                continue;
+            }
+
+            Proyectil proyectil = (Proyectil) lanzable;
+
+            if (proyectil.estaActiva()
+                    && !PROYECTILES_GOLPEADOS.contains(proyectil)
+                    && proyectil.chocaCon(ataque)) {
+                proyectil.restarVida(danio);
+                PROYECTILES_GOLPEADOS.add(proyectil);
             }
         }
     }
