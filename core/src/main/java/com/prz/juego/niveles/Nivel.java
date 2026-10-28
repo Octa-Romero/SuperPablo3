@@ -47,6 +47,8 @@ public abstract class Nivel {
                 return new Nivel5();
             case Nivel6.RUTA:
                 return new Nivel6();
+            case Nivel7.RUTA:
+                return new Nivel7();
             default:
                 throw new IllegalArgumentException("No existe una clase para el nivel: " + ruta);
         }
