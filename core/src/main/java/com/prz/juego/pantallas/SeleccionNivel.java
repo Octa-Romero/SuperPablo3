@@ -41,6 +41,8 @@ public class SeleccionNivel implements Screen {
     private Texture texturaPortal4;
     private Texture texturaPortal5;
     private Texture texturaPortal6;
+    private Texture texturaPortal7;
+
 
     public SeleccionNivel(Navegable NAV, Personajes PERSONAJE_ELEGIDO, PantallaJuego PANTALLA_HUB) {
         this.NAV = NAV;
@@ -83,6 +85,7 @@ public class SeleccionNivel implements Screen {
         texturaPortal4 = GestorRecursos.obtenerTextura("Menu/Portales/portal4.png");
         texturaPortal5 = GestorRecursos.obtenerTextura("Menu/Portales/portal5.png");
         texturaPortal6 = GestorRecursos.obtenerTextura("Menu/Portales/portal6.png");
+        texturaPortal7 = GestorRecursos.obtenerTextura("Menu/Portales/portal7.png");
     }
 
     private ImageButton crearPortal(Texture textura, final int NUMERO_NIVEL) {
@@ -119,6 +122,9 @@ public class SeleccionNivel implements Screen {
                             case 6:
                                 rutaNivel = "Niveles/Niveles/Nivel6.tmx";
                                 break;
+                            case 7:
+                                rutaNivel = "Niveles/Niveles/Nivel7.tmx";
+                                break;
                             default:
                                 return;
                         }
@@ -154,6 +160,8 @@ public class SeleccionNivel implements Screen {
         ImageButton portal4 = crearPortal(texturaPortal4, 4);
         ImageButton portal5 = crearPortal(texturaPortal5, 5);
         ImageButton portal6 = crearPortal(texturaPortal6, 6);
+        ImageButton portal7 = crearPortal(texturaPortal7, 7);
+
 
         TextButton.TextButtonStyle estiloCancelar = new TextButton.TextButtonStyle();
         estiloCancelar.font = font;
@@ -179,6 +187,7 @@ public class SeleccionNivel implements Screen {
         animarPortal(portal4, 1.1f);
         animarPortal(portal5, 1.3f);
         animarPortal(portal6, 1.5f);
+        animarPortal(portal7, 1.7f);
 
         principal.add(titulo).colspan(3).padBottom(20).row();
         principal.add(portal1).width(170).height(170).pad(5);
@@ -187,6 +196,8 @@ public class SeleccionNivel implements Screen {
         principal.add(portal4).width(170).height(170).pad(5);
         principal.add(portal5).width(170).height(170).pad(5);
         principal.add(portal6).width(170).height(170).pad(5).row();
+        principal.add(portal7).width(170).height(170).pad(5);
+
         principal.add(botonCancelar).colspan(3).width(200).height(48).padTop(12);
 
         stage.addActor(principal);
