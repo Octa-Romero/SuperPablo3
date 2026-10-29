@@ -173,6 +173,10 @@ public abstract class Enemigo extends Entidad {
         return atacando;
     }
 
+    public boolean puedeRecibirDanio() {
+        return true;
+    }
+
     public void saltar() {
         velocidadY = 300;
         enSuelo = false;

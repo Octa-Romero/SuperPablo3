@@ -1,16 +1,22 @@
 package com.prz.juego.sistemas;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.prz.juego.entidades.jefes.Mano;
+import com.prz.juego.entidades.jefes.Retumbar;
 import com.prz.juego.entidades.jugadores.Jugador;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.recursos.Imagen;
+import com.prz.juego.utilidades.Config;
+import com.prz.juego.utilidades.FuenteJuego;
 
 import java.util.ArrayList;
 
@@ -39,8 +45,20 @@ public class Hud {
 
     private double ultimaVida = -1;
 
+    private final SpriteBatch BATCH;
+    private final BitmapFont FUENTE_JEFE = FuenteJuego.generar(32);
+    private final BitmapFont FUENTE_MANO = FuenteJuego.generar(24);
+    private final float Y_BARRAS = 50;
+    private final float ANCHO_BARRA_JEFE = 800;
+    private final float ALTO_BARRA_JEFE = 24;
+    private final float ANCHO_BARRA_MANO = 400;
+    private final float ALTO_BARRA_MANO = 18;
+    private final float ESPACIO_BARRAS_MANO = 60;
+    private Retumbar jefe;
+
     public Hud(Jugador JUGADOR, SpriteBatch batch) {
         this.JUGADOR = JUGADOR;
+        BATCH = batch;
 
         STAGE = new Stage(VIEWPORT, batch);
 
@@ -111,6 +129,62 @@ public class Hud {
 
         STAGE.act();
         STAGE.draw();
+
+        dibujarBarrasJefe();
+    }
+
+    public void setJefe(Retumbar jefe) {
+        this.jefe = jefe;
+    }
+
+    private void dibujarBarrasJefe() {
+        if (jefe == null || jefe.estaMuerto()) {
+            return;
+        }
+
+        VIEWPORT.apply();
+        BATCH.setProjectionMatrix(VIEWPORT.getCamera().combined);
+        BATCH.begin();
+
+        if (jefe.puedeRecibirDanio()) {
+            BarraVida.dibujar(
+                    BATCH,
+                    FUENTE_JEFE,
+                    "El Retumbar",
+                    (Config.ANCHO_BASE - ANCHO_BARRA_JEFE) / 2f,
+                    Y_BARRAS,
+                    ANCHO_BARRA_JEFE,
+                    ALTO_BARRA_JEFE,
+                    jefe.getVida(),
+                    jefe.getVidaMaxima(),
+                    Color.RED);
+        } else {
+            float centro = Config.ANCHO_BASE / 2f;
+            float xIzquierda = centro - ESPACIO_BARRAS_MANO / 2f - ANCHO_BARRA_MANO;
+            float xDerecha = centro + ESPACIO_BARRAS_MANO / 2f;
+            dibujarBarraMano(jefe.getManoIzquierda(), xIzquierda);
+            dibujarBarraMano(jefe.getManoDerecha(), xDerecha);
+        }
+
+        BATCH.end();
+    }
+
+    private void dibujarBarraMano(Mano mano, float x) {
+        if (mano.estaMuerto()) {
+            return;
+        }
+
+        BarraVida.dibujar(
+                BATCH,
+                FUENTE_MANO,
+                "Mano de El Retumbar",
+                x,
+                Y_BARRAS,
+                ANCHO_BARRA_MANO,
+                ALTO_BARRA_MANO,
+                mano.getVida(),
+                mano.getVidaMaxima(),
+                Color.RED);
     }
 
     public void actualizarTamano(int width, int height) {
@@ -119,5 +193,7 @@ public class Hud {
 
     public void dispose() {
         STAGE.dispose();
+        FUENTE_JEFE.dispose();
+        FUENTE_MANO.dispose();
     }
 }

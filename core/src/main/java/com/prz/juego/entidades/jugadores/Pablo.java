@@ -122,7 +122,7 @@ public class Pablo extends Jugador {
             if (entidad == this) {
                 continue;
             }
-            if (entidad instanceof Enemigo) {
+            if (entidad instanceof Enemigo && ((Enemigo) entidad).puedeRecibirDanio()) {
                 if (ataque.overlaps(entidad.getBounds())) {
                     entidad.restarVida(danio);
                 }

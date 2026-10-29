@@ -10,6 +10,7 @@ import com.prz.juego.entidades.Entidad;
 import com.prz.juego.entidades.Lanzable;
 import com.prz.juego.entidades.enemigos.Enemigo;
 import com.prz.juego.entidades.enemigos.rango.EnemigoRango;
+import com.prz.juego.entidades.jefes.Retumbar;
 import com.prz.juego.entidades.jugadores.*;
 import com.prz.juego.sistemas.Camara;
 import com.prz.juego.sistemas.Colisiones;
@@ -32,6 +33,7 @@ public abstract class Nivel {
     private ShapeRenderer shapeRenderer;
     private boolean gameOver = false;
     private float anchoMapa;
+    protected Musica musica = Musica.NIVEL;
 
     public static Nivel crear(String ruta) {
         switch (ruta) {
@@ -94,7 +96,7 @@ public abstract class Nivel {
 
         mapRenderer = new OrthogonalTiledMapRenderer(mapa, 1f);
 
-        Musica.NIVEL.sonar();
+        musica.sonar();
     }
 
     protected abstract String getRutaMapa();
@@ -115,6 +117,19 @@ public abstract class Nivel {
         }
 
         ENTIDADES.add(entidad);
+    }
+
+    protected final void agregarEntidadAlFondo(Entidad entidad) {
+        if (entidad instanceof EnemigoRango) {
+            ((EnemigoRango) entidad).configurarDisparo(colision, PROYECTILES);
+        }
+
+        ENTIDADES.add(0, entidad);
+    }
+
+    // Por el momento los niveles no tienen jefe, solo Nivel7 lo sobrescribe
+    public Retumbar getJefe() {
+        return null;
     }
 
     public void renderMapa() {
@@ -165,7 +180,7 @@ public abstract class Nivel {
 
     public void update(float delta, Entrada entrada) {
 
-        // Actualizar ENTIDADES
+        // Actualizar entidades
         for (Entidad entidad : ENTIDADES) {
             entidad.update(delta);
             colision.chequearColision(entidad);
@@ -197,9 +212,9 @@ public abstract class Nivel {
 
         // Cámara
         camara.seguirPersonaje(
-                jugador.getX() + jugador.getAncho() / 2f,
-                jugador.getY() + jugador.getAlto() / 2f,
-                delta);
+            jugador.getX() + jugador.getAncho() / 2f,
+            jugador.getY() + jugador.getAlto() / 2f,
+            delta);
 
         // Alternar hitboxes
         if (entrada.aprietaF1()) {

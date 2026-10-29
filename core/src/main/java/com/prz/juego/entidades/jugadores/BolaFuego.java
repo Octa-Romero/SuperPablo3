@@ -87,7 +87,7 @@ public class BolaFuego implements Lanzable {
 
             Enemigo enemigo = (Enemigo) entidad;
 
-            if (enemigo.estaMuerto()) {
+            if (enemigo.estaMuerto() || !enemigo.puedeRecibirDanio()) {
                 continue;
             }
 

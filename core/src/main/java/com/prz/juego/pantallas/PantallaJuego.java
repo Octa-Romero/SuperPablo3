@@ -51,6 +51,10 @@ public class PantallaJuego implements Screen {
         }
 
         HUD = new Hud(jugador, Render.batch);
+
+        if (NIVEL != null) {
+            HUD.setJefe(NIVEL.getJefe());
+        }
     }
 
     @Override
@@ -203,5 +207,6 @@ public class PantallaJuego implements Screen {
             NIVEL.dispose();
         }
         MENU_PAUSA.dispose();
+        HUD.dispose();
     }
 }
