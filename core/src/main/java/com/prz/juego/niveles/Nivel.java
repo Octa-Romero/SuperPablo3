@@ -1,3 +1,4 @@
+
 package com.prz.juego.niveles;
 
 import com.badlogic.gdx.graphics.Camera;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.prz.juego.entidades.Entidad;
 import com.prz.juego.entidades.Lanzable;
+import com.prz.juego.entidades.Reliquia;
 import com.prz.juego.entidades.enemigos.Enemigo;
 import com.prz.juego.entidades.enemigos.rango.EnemigoRango;
 import com.prz.juego.entidades.jugadores.*;
@@ -27,10 +29,14 @@ public abstract class Nivel {
     private OrthogonalTiledMapRenderer mapRenderer;
     private Jugador jugador;
     private Colisiones colision;
+
     private final ArrayList<Entidad> ENTIDADES = new ArrayList<>();
     private final ArrayList<Lanzable> PROYECTILES = new ArrayList<>();
+    private final ArrayList<Reliquia> RELIQUIAS = new ArrayList<>();
+
     private ShapeRenderer shapeRenderer;
     private boolean gameOver = false;
+    private boolean tieneReliquia = false;
     private float anchoMapa;
 
     public static Nivel crear(String ruta) {
@@ -50,7 +56,9 @@ public abstract class Nivel {
             case Nivel7.RUTA:
                 return new Nivel7();
             default:
-                throw new IllegalArgumentException("No existe una clase para el nivel: " + ruta);
+                throw new IllegalArgumentException(
+                    "No existe una clase para el nivel: " + ruta
+                );
         }
     }
 
@@ -75,7 +83,9 @@ public abstract class Nivel {
             ((Pablo) jugador).setEntidades(ENTIDADES);
             ((Pablo) jugador).setProyectiles(PROYECTILES);
         } else {
-            ((Walter) jugador).configurarAtaque(ENTIDADES, colision, PROYECTILES);
+            ((Walter) jugador).configurarAtaque(
+                ENTIDADES, colision, PROYECTILES
+            );
         }
 
         configurarContenidoEspecifico(jugador);
@@ -89,6 +99,7 @@ public abstract class Nivel {
 
         float mapTotalWidth = tileWidth * mapWidthTiles;
         float mapTotalHeight = tileHeight * mapHeightTiles;
+
         anchoMapa = mapTotalWidth;
         camara.setLimitesMapa(mapTotalWidth, mapTotalHeight);
 
@@ -111,7 +122,9 @@ public abstract class Nivel {
 
     protected final void agregarEntidad(Entidad entidad) {
         if (entidad instanceof EnemigoRango) {
-            ((EnemigoRango) entidad).configurarDisparo(colision, PROYECTILES);
+            ((EnemigoRango) entidad).configurarDisparo(
+                colision, PROYECTILES
+            );
         }
 
         ENTIDADES.add(entidad);
@@ -140,6 +153,11 @@ public abstract class Nivel {
         for (Lanzable proyectil : PROYECTILES) {
             proyectil.dibujar();
         }
+
+        // Dibujar las reliquias dentro del mundo del juego.
+        for (Reliquia reliquia : RELIQUIAS) {
+            reliquia.dibujar();
+        }
     }
 
     public void renderDebug() {
@@ -165,13 +183,14 @@ public abstract class Nivel {
 
     public void update(float delta, Entrada entrada) {
 
-        // Actualizar ENTIDADES
+        // Actualizar entidades.
         for (Entidad entidad : ENTIDADES) {
             entidad.update(delta);
             colision.chequearColision(entidad);
             entidad.limitarMovimientoHorizontal(0, anchoMapa);
         }
 
+        // Actualizar proyectiles.
         for (int i = PROYECTILES.size() - 1; i >= 0; i--) {
             Lanzable proyectil = PROYECTILES.get(i);
             proyectil.update(delta);
@@ -181,7 +200,7 @@ public abstract class Nivel {
             }
         }
 
-        // Eliminar enemigos muertos
+        // Eliminar enemigos muertos y generar la reliquia si corresponde.
         for (int i = ENTIDADES.size() - 1; i >= 0; i--) {
             Entidad entidad = ENTIDADES.get(i);
 
@@ -189,19 +208,58 @@ public abstract class Nivel {
                 Enemigo enemigo = (Enemigo) entidad;
 
                 if (enemigo.estaMuerto()) {
+
+                    if (enemigo.sueltaReliquia()) {
+                        System.out.println(
+                            "[RELIQUIA] ¡El enemigo marcado murió!"
+                        );
+
+                        float xReliquia = enemigo.getX()
+                            + (enemigo.getAncho() - 32f) / 2f;
+
+                        float yReliquia = enemigo.getY();
+
+                        System.out.println(
+                            "[RELIQUIA] Posición: X="
+                                + xReliquia + ", Y=" + yReliquia
+                        );
+
+                        RELIQUIAS.add(
+                            new Reliquia(xReliquia, yReliquia, colision)
+                        );
+
+                        System.out.println(
+                            "[RELIQUIA] Reliquia creada. Total: "
+                                + RELIQUIAS.size()
+                        );
+                    }
+
                     enemigo.dispose();
                     ENTIDADES.remove(i);
                 }
             }
         }
 
-        // Cámara
-        camara.seguirPersonaje(
-                jugador.getX() + jugador.getAncho() / 2f,
-                jugador.getY() + jugador.getAlto() / 2f,
-                delta);
+        // Actualizar y recoger reliquias.
+        for (int i = RELIQUIAS.size() - 1; i >= 0; i--) {
+            Reliquia reliquia = RELIQUIAS.get(i);
 
-        // Alternar hitboxes
+            if (reliquia.actualizar(jugador, delta)) {
+                tieneReliquia = true;
+
+                reliquia.dispose();
+                RELIQUIAS.remove(i);
+            }
+        }
+
+        // Actualizar cámara.
+        camara.seguirPersonaje(
+            jugador.getX() + jugador.getAncho() / 2f,
+            jugador.getY() + jugador.getAlto() / 2f,
+            delta
+        );
+
+        // Alternar hitboxes.
         if (entrada.aprietaF1()) {
             Debug.cambiarHitboxes();
         }
@@ -228,11 +286,18 @@ public abstract class Nivel {
             shapeRenderer.dispose();
         }
 
-        for (Entidad e : ENTIDADES) {
-            e.dispose();
+        for (Entidad entidad : ENTIDADES) {
+            entidad.dispose();
         }
+
         ENTIDADES.clear();
         PROYECTILES.clear();
+
+        for (Reliquia reliquia : RELIQUIAS) {
+            reliquia.dispose();
+        }
+
+        RELIQUIAS.clear();
     }
 
     public Camera getCamara() {
@@ -249,5 +314,9 @@ public abstract class Nivel {
 
     public boolean isGameOver() {
         return this.gameOver;
+    }
+
+    public boolean tieneReliquia() {
+        return tieneReliquia;
     }
 }

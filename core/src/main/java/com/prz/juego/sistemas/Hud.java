@@ -37,6 +37,9 @@ public class Hud {
     private final float TAMANO_CORAZON = 50;
     private final float ESPACIO_CORAZONES = 5;
 
+    private final Imagen imagenReliquia;
+    private boolean tieneReliquia = false;;
+
     private double ultimaVida = -1;
 
     public Hud(Jugador JUGADOR, SpriteBatch batch) {
@@ -56,10 +59,20 @@ public class Hud {
 
         Imagen imagenCara = new Imagen(JUGADOR.getTEXTURA_HUD(), true);
 
+        imagenReliquia = new Imagen(
+            GestorRecursos.obtenerTextura("Reliquia/reliquia.png"),
+            true
+        );
+        imagenReliquia.setVisible(false);
+
         contenedorCorazones = new Table();
 
         tablaPrincipal.add(imagenCara).size(TAMANO_CARA, TAMANO_CARA);
         tablaPrincipal.add(contenedorCorazones).padLeft(10).center();
+
+        tablaPrincipal.add(imagenReliquia)
+            .size(48, 48)
+            .padLeft(15);
 
         STAGE.addActor(tablaPrincipal);
 
@@ -119,5 +132,14 @@ public class Hud {
 
     public void dispose() {
         STAGE.dispose();
+    }
+
+    public void setTieneReliquia(boolean valor) {
+        if (tieneReliquia == valor) {
+            return;
+        }
+
+        tieneReliquia = valor;
+        imagenReliquia.setVisible(valor);
     }
 }

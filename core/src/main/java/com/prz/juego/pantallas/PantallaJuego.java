@@ -123,6 +123,7 @@ public class PantallaJuego implements Screen {
         }
 
         if (hub == null) {
+            HUD.setTieneReliquia(NIVEL.tieneReliquia());
             HUD.dibujar();
         }
 

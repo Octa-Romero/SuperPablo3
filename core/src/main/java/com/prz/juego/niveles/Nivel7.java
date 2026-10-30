@@ -12,6 +12,9 @@ public class Nivel7 extends Nivel {
     }
 
     @Override
+    protected float getPosicionInicialY(){return 400;}
+
+    @Override
     protected void configurarContenidoEspecifico(Jugador jugador) {
         // Este mapa todavía no define entidades propias del nivel.
     }

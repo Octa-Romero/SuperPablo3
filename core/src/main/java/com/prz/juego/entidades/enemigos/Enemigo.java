@@ -19,6 +19,7 @@ public abstract class Enemigo extends Entidad {
     protected boolean caminandoPatrulla = false;
     protected boolean atacando = false;
     protected Jugador jugador;
+    protected boolean sueltaReliquia = false;
 
     protected Enemigo(
             float x,
@@ -196,5 +197,13 @@ public abstract class Enemigo extends Entidad {
 
     public float getDireccion() {
         return direccion;
+    }
+
+    public void setSueltaReliquia(boolean valor) {
+        this.sueltaReliquia = valor;
+    }
+
+    public boolean sueltaReliquia() {
+        return sueltaReliquia;
     }
 }
