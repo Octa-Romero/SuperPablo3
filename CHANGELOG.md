@@ -4,6 +4,29 @@ Todos los cambios importantes de este proyecto serán documentados en este archi
 
 [Volver al repositorio](https://github.com/Octa-Romero/SuperPablo3)
 
+
+## [0.4.0] - 2026-10-31
+
+### Agregado
+
+- Implementación de nuevos niveles, ampliando la progresión del juego hasta el nivel 7.
+- Incorporación del NPC Pancrasio en el Hub, junto con su sistema de diálogo.
+- Implementación del sistema de reliquias y su integración en los niveles.
+- Incorporación de nuevos recursos y elementos para ampliar los escenarios del juego.
+- Desarrollo de nuevos escenarios y mapas mediante Tiled.
+
+### Cambiado
+
+- Ampliación y reorganización de los niveles, incorporando nuevas áreas y mecánicas.
+- Ajustes en las colisiones y el comportamiento de la cámara para mejorar la experiencia de juego.
+- Integración de los nuevos niveles con el sistema de navegación y selección desde el Hub.
+- Actualización de recursos gráficos y elementos visuales de los escenarios.
+
+### Corregido
+
+- Ajustes en las mecánicas de los niveles para mejorar su funcionamiento.
+- Correcciones en la integración de recursos y escenarios.
+
 ## [0.3.1] - 2026-09-19
 
 ### Cambiado
