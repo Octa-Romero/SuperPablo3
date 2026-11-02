@@ -2,11 +2,13 @@
 package com.prz.juego.entidades.jefes;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.entidades.enemigos.Enemigo;
 import com.prz.juego.entidades.jugadores.Jugador;
 import com.prz.juego.recursos.GestorRecursos;
+import com.prz.juego.utilidades.Render;
 
 public class OndaSuelo extends Enemigo {
 
@@ -16,9 +18,11 @@ public class OndaSuelo extends Enemigo {
     private static final float TIEMPO_BAJAR = 0.1f;
     private static final float ALTO_MINIMO = 1f;
     private static final float X_OCULTA = -100000f;
+    private static final float SOLAPAMIENTO_LLAMA = 12f;
 
     private final float X_INICIO;
     private final float Y_SUELO;
+    private final Texture TEXTURA_FUEGO;
 
     private boolean activa = false;
     private boolean bajando = false;
@@ -36,13 +40,13 @@ public class OndaSuelo extends Enemigo {
             1,
             DANIO,
             jugador,
-            GestorRecursos.obtenerPixel()
+            GestorRecursos.obtenerTextura("Jefe/fuegoSuelo.png")
         );
 
         X_INICIO = xMin;
         Y_SUELO = ySuelo;
+        TEXTURA_FUEGO = GestorRecursos.obtenerTextura("Jefe/fuegoSuelo.png");
         duracionInvencibilidad = 0f;
-        sprite.setColor(Color.RED);
         ocultar();
     }
 
@@ -116,9 +120,24 @@ public class OndaSuelo extends Enemigo {
 
     private void aplicarAlto(float nuevoAlto) {
         alto = nuevoAlto;
-        altoSprite = nuevoAlto;
         bounds.set(x, y, ancho, nuevoAlto);
         actualizarSpriteVisual();
+    }
+
+    @Override
+    public void dibujar() {
+        if (!activa) {
+            return;
+        }
+
+        float altoLlama = Math.max(ALTO_MINIMO, alto);
+        float anchoLlama = altoLlama * TEXTURA_FUEGO.getWidth() / TEXTURA_FUEGO.getHeight();
+        float paso = Math.max(1f, anchoLlama - SOLAPAMIENTO_LLAMA);
+        float inicio = X_INICIO - anchoLlama / 2f;
+
+        for (float xLlama = inicio; xLlama < X_INICIO + ancho - anchoLlama / 2f; xLlama += paso) {
+            Render.batch.draw(TEXTURA_FUEGO, xLlama, Y_SUELO, anchoLlama, altoLlama);
+        }
     }
 
     public boolean estaActiva() {

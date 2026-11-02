@@ -7,7 +7,12 @@ public enum Sonido {
     SALTO("Sonidos/salto.WAV"),
     ESPADA("Sonidos/espada.WAV"),
     BOLA_FUEGO("Sonidos/bola_fuego.WAV"),
-    CLICK("Sonidos/click.WAV");
+    CLICK("Sonidos/click.WAV"),
+    GOLPE("Sonidos/golpe.WAV"),
+    TP1("Sonidos/tp1.WAV"),
+    TP2("Sonidos/tp2.WAV"),
+    ROCA("Sonidos/roca.WAV"),
+    FUEGO_SUELO("Sonidos/fuegoSuelo.WAV");
 
     private final String NOMBRE_ARCHIVO;
     private Sound sound;

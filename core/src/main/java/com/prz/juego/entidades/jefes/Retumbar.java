@@ -1,11 +1,11 @@
 
 package com.prz.juego.entidades.jefes;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.entidades.enemigos.Enemigo;
 import com.prz.juego.entidades.jugadores.Jugador;
 import com.prz.juego.recursos.GestorRecursos;
+import com.prz.juego.utilidades.Sonido;
 
 public class Retumbar extends Enemigo {
 
@@ -15,8 +15,6 @@ public class Retumbar extends Enemigo {
     private static final float RECORRIDO = 250;
     private static final double VIDA = 40;
     private static final double DANIO = 1;
-    private static final Color COLOR_CUERPO = new Color(0.6f, 0f, 0f, 1f);
-
     private static final float TIEMPO_ENTRE_ATAQUES = 3f;
     private static final int REPETICIONES_LEVANTAR_BAJAR = 5;
     private static final int REPETICIONES_TELETRANSPORTE = 3;
@@ -83,12 +81,12 @@ public class Retumbar extends Enemigo {
             VIDA,
             DANIO,
             jugador,
-            GestorRecursos.obtenerPixel()
+            GestorRecursos.obtenerTextura("Jefe/retumbar.png")
         );
 
         X_INICIAL = x;
         duracionInvencibilidad = 0f;
-        sprite.setColor(COLOR_CUERPO);
+        configurarSpriteVisual(ANCHO, ALTO + 100, 0, 0, 0);
 
         MANO_IZQUIERDA = new Mano(this, Mano.Lado.IZQUIERDA, jugador);
         MANO_DERECHA = new Mano(this, Mano.Lado.DERECHA, jugador);
@@ -309,6 +307,9 @@ public class Retumbar extends Enemigo {
                     );
 
                     ONDA_SUELO.activar(DURACION_ONDA_SUELO);
+                    Sonido.FUEGO_SUELO.sonar(
+                        x + ANCHO / 2f,
+                        jugador.getX() + jugador.getAncho() / 2f);
                 }
                 break;
 

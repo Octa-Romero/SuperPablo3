@@ -139,13 +139,22 @@ public abstract class Nivel {
 
     public void render() {
         Render.batch.setProjectionMatrix(camara.getCamera().combined);
+        boolean dibujarJugadorAlFrente = getJefe() != null;
 
         for (Entidad entidad : ENTIDADES) {
+            if (dibujarJugadorAlFrente && entidad == jugador) {
+                continue;
+            }
+
             entidad.dibujar();
 
             if (entidad instanceof Enemigo) {
                 ((Enemigo) entidad).dibujarAtaque();
             }
+        }
+
+        if (dibujarJugadorAlFrente) {
+            jugador.dibujar();
         }
 
         if (jugador instanceof Pablo) {

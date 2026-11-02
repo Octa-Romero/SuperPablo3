@@ -1,11 +1,15 @@
 package com.prz.juego.entidades.jefes;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.entidades.enemigos.Enemigo;
 import com.prz.juego.entidades.jugadores.Jugador;
 import com.prz.juego.recursos.GestorRecursos;
+import com.prz.juego.utilidades.Render;
+import com.prz.juego.utilidades.Sonido;
 
 public class Mano extends Enemigo {
 
@@ -24,14 +28,25 @@ public class Mano extends Enemigo {
     private static final float VELOCIDAD_LEVANTAR = 500;
     private static final float VELOCIDAD_BAJAR = 1800;
     private static final float VELOCIDAD_VOLVER = 600;
+    private static final float VELOCIDAD_RAPIDO_VOLVER = 1200;
     private static final float TIEMPO_DESPUES_DESAPARECER = 0.5f;
+    private static final float TIEMPO_RAPIDO_DESPUES_DESAPARECER = 0.2f;
+    private static final float TIEMPO_RETORNO_IDLE_DESAPARECIDO = 0.65f;
+    private static final float DURACION_ESCALA_TELETRANSPORTE = 0.15f;
     private static final float ALTURA_SOBRE_JUGADOR = 400;
+    private static final float ALTURA_REPOSO = 120;
 
     private static final float TIEMPO_SEGUIR_JUGADOR = 1f;
+    private static final float TIEMPO_RAPIDO_SEGUIR_JUGADOR = 0.4f;
     private static final float TIEMPO_ESPERA_GOLPE = 0.8f;
+    private static final float TIEMPO_RAPIDO_ESPERA_GOLPE = 0.3f;
     private static final float TIEMPO_RECUPERACION = 0.4f;
+    private static final float TIEMPO_RAPIDO_RECUPERACION = 0.15f;
     private static final float DURACION_HITBOX_EXTENDIDA = 0.2f;
     private static final float EXTENSION_HITBOX = 100;
+    private static final float ANCHO_SPRITE = 160;
+    private static final float ALTO_SPRITE = 160;
+    private static final float ANCHO_SPRITE_PUNIO = 125;
 
     private enum EstadoAtaque {
         NINGUNO,
@@ -40,6 +55,7 @@ public class Mano extends Enemigo {
         RECUPERANDO,
         DESAPARECIENDO,
         ESPERANDO_REAPARICION,
+        REAPARECIENDO,
         SIGUIENDO_JUGADOR,
         ESPERANDO_GOLPE,
         MOVIENDO,
@@ -47,14 +63,29 @@ public class Mano extends Enemigo {
         VOLVIENDO
     }
 
+    private enum EstiloAtaque {
+        NORMAL,
+        PUNIO,
+        PALMA
+    }
+
     private final Retumbar RETUMBAR;
     private final Lado LADO;
+    private final Texture TEXTURA_IDLE;
+    private final Texture TEXTURA_ABIERTA_ARRIBA;
+    private final Texture TEXTURA_ABIERTA_ABAJO;
+    private final Texture TEXTURA_PUNIO;
+    private final Sprite SPRITE_FUEGO_GOLPE;
 
     private EstadoAtaque estadoAtaque = EstadoAtaque.NINGUNO;
     private boolean haciendoDanio = false;
     private boolean teletransportada = false;
+    private boolean teletransporteRapido = false;
+    private boolean volverAIdle = false;
+    private EstiloAtaque estiloAtaque = EstiloAtaque.NORMAL;
     private float tiempoHitboxExtendida = 0f;
     private float tiempoEstado = 0f;
+    private float escalaTeletransporte = 1f;
     private boolean visible = true;
     private float yAtaque;
     private float yObjetivo;
@@ -71,11 +102,21 @@ public class Mano extends Enemigo {
             VIDA,
             DANIO,
             jugador,
-            GestorRecursos.obtenerPixel());
+            GestorRecursos.obtenerTextura("Jefe/manoIdle.png"));
         this.RETUMBAR = RETUMBAR;
         this.LADO = LADO;
+        TEXTURA_IDLE = GestorRecursos.obtenerTextura("Jefe/manoIdle.png");
+        TEXTURA_ABIERTA_ARRIBA = GestorRecursos.obtenerTextura("Jefe/manoAbiertaArriba.png");
+        TEXTURA_ABIERTA_ABAJO = GestorRecursos.obtenerTextura("Jefe/manoAbiertaAbajo.png");
+        TEXTURA_PUNIO = GestorRecursos.obtenerTextura("Jefe/punio.png");
+        SPRITE_FUEGO_GOLPE = new Sprite(GestorRecursos.obtenerTextura("Jefe/fuegoSuelo.png"));
         duracionInvencibilidad = 0f;
-        sprite.setColor(Color.RED);
+        configurarSpriteVisual(
+            ANCHO_SPRITE,
+            ALTO_SPRITE,
+            (ANCHO - ANCHO_SPRITE) / 2f,
+            (ANCHO - ANCHO_SPRITE) / 2f,
+            (ALTO - ALTO_SPRITE) / 2f);
         seguirJefe();
     }
 
@@ -93,6 +134,8 @@ public class Mano extends Enemigo {
             tiempoHitboxExtendida -= delta;
             actualizarHitboxExtendida();
         }
+
+        aplicarEscalaTeletransporte();
 
         if (haciendoDanio || tiempoHitboxExtendida > 0) {
             verificarColisionJugador();
@@ -126,29 +169,81 @@ public class Mano extends Enemigo {
                     y = yObjetivo;
                     haciendoDanio = false;
                     tiempoHitboxExtendida = DURACION_HITBOX_EXTENDIDA;
+                    Sonido.GOLPE.sonar(x + ANCHO / 2f, jugador.getX() + jugador.getAncho() / 2f);
                     estadoAtaque = EstadoAtaque.RECUPERANDO;
-                    tiempoEstado = TIEMPO_RECUPERACION;
+                    tiempoEstado = teletransporteRapido
+                        ? TIEMPO_RAPIDO_RECUPERACION
+                        : TIEMPO_RECUPERACION;
                 }
                 break;
             case RECUPERANDO:
                 tiempoEstado -= delta;
                 if (tiempoEstado <= 0) {
-                    estadoAtaque = EstadoAtaque.NINGUNO;
+                    if (teletransportada) {
+                        volverAIdle = true;
+                        teletransporteRapido = true;
+                        estadoAtaque = EstadoAtaque.DESAPARECIENDO;
+                    } else {
+                        estadoAtaque = EstadoAtaque.VOLVIENDO;
+                    }
                 }
                 break;
             case DESAPARECIENDO:
-                visible = false;
-                estadoAtaque = EstadoAtaque.ESPERANDO_REAPARICION;
-                tiempoEstado = TIEMPO_DESPUES_DESAPARECER;
+                escalaTeletransporte = Math.max(
+                    0f,
+                    escalaTeletransporte - delta / DURACION_ESCALA_TELETRANSPORTE);
+                if (escalaTeletransporte <= 0f) {
+                    visible = false;
+                    estadoAtaque = EstadoAtaque.ESPERANDO_REAPARICION;
+                    Sonido.TP1.sonar(
+                        x + ANCHO / 2f,
+                        jugador.getX() + jugador.getAncho() / 2f);
+                    tiempoEstado = teletransporteRapido
+                        ? (volverAIdle
+                            ? TIEMPO_RETORNO_IDLE_DESAPARECIDO
+                            : TIEMPO_RAPIDO_DESPUES_DESAPARECER)
+                        : TIEMPO_DESPUES_DESAPARECER;
+                }
                 break;
             case ESPERANDO_REAPARICION:
                 tiempoEstado -= delta;
                 if (tiempoEstado <= 0) {
+                    if (volverAIdle) {
+                        seguirJefeEnX();
+                        y = RETUMBAR.getY() + ALTURA_REPOSO;
+                        estiloAtaque = EstiloAtaque.NORMAL;
+                    } else {
+                        x = jugador.getX() + jugador.getAncho() / 2 - ANCHO / 2;
+                        y = jugador.getY() + ALTURA_SOBRE_JUGADOR;
+                        estiloAtaque = EstiloAtaque.PALMA;
+                    }
+                    escalaTeletransporte = 0f;
                     visible = true;
+                    Sonido.TP2.sonar(x + ANCHO / 2f, jugador.getX() + jugador.getAncho() / 2f);
+                    estadoAtaque = EstadoAtaque.REAPARECIENDO;
+                }
+                break;
+            case REAPARECIENDO:
+                if (!volverAIdle) {
                     x = jugador.getX() + jugador.getAncho() / 2 - ANCHO / 2;
                     y = jugador.getY() + ALTURA_SOBRE_JUGADOR;
-                    estadoAtaque = EstadoAtaque.SIGUIENDO_JUGADOR;
-                    tiempoEstado = TIEMPO_SEGUIR_JUGADOR;
+                }
+                escalaTeletransporte = Math.min(
+                    1f,
+                    escalaTeletransporte + delta / DURACION_ESCALA_TELETRANSPORTE);
+                if (escalaTeletransporte >= 1f) {
+                    if (volverAIdle) {
+                        volverAIdle = false;
+                        teletransportada = false;
+                        teletransporteRapido = false;
+                        estiloAtaque = EstiloAtaque.NORMAL;
+                        estadoAtaque = EstadoAtaque.NINGUNO;
+                    } else {
+                        estadoAtaque = EstadoAtaque.SIGUIENDO_JUGADOR;
+                        tiempoEstado = teletransporteRapido
+                            ? TIEMPO_RAPIDO_SEGUIR_JUGADOR
+                            : TIEMPO_SEGUIR_JUGADOR;
+                    }
                 }
                 break;
             case SIGUIENDO_JUGADOR:
@@ -156,7 +251,9 @@ public class Mano extends Enemigo {
                 x = jugador.getX() + jugador.getAncho() / 2 - ANCHO / 2;
                 if (tiempoEstado <= 0) {
                     estadoAtaque = EstadoAtaque.ESPERANDO_GOLPE;
-                    tiempoEstado = TIEMPO_ESPERA_GOLPE;
+                    tiempoEstado = teletransporteRapido
+                        ? TIEMPO_RAPIDO_ESPERA_GOLPE
+                        : TIEMPO_ESPERA_GOLPE;
                 }
                 break;
             case ESPERANDO_GOLPE:
@@ -179,9 +276,10 @@ public class Mano extends Enemigo {
                 // Quieta en el aire hasta que Retumbar ordene otra cosa
                 break;
             case VOLVIENDO:
-                y -= VELOCIDAD_VOLVER * delta;
-                if (y <= RETUMBAR.getY()) {
-                    y = RETUMBAR.getY();
+                y -= (teletransporteRapido ? VELOCIDAD_RAPIDO_VOLVER : VELOCIDAD_VOLVER) * delta;
+                if (y <= RETUMBAR.getY() + ALTURA_REPOSO) {
+                    y = RETUMBAR.getY() + ALTURA_REPOSO;
+                    teletransporteRapido = false;
                     estadoAtaque = EstadoAtaque.NINGUNO;
                 }
                 break;
@@ -193,6 +291,7 @@ public class Mano extends Enemigo {
             seguirJefeEnX();
         }
         bounds.setPosition(x, y);
+        actualizarTexturaSegunEstado();
         actualizarSpriteVisual();
     }
 
@@ -200,6 +299,7 @@ public class Mano extends Enemigo {
         switch (estadoAtaque) {
             case DESAPARECIENDO:
             case ESPERANDO_REAPARICION:
+            case REAPARECIENDO:
             case SIGUIENDO_JUGADOR:
             case ESPERANDO_GOLPE:
                 return false;
@@ -221,10 +321,87 @@ public class Mano extends Enemigo {
 
     private void seguirJefe() {
         seguirJefeEnX();
-        y = RETUMBAR.getY();
+        y = RETUMBAR.getY() + ALTURA_REPOSO;
 
         bounds.setPosition(x, y);
+        actualizarTexturaSegunEstado();
         actualizarSpriteVisual();
+    }
+
+    private void actualizarTexturaSegunEstado() {
+        Texture textura;
+
+        if (estadoAtaque == EstadoAtaque.NINGUNO) {
+            estiloAtaque = EstiloAtaque.NORMAL;
+        }
+
+        if (estiloAtaque == EstiloAtaque.PUNIO
+            || (estiloAtaque == EstiloAtaque.NORMAL && tiempoHitboxExtendida > 0)) {
+            textura = TEXTURA_PUNIO;
+        } else if (estiloAtaque == EstiloAtaque.PALMA) {
+            textura = TEXTURA_ABIERTA_ABAJO;
+        } else {
+            switch (estadoAtaque) {
+                case LEVANTANDO:
+                case MOVIENDO:
+                case EN_POSICION:
+                    textura = TEXTURA_ABIERTA_ARRIBA;
+                    break;
+                case BAJANDO:
+                    textura = TEXTURA_ABIERTA_ABAJO;
+                    break;
+                case RECUPERANDO:
+                    textura = TEXTURA_PUNIO;
+                    break;
+                case SIGUIENDO_JUGADOR:
+                case ESPERANDO_GOLPE:
+                    textura = TEXTURA_ABIERTA_ABAJO;
+                    break;
+                default:
+                    textura = TEXTURA_IDLE;
+                    break;
+            }
+        }
+
+        if (sprite.getTexture() != textura) {
+            sprite.setTexture(textura);
+        }
+        float anchoSprite = textura == TEXTURA_PUNIO ? ANCHO_SPRITE_PUNIO : ANCHO_SPRITE;
+        if (this.anchoSprite != anchoSprite) {
+            configurarSpriteVisual(
+                anchoSprite,
+                ALTO_SPRITE,
+                (ANCHO - anchoSprite) / 2f,
+                (ANCHO - anchoSprite) / 2f,
+                (ALTO - ALTO_SPRITE) / 2f);
+        }
+        sprite.setFlip(LADO == Lado.DERECHA, false);
+    }
+
+    private void aplicarEscalaTeletransporte() {
+        actualizarSpriteVisual();
+    }
+
+    @Override
+    protected void actualizarSpriteVisual() {
+        super.actualizarSpriteVisual();
+        if (sprite != null) {
+            sprite.setOriginCenter();
+            sprite.setScale(escalaTeletransporte);
+        }
+    }
+
+    @Override
+    public void dibujar() {
+        if (spriteVisible && visible && tiempoHitboxExtendida > 0) {
+            SPRITE_FUEGO_GOLPE.setBounds(
+                x - EXTENSION_HITBOX / 2,
+                y,
+                ANCHO + EXTENSION_HITBOX,
+                ALTO);
+            SPRITE_FUEGO_GOLPE.draw(Render.batch);
+        }
+        super.dibujar();
     }
 
     private void verificarColisionJugador() {
@@ -248,7 +425,7 @@ public class Mano extends Enemigo {
     public void dibujarHitbox(ShapeRenderer shapeRenderer) {
         if (tiempoHitboxExtendida > 0) {
             shapeRenderer.setColor(Color.YELLOW);
-            shapeRenderer.rect(x - EXTENSION_HITBOX / 2, y, ANCHO + EXTENSION_HITBOX, ALTO);
+            shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
         } else {
             super.dibujarHitbox(shapeRenderer);
         }
@@ -267,16 +444,24 @@ public class Mano extends Enemigo {
             return;
         }
         teletransportada = false;
+        estiloAtaque = EstiloAtaque.PUNIO;
         estadoAtaque = EstadoAtaque.LEVANTANDO;
-        yAtaque = RETUMBAR.getY() + ALTURA_LEVANTADA;
+        yAtaque = RETUMBAR.getY() + ALTURA_REPOSO + ALTURA_LEVANTADA;
         yObjetivo = RETUMBAR.getY();
     }
 
     public void iniciarTeletransporte() {
+        iniciarTeletransporte(false);
+    }
+
+    public void iniciarTeletransporte(boolean rapido) {
         if (muerto) {
             return;
         }
         teletransportada = true;
+        teletransporteRapido = rapido;
+        volverAIdle = false;
+        escalaTeletransporte = 1f;
         estadoAtaque = EstadoAtaque.DESAPARECIENDO;
     }
 
@@ -285,8 +470,9 @@ public class Mano extends Enemigo {
             return;
         }
         teletransportada = false;
+        estiloAtaque = EstiloAtaque.NORMAL;
         estadoAtaque = EstadoAtaque.MOVIENDO;
-        yDestino = RETUMBAR.getY() + alturaSobreSuelo;
+        yDestino = RETUMBAR.getY() + ALTURA_REPOSO + alturaSobreSuelo;
         velocidadMovimiento = velocidad;
     }
 
