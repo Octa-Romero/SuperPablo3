@@ -2,10 +2,14 @@
 package com.prz.juego.entidades.jefes;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.prz.juego.entidades.Entidad;
 import com.prz.juego.entidades.enemigos.Enemigo;
 import com.prz.juego.entidades.jugadores.Jugador;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.utilidades.Sonido;
+
+import java.util.function.Consumer;
 
 public class Retumbar extends Enemigo {
 
@@ -31,6 +35,7 @@ public class Retumbar extends Enemigo {
     private final Mano MANO_IZQUIERDA;
     private final Mano MANO_DERECHA;
     private final OndaSuelo ONDA_SUELO;
+    private AtaquesExtraRetumbar ataquesExtra;
 
     private enum TipoAtaque {
         LEVANTAR_BAJAR_MANOS,
@@ -97,6 +102,10 @@ public class Retumbar extends Enemigo {
     public void update(float delta) {
         if (muerto) {
             return;
+        }
+
+        if (ataquesExtra != null) {
+            ataquesExtra.update(delta);
         }
 
         guardarPosicionAnterior();
@@ -363,5 +372,26 @@ public class Retumbar extends Enemigo {
 
     public OndaSuelo getOndaSuelo() {
         return ONDA_SUELO;
+    }
+
+    public void configurarAtaquesExtra(
+            float anchoMapa,
+            float altoMapa,
+            Consumer<Entidad> agregarEntidad) {
+        ataquesExtra =
+                new AtaquesExtraRetumbar(
+                        jugador, anchoMapa, altoMapa, y, agregarEntidad);
+    }
+
+    public void dibujarAtaquesExtra() {
+        if (ataquesExtra != null) {
+            ataquesExtra.dibujar();
+        }
+    }
+
+    public void dibujarHitboxesAtaquesExtra(ShapeRenderer shapeRenderer) {
+        if (ataquesExtra != null) {
+            ataquesExtra.dibujarHitboxes(shapeRenderer);
+        }
     }
 }

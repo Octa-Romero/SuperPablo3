@@ -11,7 +11,8 @@ public enum Sonido {
     GOLPE("Sonidos/golpe.WAV"),
     TP1("Sonidos/tp1.WAV"),
     TP2("Sonidos/tp2.WAV"),
-    ROCA("Sonidos/roca.WAV"),
+    METEORITO("Sonidos/meteorito.WAV"),
+    RELAMPAGO("Sonidos/relampago.WAV"),
     FUEGO_SUELO("Sonidos/fuegoSuelo.WAV");
 
     private final String NOMBRE_ARCHIVO;

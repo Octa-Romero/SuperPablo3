@@ -29,6 +29,7 @@ public abstract class Nivel {
     private Jugador jugador;
     private Colisiones colision;
     private final ArrayList<Entidad> ENTIDADES = new ArrayList<>();
+    private final ArrayList<Entidad> ENTIDADES_PENDIENTES = new ArrayList<>();
     private final ArrayList<Lanzable> PROYECTILES = new ArrayList<>();
     private ShapeRenderer shapeRenderer;
     private boolean gameOver = false;
@@ -93,6 +94,7 @@ public abstract class Nivel {
         float mapTotalHeight = tileHeight * mapHeightTiles;
         anchoMapa = mapTotalWidth;
         camara.setLimitesMapa(mapTotalWidth, mapTotalHeight);
+        configurarEntornoEspecifico(mapTotalWidth, mapTotalHeight);
 
         mapRenderer = new OrthogonalTiledMapRenderer(mapa, 1f);
 
@@ -119,6 +121,14 @@ public abstract class Nivel {
         ENTIDADES.add(entidad);
     }
 
+    protected final void agregarEntidadDiferida(Entidad entidad) {
+        if (entidad instanceof EnemigoRango) {
+            ((EnemigoRango) entidad).configurarDisparo(colision, PROYECTILES);
+        }
+
+        ENTIDADES_PENDIENTES.add(entidad);
+    }
+
     protected final void agregarEntidadAlFondo(Entidad entidad) {
         if (entidad instanceof EnemigoRango) {
             ((EnemigoRango) entidad).configurarDisparo(colision, PROYECTILES);
@@ -126,6 +136,8 @@ public abstract class Nivel {
 
         ENTIDADES.add(0, entidad);
     }
+
+    protected void configurarEntornoEspecifico(float ancho, float alto) {}
 
     // Por el momento los niveles no tienen jefe, solo Nivel7 lo sobrescribe
     public Retumbar getJefe() {
@@ -154,6 +166,7 @@ public abstract class Nivel {
         }
 
         if (dibujarJugadorAlFrente) {
+            getJefe().dibujarAtaquesExtra();
             jugador.dibujar();
         }
 
@@ -180,6 +193,10 @@ public abstract class Nivel {
             entidad.dibujarHitbox(shapeRenderer);
         }
 
+        if (getJefe() != null) {
+            getJefe().dibujarHitboxesAtaquesExtra(shapeRenderer);
+        }
+
         for (Lanzable proyectil : PROYECTILES) {
             proyectil.dibujarHitbox(shapeRenderer);
         }
@@ -195,6 +212,8 @@ public abstract class Nivel {
             colision.chequearColision(entidad);
             entidad.limitarMovimientoHorizontal(0, anchoMapa);
         }
+        ENTIDADES.addAll(ENTIDADES_PENDIENTES);
+        ENTIDADES_PENDIENTES.clear();
 
         for (int i = PROYECTILES.size() - 1; i >= 0; i--) {
             Lanzable proyectil = PROYECTILES.get(i);
@@ -256,6 +275,7 @@ public abstract class Nivel {
             e.dispose();
         }
         ENTIDADES.clear();
+        ENTIDADES_PENDIENTES.clear();
         PROYECTILES.clear();
     }
 

@@ -192,7 +192,13 @@ public abstract class Entidad {
             maximoX = limiteIzquierdo;
         }
 
-        x = MathUtils.clamp(x, limiteIzquierdo, maximoX);
+        float xLimitado = MathUtils.clamp(x, limiteIzquierdo, maximoX);
+        chocoPared =
+            chocoPared
+                || xLimitado != x
+                || xLimitado <= limiteIzquierdo
+                || xLimitado >= maximoX;
+        x = xLimitado;
         bounds.setPosition(x, y);
         actualizarSpriteVisual();
     }

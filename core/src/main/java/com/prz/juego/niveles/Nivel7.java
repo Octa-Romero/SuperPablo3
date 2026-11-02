@@ -37,6 +37,11 @@ public class Nivel7 extends Nivel {
     }
 
     @Override
+    protected void configurarEntornoEspecifico(float ancho, float alto) {
+        jefe.configurarAtaquesExtra(ancho, alto, this::agregarEntidadDiferida);
+    }
+
+    @Override
     public Retumbar getJefe() {
         return jefe;
     }

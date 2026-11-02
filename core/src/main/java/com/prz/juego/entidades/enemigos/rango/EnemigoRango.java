@@ -34,6 +34,9 @@ public abstract class EnemigoRango extends Enemigo {
     private ArrayList<Lanzable> proyectiles;
     private Colisiones colisiones;
     private boolean huyendo = false;
+    private boolean esperarAterrizajeAntesDeAtacar;
+    private float retrasoInicialAntesDeAtacar;
+    private float tiempoRetrasoInicial;
 
     protected EnemigoRango(
             float x,
@@ -62,8 +65,40 @@ public abstract class EnemigoRango extends Enemigo {
         this.proyectiles = proyectiles;
     }
 
+    public void configurarRetrasoInicialAntesDeAtacar(float retraso) {
+        if (retraso < 0f) {
+            throw new IllegalArgumentException("El retraso inicial no puede ser negativo");
+        }
+
+        esperarAterrizajeAntesDeAtacar = true;
+        retrasoInicialAntesDeAtacar = retraso;
+        tiempoRetrasoInicial = 0f;
+        enSuelo = false;
+    }
+
+    public void configurarDireccionInicial(float direccion) {
+        if (direccion == 0f) {
+            throw new IllegalArgumentException("La direccion inicial no puede ser cero");
+        }
+
+        this.direccion = Math.signum(direccion);
+        orientarSprite(sprite, this.direccion);
+    }
+
     @Override
     protected void actualizarComportamiento(float delta, Rectangle boundsJugador) {
+        if (esperarAterrizajeAntesDeAtacar) {
+            if (!enSuelo) {
+                return;
+            }
+
+            tiempoRetrasoInicial += delta;
+            if (tiempoRetrasoInicial < retrasoInicialAntesDeAtacar) {
+                return;
+            }
+            esperarAterrizajeAntesDeAtacar = false;
+        }
+
         if (cooldownDisparo) {
             tiempoEstado += delta;
             if (tiempoEstado >= tiempoEntreDisparos) {
@@ -104,6 +139,13 @@ public abstract class EnemigoRango extends Enemigo {
         }
 
         if (MODO == Modo.ESTATICO) {
+            return;
+        }
+
+        if (chocoPared) {
+            huyendo = false;
+            actualizarDireccion(boundsJugador);
+            actualizarOrientacionSprites();
             return;
         }
 

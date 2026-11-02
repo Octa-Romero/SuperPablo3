@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.entidades.Entidad;
 import com.prz.juego.entidades.enemigos.Enemigo;
+import com.prz.juego.entidades.enemigos.rango.EnemigoRango;
 import com.prz.juego.entidades.jugadores.Jugador;
 
 import java.util.ArrayList;
@@ -70,6 +71,7 @@ public class Colisiones {
     public void chequearColision(Entidad entidad) {
         boolean estabaEnSuelo = entidad.estaEnSuelo();
         entidad.setEnSuelo(false);
+        entidad.setChocoPared(false);
         boolean chocoPared = false;
 
         for (Rectangle suelo : COLISIONES) {
@@ -137,9 +139,13 @@ public class Colisiones {
             }
         }
 
-        if (chocoPared && entidad instanceof Enemigo && estabaEnSuelo) {
+        if (chocoPared
+                && entidad instanceof Enemigo
+                && !(entidad instanceof EnemigoRango)
+                && estabaEnSuelo) {
             entidad.saltar();
         }
+        entidad.setChocoPared(chocoPared);
     }
 
     private void chequearPendiente(Entidad entidad) {

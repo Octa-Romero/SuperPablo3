@@ -43,7 +43,8 @@ public class Mano extends Enemigo {
     private static final float TIEMPO_RECUPERACION = 0.4f;
     private static final float TIEMPO_RAPIDO_RECUPERACION = 0.15f;
     private static final float DURACION_HITBOX_EXTENDIDA = 0.2f;
-    private static final float EXTENSION_HITBOX = 100;
+    private static final float ANCHO_FUEGO_GOLPE = 220;
+    private static final float ALTO_FUEGO_GOLPE = ALTO;
     private static final float ANCHO_SPRITE = 160;
     private static final float ALTO_SPRITE = 160;
     private static final float ANCHO_SPRITE_PUNIO = 125;
@@ -76,6 +77,7 @@ public class Mano extends Enemigo {
     private final Texture TEXTURA_ABIERTA_ABAJO;
     private final Texture TEXTURA_PUNIO;
     private final Sprite SPRITE_FUEGO_GOLPE;
+    private final Rectangle BOUNDS_FUEGO_GOLPE = new Rectangle();
 
     private EstadoAtaque estadoAtaque = EstadoAtaque.NINGUNO;
     private boolean haciendoDanio = false;
@@ -110,6 +112,7 @@ public class Mano extends Enemigo {
         TEXTURA_ABIERTA_ABAJO = GestorRecursos.obtenerTextura("Jefe/manoAbiertaAbajo.png");
         TEXTURA_PUNIO = GestorRecursos.obtenerTextura("Jefe/punio.png");
         SPRITE_FUEGO_GOLPE = new Sprite(GestorRecursos.obtenerTextura("Jefe/fuegoSuelo.png"));
+        SPRITE_FUEGO_GOLPE.setFlip(LADO == Lado.IZQUIERDA, false);
         duracionInvencibilidad = 0f;
         configurarSpriteVisual(
             ANCHO_SPRITE,
@@ -132,8 +135,8 @@ public class Mano extends Enemigo {
 
         if (tiempoHitboxExtendida > 0) {
             tiempoHitboxExtendida -= delta;
-            actualizarHitboxExtendida();
         }
+        actualizarBoundsFuegoGolpe();
 
         aplicarEscalaTeletransporte();
 
@@ -395,37 +398,42 @@ public class Mano extends Enemigo {
     public void dibujar() {
         if (spriteVisible && visible && tiempoHitboxExtendida > 0) {
             SPRITE_FUEGO_GOLPE.setBounds(
-                x - EXTENSION_HITBOX / 2,
-                y,
-                ANCHO + EXTENSION_HITBOX,
-                ALTO);
+                BOUNDS_FUEGO_GOLPE.x,
+                BOUNDS_FUEGO_GOLPE.y,
+                BOUNDS_FUEGO_GOLPE.width,
+                BOUNDS_FUEGO_GOLPE.height);
             SPRITE_FUEGO_GOLPE.draw(Render.batch);
         }
         super.dibujar();
     }
 
     private void verificarColisionJugador() {
-        if (bounds.overlaps(jugador.getBounds())) {
+        boolean golpeaConMano = haciendoDanio && bounds.overlaps(jugador.getBounds());
+        boolean golpeaConFuego =
+            tiempoHitboxExtendida > 0
+                && BOUNDS_FUEGO_GOLPE.overlaps(jugador.getBounds());
+        if (golpeaConMano || golpeaConFuego) {
             jugador.restarVida(danio);
         }
     }
 
-    private void actualizarHitboxExtendida() {
-        if (tiempoHitboxExtendida > 0) {
-            bounds.setSize(ANCHO + EXTENSION_HITBOX, bounds.height);
-            bounds.setPosition(x - EXTENSION_HITBOX / 2, y);
-        } else {
-            bounds.setSize(ANCHO, bounds.height);
-            bounds.setPosition(x, y);
-        }
-        actualizarSpriteVisual();
+    private void actualizarBoundsFuegoGolpe() {
+        BOUNDS_FUEGO_GOLPE.set(
+            x + (ANCHO - ANCHO_FUEGO_GOLPE) / 2f,
+            y + (ALTO - ALTO_FUEGO_GOLPE) / 2f,
+            ANCHO_FUEGO_GOLPE,
+            ALTO_FUEGO_GOLPE);
     }
 
     @Override
     public void dibujarHitbox(ShapeRenderer shapeRenderer) {
         if (tiempoHitboxExtendida > 0) {
             shapeRenderer.setColor(Color.YELLOW);
-            shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
+            shapeRenderer.rect(
+                BOUNDS_FUEGO_GOLPE.x,
+                BOUNDS_FUEGO_GOLPE.y,
+                BOUNDS_FUEGO_GOLPE.width,
+                BOUNDS_FUEGO_GOLPE.height);
         } else {
             super.dibujarHitbox(shapeRenderer);
         }
