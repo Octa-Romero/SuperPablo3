@@ -32,7 +32,9 @@ public abstract class EnemigoRango extends Enemigo {
     private final float ANCHO_PROYECTIL;
     private final float ALTO_PROYECTIL;
     private ArrayList<Lanzable> proyectiles;
+    private final ArrayList<Proyectil> proyectilesPropios = new ArrayList<>();
     private Colisiones colisiones;
+    private boolean ataquesCancelados;
     private boolean huyendo = false;
     private boolean esperarAterrizajeAntesDeAtacar;
     private float retrasoInicialAntesDeAtacar;
@@ -87,6 +89,10 @@ public abstract class EnemigoRango extends Enemigo {
 
     @Override
     protected void actualizarComportamiento(float delta, Rectangle boundsJugador) {
+        if (ataquesCancelados) {
+            return;
+        }
+
         if (esperarAterrizajeAntesDeAtacar) {
             if (!enSuelo) {
                 return;
@@ -190,7 +196,8 @@ public abstract class EnemigoRango extends Enemigo {
         float proyectilX = origenX + direccionProyectil.x * ancho / 2f;
         float proyectilY = origenY + direccionProyectil.y * ancho / 2f;
 
-        proyectiles.add(
+        proyectilesPropios.removeIf(proyectil -> !proyectil.estaActiva());
+        Proyectil proyectil =
                 new Proyectil(
                         proyectilX,
                         proyectilY,
@@ -203,7 +210,19 @@ public abstract class EnemigoRango extends Enemigo {
                         vidaProyectil,
                         jugador,
                         colisiones,
-                        TEXTURA_PROYECTIL));
+                        TEXTURA_PROYECTIL);
+        proyectiles.add(proyectil);
+        proyectilesPropios.add(proyectil);
+    }
+
+    public void cancelarAtaques() {
+        ataquesCancelados = true;
+        esperandoDisparo = false;
+        atacando = false;
+        for (Proyectil proyectil : proyectilesPropios) {
+            proyectil.desactivar();
+        }
+        proyectilesPropios.clear();
     }
 
     public Modo getModo() {

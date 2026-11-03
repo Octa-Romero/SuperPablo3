@@ -1,6 +1,7 @@
 
 package com.prz.juego.entidades.jefes;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.prz.juego.entidades.Entidad;
@@ -14,6 +15,7 @@ import java.util.function.Consumer;
 public class Retumbar extends Enemigo {
 
     private static final float ANCHO = 300;
+    private static final float ANCHO_SPRITE = 370;
     private static final float ALTO = 400;
     private static final int VELOCIDAD = 20;
     private static final float RECORRIDO = 250;
@@ -30,6 +32,9 @@ public class Retumbar extends Enemigo {
     private static final float VELOCIDAD_SUBIDA_RAPIDA = 2500;
     private static final float DURACION_ONDA_SUELO = 0.5f;
     private static final float ANCHO_SUELO_DEFECTO = 3000;
+    private static final float DURACION_TELETRANSPORTE = 0.15f;
+    private static final int CANTIDAD_FRAMES = 3;
+    private static final float DURACION_FRAME = 0.2f;
 
     private final float X_INICIAL;
     private final Mano MANO_IZQUIERDA;
@@ -49,6 +54,14 @@ public class Retumbar extends Enemigo {
         VOLVIENDO
     }
 
+    private enum FaseEspecial {
+        NORMAL,
+        DESAPARECIENDO,
+        LLUVIA_FUEGUITOS,
+        REAPARECIENDO,
+        COMPLETADA
+    }
+
     private TipoAtaque ataqueActual;
     private boolean atacando = false;
     private float tiempoAtaque = 0f;
@@ -59,6 +72,8 @@ public class Retumbar extends Enemigo {
     private float tiempoFase = 0f;
     private boolean esperandoTeletransporte = false;
     private float tiempoEsperaTeletransporte = 0f;
+    private FaseEspecial faseEspecial = FaseEspecial.NORMAL;
+    private float tiempoFaseEspecial;
 
     public Retumbar(float centroX, float y, Jugador jugador) {
         this(
@@ -91,7 +106,20 @@ public class Retumbar extends Enemigo {
 
         X_INICIAL = x;
         duracionInvencibilidad = 0f;
-        configurarSpriteVisual(ANCHO, ALTO + 100, 0, 0, 0);
+        float offsetSpriteX = (ANCHO - ANCHO_SPRITE) / 2f;
+        configurarSpriteVisual(ANCHO_SPRITE, ALTO + 100, offsetSpriteX, offsetSpriteX, 0);
+        sprite.setOriginCenter();
+        Texture spritesheet = GestorRecursos.obtenerTextura("Jefe/retumbar.png");
+        ANIMACION.configurar(
+            spritesheet,
+            spritesheet.getWidth() / CANTIDAD_FRAMES,
+            spritesheet.getHeight(),
+            new int[] {0, 1, 2},
+            null,
+            null,
+            null,
+            DURACION_FRAME);
+        ANIMACION.actualizar(sprite, 0f, false, false, false);
 
         MANO_IZQUIERDA = new Mano(this, Mano.Lado.IZQUIERDA, jugador);
         MANO_DERECHA = new Mano(this, Mano.Lado.DERECHA, jugador);
@@ -104,6 +132,21 @@ public class Retumbar extends Enemigo {
             return;
         }
 
+        if (faseEspecial == FaseEspecial.NORMAL
+            && MANO_IZQUIERDA.estaMuerto()
+            && MANO_DERECHA.estaMuerto()) {
+            iniciarFaseEspecial();
+        }
+
+        if (faseEspecial != FaseEspecial.NORMAL
+            && faseEspecial != FaseEspecial.COMPLETADA) {
+            guardarPosicionAnterior();
+            actualizarFaseEspecial(delta);
+            bounds.setPosition(x, y);
+            actualizarSpriteVisual();
+            return;
+        }
+
         if (ataquesExtra != null) {
             ataquesExtra.update(delta);
         }
@@ -113,7 +156,78 @@ public class Retumbar extends Enemigo {
         actualizarComportamiento(delta, jugador.getBounds());
 
         bounds.setPosition(x, y);
+        ANIMACION.actualizar(sprite, delta, false, false, false);
         actualizarSpriteVisual();
+    }
+
+    private void iniciarFaseEspecial() {
+        faseEspecial = FaseEspecial.DESAPARECIENDO;
+        tiempoFaseEspecial = 0f;
+        atacando = false;
+        tiempoAtaque = 0f;
+        ONDA_SUELO.desactivar();
+        if (ataquesExtra != null) {
+            ataquesExtra.cancelarAtaques();
+        }
+        spriteVisible = true;
+        sprite.setScale(1f);
+        Sonido.TP1.sonar(
+            x + ANCHO / 2f,
+            jugador.getX() + jugador.getAncho() / 2f);
+    }
+
+    private void actualizarFaseEspecial(float delta) {
+        tiempoFaseEspecial += delta;
+
+        switch (faseEspecial) {
+            case DESAPARECIENDO:
+                sprite.setScale(
+                    Math.max(0f, 1f - tiempoFaseEspecial / DURACION_TELETRANSPORTE));
+                if (tiempoFaseEspecial >= DURACION_TELETRANSPORTE) {
+                    spriteVisible = false;
+                    sprite.setScale(1f);
+                    tiempoFaseEspecial = 0f;
+                    faseEspecial = FaseEspecial.LLUVIA_FUEGUITOS;
+                    if (ataquesExtra != null) {
+                        ataquesExtra.iniciarLluviaFueguitos();
+                    } else {
+                        iniciarReaparicion();
+                    }
+                }
+                break;
+
+            case LLUVIA_FUEGUITOS:
+                if (ataquesExtra != null) {
+                    ataquesExtra.update(delta);
+                }
+                if (ataquesExtra == null || !ataquesExtra.estaLluviaFueguitosActiva()) {
+                    iniciarReaparicion();
+                }
+                break;
+
+            case REAPARECIENDO:
+                sprite.setScale(
+                    Math.min(1f, tiempoFaseEspecial / DURACION_TELETRANSPORTE));
+                if (tiempoFaseEspecial >= DURACION_TELETRANSPORTE) {
+                    sprite.setScale(1f);
+                    faseEspecial = FaseEspecial.COMPLETADA;
+                    tiempoAtaque = 0f;
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void iniciarReaparicion() {
+        faseEspecial = FaseEspecial.REAPARECIENDO;
+        tiempoFaseEspecial = 0f;
+        spriteVisible = true;
+        sprite.setScale(0f);
+        Sonido.TP2.sonar(
+            x + ANCHO / 2f,
+            jugador.getX() + jugador.getAncho() / 2f);
     }
 
     @Override
@@ -349,7 +463,9 @@ public class Retumbar extends Enemigo {
 
     @Override
     public boolean puedeRecibirDanio() {
-        return MANO_IZQUIERDA.estaMuerto() && MANO_DERECHA.estaMuerto();
+        return MANO_IZQUIERDA.estaMuerto()
+            && MANO_DERECHA.estaMuerto()
+            && faseEspecial == FaseEspecial.COMPLETADA;
     }
 
     @Override
@@ -377,10 +493,11 @@ public class Retumbar extends Enemigo {
     public void configurarAtaquesExtra(
             float anchoMapa,
             float altoMapa,
-            Consumer<Entidad> agregarEntidad) {
+            Consumer<Entidad> agregarEntidad,
+            Consumer<Entidad> eliminarEntidad) {
         ataquesExtra =
                 new AtaquesExtraRetumbar(
-                        jugador, anchoMapa, altoMapa, y, agregarEntidad);
+                        jugador, anchoMapa, altoMapa, y, agregarEntidad, eliminarEntidad);
     }
 
     public void dibujarAtaquesExtra() {

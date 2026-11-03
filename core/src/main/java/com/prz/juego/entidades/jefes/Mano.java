@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.entidades.enemigos.Enemigo;
 import com.prz.juego.entidades.jugadores.Jugador;
 import com.prz.juego.recursos.GestorRecursos;
+import com.prz.juego.utilidades.Animacion;
 import com.prz.juego.utilidades.Render;
 import com.prz.juego.utilidades.Sonido;
 
@@ -21,7 +22,7 @@ public class Mano extends Enemigo {
     private static final float ANCHO = 120;
     private static final float ALTO = 100;
     private static final float SEPARACION = 30;
-    private static final double VIDA = 20;
+    private static final double VIDA = 1;
     private static final double DANIO = 1;
 
     private static final float ALTURA_LEVANTADA = 300;
@@ -47,7 +48,10 @@ public class Mano extends Enemigo {
     private static final float ALTO_FUEGO_GOLPE = ALTO;
     private static final float ANCHO_SPRITE = 160;
     private static final float ALTO_SPRITE = 160;
+    private static final float ALTO_SPRITE_IDLE = 200;
     private static final float ANCHO_SPRITE_PUNIO = 125;
+    private static final int CANTIDAD_FRAMES = 3;
+    private static final float DURACION_FRAME = 0.2f;
 
     private enum EstadoAtaque {
         NINGUNO,
@@ -73,10 +77,12 @@ public class Mano extends Enemigo {
     private final Retumbar RETUMBAR;
     private final Lado LADO;
     private final Texture TEXTURA_IDLE;
+    private final Animacion ANIMACION_PUNIO;
     private final Texture TEXTURA_ABIERTA_ARRIBA;
     private final Texture TEXTURA_ABIERTA_ABAJO;
     private final Texture TEXTURA_PUNIO;
     private final Sprite SPRITE_FUEGO_GOLPE;
+    private final Animacion ANIMACION_FUEGO_GOLPE;
     private final Rectangle BOUNDS_FUEGO_GOLPE = new Rectangle();
 
     private EstadoAtaque estadoAtaque = EstadoAtaque.NINGUNO;
@@ -111,7 +117,13 @@ public class Mano extends Enemigo {
         TEXTURA_ABIERTA_ARRIBA = GestorRecursos.obtenerTextura("Jefe/manoAbiertaArriba.png");
         TEXTURA_ABIERTA_ABAJO = GestorRecursos.obtenerTextura("Jefe/manoAbiertaAbajo.png");
         TEXTURA_PUNIO = GestorRecursos.obtenerTextura("Jefe/punio.png");
-        SPRITE_FUEGO_GOLPE = new Sprite(GestorRecursos.obtenerTextura("Jefe/fuegoSuelo.png"));
+        configurarAnimacion(ANIMACION, TEXTURA_IDLE);
+        ANIMACION_PUNIO = new Animacion(TEXTURA_PUNIO);
+        configurarAnimacion(ANIMACION_PUNIO, TEXTURA_PUNIO);
+        Texture texturaFuego = GestorRecursos.obtenerTextura("Jefe/fuegoSuelo.png");
+        SPRITE_FUEGO_GOLPE = new Sprite(texturaFuego);
+        ANIMACION_FUEGO_GOLPE = new Animacion(texturaFuego);
+        configurarAnimacion(ANIMACION_FUEGO_GOLPE, texturaFuego);
         SPRITE_FUEGO_GOLPE.setFlip(LADO == Lado.IZQUIERDA, false);
         duracionInvencibilidad = 0f;
         configurarSpriteVisual(
@@ -121,6 +133,19 @@ public class Mano extends Enemigo {
             (ANCHO - ANCHO_SPRITE) / 2f,
             (ALTO - ALTO_SPRITE) / 2f);
         seguirJefe();
+        actualizarTexturaSegunEstado(0f);
+    }
+
+    private void configurarAnimacion(Animacion animacion, Texture spritesheet) {
+        animacion.configurar(
+            spritesheet,
+            spritesheet.getWidth() / CANTIDAD_FRAMES,
+            spritesheet.getHeight(),
+            new int[] {0, 1, 2},
+            null,
+            null,
+            null,
+            DURACION_FRAME);
     }
 
     @Override
@@ -132,6 +157,9 @@ public class Mano extends Enemigo {
         guardarPosicionAnterior();
         actualizarInvencibilidad(delta);
         actualizarComportamiento(delta, jugador.getBounds());
+        actualizarTexturaSegunEstado(delta);
+        ANIMACION_FUEGO_GOLPE.actualizar(
+            SPRITE_FUEGO_GOLPE, delta, false, false, false);
 
         if (tiempoHitboxExtendida > 0) {
             tiempoHitboxExtendida -= delta;
@@ -294,7 +322,6 @@ public class Mano extends Enemigo {
             seguirJefeEnX();
         }
         bounds.setPosition(x, y);
-        actualizarTexturaSegunEstado();
         actualizarSpriteVisual();
     }
 
@@ -327,11 +354,10 @@ public class Mano extends Enemigo {
         y = RETUMBAR.getY() + ALTURA_REPOSO;
 
         bounds.setPosition(x, y);
-        actualizarTexturaSegunEstado();
         actualizarSpriteVisual();
     }
 
-    private void actualizarTexturaSegunEstado() {
+    private void actualizarTexturaSegunEstado(float delta) {
         Texture textura;
 
         if (estadoAtaque == EstadoAtaque.NINGUNO) {
@@ -340,7 +366,10 @@ public class Mano extends Enemigo {
 
         if (estiloAtaque == EstiloAtaque.PUNIO
             || (estiloAtaque == EstiloAtaque.NORMAL && tiempoHitboxExtendida > 0)) {
-            textura = TEXTURA_PUNIO;
+            ANIMACION_PUNIO.actualizar(sprite, delta, false, false, false);
+            sprite.setFlip(LADO == Lado.DERECHA, false);
+            ajustarTamanoSprite(ANCHO_SPRITE_PUNIO, ALTO_SPRITE);
+            return;
         } else if (estiloAtaque == EstiloAtaque.PALMA) {
             textura = TEXTURA_ABIERTA_ABAJO;
         } else {
@@ -354,8 +383,10 @@ public class Mano extends Enemigo {
                     textura = TEXTURA_ABIERTA_ABAJO;
                     break;
                 case RECUPERANDO:
-                    textura = TEXTURA_PUNIO;
-                    break;
+                    ANIMACION_PUNIO.actualizar(sprite, delta, false, false, false);
+                    sprite.setFlip(LADO == Lado.DERECHA, false);
+                    ajustarTamanoSprite(ANCHO_SPRITE_PUNIO, ALTO_SPRITE);
+                    return;
                 case SIGUIENDO_JUGADOR:
                 case ESPERANDO_GOLPE:
                     textura = TEXTURA_ABIERTA_ABAJO;
@@ -366,19 +397,29 @@ public class Mano extends Enemigo {
             }
         }
 
+        if (textura == TEXTURA_IDLE) {
+            ANIMACION.actualizar(sprite, delta, false, false, false);
+            sprite.setFlip(LADO == Lado.DERECHA, false);
+            ajustarTamanoSprite(ANCHO_SPRITE, ALTO_SPRITE_IDLE);
+            return;
+        }
+
         if (sprite.getTexture() != textura) {
             sprite.setTexture(textura);
         }
-        float anchoSprite = textura == TEXTURA_PUNIO ? ANCHO_SPRITE_PUNIO : ANCHO_SPRITE;
-        if (this.anchoSprite != anchoSprite) {
+        sprite.setFlip(LADO == Lado.DERECHA, false);
+        ajustarTamanoSprite(ANCHO_SPRITE, ALTO_SPRITE);
+    }
+
+    private void ajustarTamanoSprite(float anchoSprite, float altoSprite) {
+        if (this.anchoSprite != anchoSprite || this.altoSprite != altoSprite) {
             configurarSpriteVisual(
                 anchoSprite,
-                ALTO_SPRITE,
+                altoSprite,
                 (ANCHO - anchoSprite) / 2f,
                 (ANCHO - anchoSprite) / 2f,
                 (ALTO - ALTO_SPRITE) / 2f);
         }
-        sprite.setFlip(LADO == Lado.DERECHA, false);
     }
 
     private void aplicarEscalaTeletransporte() {
@@ -506,5 +547,12 @@ public class Mano extends Enemigo {
 
     public Lado getLado() {
         return LADO;
+    }
+
+    @Override
+    public void dispose() {
+        ANIMACION_PUNIO.dispose();
+        ANIMACION_FUEGO_GOLPE.dispose();
+        super.dispose();
     }
 }

@@ -38,7 +38,11 @@ public class Nivel7 extends Nivel {
 
     @Override
     protected void configurarEntornoEspecifico(float ancho, float alto) {
-        jefe.configurarAtaquesExtra(ancho, alto, this::agregarEntidadDiferida);
+        jefe.configurarAtaquesExtra(
+            ancho,
+            alto,
+            this::agregarEntidadDiferida,
+            this::eliminarEntidadDiferida);
     }
 
     @Override

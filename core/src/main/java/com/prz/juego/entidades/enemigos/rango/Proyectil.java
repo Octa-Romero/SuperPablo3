@@ -190,4 +190,8 @@ public class Proyectil implements Lanzable {
     public boolean estaActiva() {
         return activa;
     }
+
+    public void desactivar() {
+        activa = false;
+    }
 }

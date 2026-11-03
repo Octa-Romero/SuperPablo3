@@ -19,10 +19,13 @@ public class OndaSuelo extends Enemigo {
     private static final float ALTO_MINIMO = 1f;
     private static final float X_OCULTA = -100000f;
     private static final float SOLAPAMIENTO_LLAMA = 12f;
+    private static final int CANTIDAD_FRAMES_FUEGO = 3;
+    private static final float DURACION_FRAME_FUEGO = 0.1f;
 
     private final float X_INICIO;
     private final float Y_SUELO;
-    private final Texture TEXTURA_FUEGO;
+    private final float ANCHO_FRAME_FUEGO;
+    private final float ALTO_FRAME_FUEGO;
 
     private boolean activa = false;
     private boolean bajando = false;
@@ -45,7 +48,19 @@ public class OndaSuelo extends Enemigo {
 
         X_INICIO = xMin;
         Y_SUELO = ySuelo;
-        TEXTURA_FUEGO = GestorRecursos.obtenerTextura("Jefe/fuegoSuelo.png");
+        Texture spritesheetFuego = GestorRecursos.obtenerTextura("Jefe/fuegoSuelo.png");
+        ANCHO_FRAME_FUEGO = spritesheetFuego.getWidth() / (float) CANTIDAD_FRAMES_FUEGO;
+        ALTO_FRAME_FUEGO = spritesheetFuego.getHeight();
+        ANIMACION.configurar(
+            spritesheetFuego,
+            spritesheetFuego.getWidth() / CANTIDAD_FRAMES_FUEGO,
+            spritesheetFuego.getHeight(),
+            new int[] {0, 1, 2},
+            null,
+            null,
+            null,
+            DURACION_FRAME_FUEGO);
+        ANIMACION.actualizar(sprite, 0f, false, false, false);
         duracionInvencibilidad = 0f;
         ocultar();
     }
@@ -58,6 +73,7 @@ public class OndaSuelo extends Enemigo {
         }
 
         actualizarComportamiento(delta, jugador.getBounds());
+        ANIMACION.actualizar(sprite, delta, false, false, false);
         sprite.setAlpha(activa ? 1f : 0f);
     }
 
@@ -131,17 +147,22 @@ public class OndaSuelo extends Enemigo {
         }
 
         float altoLlama = Math.max(ALTO_MINIMO, alto);
-        float anchoLlama = altoLlama * TEXTURA_FUEGO.getWidth() / TEXTURA_FUEGO.getHeight();
+        float anchoLlama = altoLlama * ANCHO_FRAME_FUEGO / ALTO_FRAME_FUEGO;
         float paso = Math.max(1f, anchoLlama - SOLAPAMIENTO_LLAMA);
         float inicio = X_INICIO - anchoLlama / 2f;
 
         for (float xLlama = inicio; xLlama < X_INICIO + ancho - anchoLlama / 2f; xLlama += paso) {
-            Render.batch.draw(TEXTURA_FUEGO, xLlama, Y_SUELO, anchoLlama, altoLlama);
+            sprite.setBounds(xLlama, Y_SUELO, anchoLlama, altoLlama);
+            sprite.draw(Render.batch);
         }
     }
 
     public boolean estaActiva() {
         return activa;
+    }
+
+    public void desactivar() {
+        ocultar();
     }
 
     @Override

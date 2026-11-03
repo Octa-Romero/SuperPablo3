@@ -3,7 +3,6 @@ package com.prz.juego.entidades.jefes;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -24,7 +23,9 @@ final class AtaquesExtraRetumbar {
 
     private static final float COOLDOWN = 10f;
     private static final float INTERVALO_METEORITOS = 0.5f;
-    private static final float DURACION_FUEGO = 15f;
+    private static final float DURACION_LLUVIA_FUEGUITOS = 15f;
+    private static final float TIEMPO_DESPEJE_FUEGUITOS = 2f;
+    private static final float INTERVALO_FUEGUITOS = 0.1f;
     private static final float DURACION_AVISO_RAYO = 1.5f;
     private static final float INTERVALO_PARPADEO_RAYO = 0.15f;
     private static final float DURACION_RAYO = 0.3f;
@@ -34,7 +35,6 @@ final class AtaquesExtraRetumbar {
     private static final int CANTIDAD_OLEADAS = 3;
     private static final float ANCHO_RAYO = 95f;
     private static final float DANIO = 1;
-    private static final float GRAVEDAD_METEORITO = 250f;
 
     private enum TipoAtaque {
         NINGUNO,
@@ -54,11 +54,15 @@ final class AtaquesExtraRetumbar {
     private final float altoMapa;
     private final float sueloY;
     private final Consumer<Entidad> agregarEntidad;
+    private final Consumer<Entidad> eliminarEntidad;
     private final Random random = new Random();
     private final List<Meteorito> meteoritos = new ArrayList<>();
+    private final List<Fueguito> fueguitos = new ArrayList<>();
+    private final List<BichoRango> bichosInvocados = new ArrayList<>();
     private final Texture texturaMeteorito;
     private final Texture texturaRayo;
     private final Texture texturaPixel;
+    private final Texture texturaFueguito;
     private final Animation<TextureRegion> animacionFuego;
 
     private TipoAtaque ataqueActual = TipoAtaque.NINGUNO;
@@ -70,6 +74,9 @@ final class AtaquesExtraRetumbar {
     private int oleadaRayo;
     private FaseRayos faseRayos;
     private boolean mostrarAvisoRayo;
+    private boolean lluviaFueguitosActiva;
+    private float tiempoLluviaFueguitos;
+    private float tiempoSiguienteFueguito;
     private final float[] posicionesRayos = new float[CANTIDAD_RAYOS];
 
     AtaquesExtraRetumbar(
@@ -77,25 +84,33 @@ final class AtaquesExtraRetumbar {
             float anchoMapa,
             float altoMapa,
             float sueloY,
-            Consumer<Entidad> agregarEntidad) {
+            Consumer<Entidad> agregarEntidad,
+            Consumer<Entidad> eliminarEntidad) {
         this.jugador = jugador;
         this.anchoMapa = anchoMapa;
         this.altoMapa = altoMapa;
         this.sueloY = sueloY;
         this.agregarEntidad = agregarEntidad;
+        this.eliminarEntidad = eliminarEntidad;
 
         texturaMeteorito = GestorRecursos.obtenerTextura("Jefe/meteorito.png");
-        Texture texturaFuego = GestorRecursos.obtenerTextura("Jefe/fuegoMeteorito.png");
+        Texture texturaFuegoMeteorito = GestorRecursos.obtenerTextura("Jefe/fuegoMeteorito.png");
         texturaRayo = GestorRecursos.obtenerTextura("Jefe/rayo.png");
         texturaPixel = GestorRecursos.obtenerPixel();
+        texturaFueguito = GestorRecursos.obtenerTextura("Jefe/fueguito.png");
 
-        TextureRegion[][] frames = TextureRegion.split(texturaFuego, 1024, 342);
+        TextureRegion[][] frames = TextureRegion.split(texturaFuegoMeteorito, 1024, 342);
         animacionFuego =
                 new Animation<>(0.14f, frames[0][0], frames[0][1], frames[0][2]);
         animacionFuego.setPlayMode(Animation.PlayMode.LOOP);
     }
 
     void update(float delta) {
+        if (lluviaFueguitosActiva) {
+            actualizarLluviaFueguitos(delta);
+            return;
+        }
+
         actualizarMeteoritos(delta);
 
         if (ataqueActual == TipoAtaque.NINGUNO) {
@@ -162,7 +177,14 @@ final class AtaquesExtraRetumbar {
     private void invocarMeteorito() {
         float margen = 45f;
         float x = margen + random.nextFloat() * Math.max(0f, anchoMapa - 2f * margen);
-        meteoritos.add(new Meteorito(x, altoMapa + 30f));
+        meteoritos.add(
+            new Meteorito(
+                x,
+                altoMapa + 30f,
+                sueloY,
+                jugador,
+                texturaMeteorito,
+                animacionFuego));
     }
 
     private void invocarBichos() {
@@ -178,8 +200,62 @@ final class AtaquesExtraRetumbar {
         izquierdo.configurarRetrasoInicialAntesDeAtacar(1f);
         derecho.configurarRetrasoInicialAntesDeAtacar(1f);
         derecho.configurarDireccionInicial(-1f);
+        bichosInvocados.add(izquierdo);
+        bichosInvocados.add(derecho);
         agregarEntidad.accept(izquierdo);
         agregarEntidad.accept(derecho);
+    }
+
+    void cancelarAtaques() {
+        ataqueActual = TipoAtaque.NINGUNO;
+        tiempoCooldown = 0f;
+        meteoritos.clear();
+        fueguitos.clear();
+        lluviaFueguitosActiva = false;
+        faseRayos = null;
+        mostrarAvisoRayo = false;
+
+        for (BichoRango bicho : bichosInvocados) {
+            eliminarEntidad.accept(bicho);
+        }
+        bichosInvocados.clear();
+    }
+
+    void iniciarLluviaFueguitos() {
+        lluviaFueguitosActiva = true;
+        tiempoLluviaFueguitos = DURACION_LLUVIA_FUEGUITOS + TIEMPO_DESPEJE_FUEGUITOS;
+        tiempoSiguienteFueguito = 0f;
+        fueguitos.clear();
+    }
+
+    boolean estaLluviaFueguitosActiva() {
+        return lluviaFueguitosActiva;
+    }
+
+    private void actualizarLluviaFueguitos(float delta) {
+        tiempoLluviaFueguitos = Math.max(0f, tiempoLluviaFueguitos - delta);
+        tiempoSiguienteFueguito -= delta;
+
+        while (tiempoLluviaFueguitos > TIEMPO_DESPEJE_FUEGUITOS
+                && tiempoSiguienteFueguito <= 0f) {
+            invocarFueguito();
+            tiempoSiguienteFueguito += INTERVALO_FUEGUITOS;
+        }
+
+        fueguitos.removeIf(fueguito -> !fueguito.update(delta));
+        if (tiempoLluviaFueguitos <= 0f) {
+            lluviaFueguitosActiva = false;
+            fueguitos.clear();
+        }
+    }
+
+    private void invocarFueguito() {
+        float x = random.nextFloat() * Math.max(0f, anchoMapa);
+        float y = altoMapa + random.nextFloat() * 250f;
+        float tamano = 28f + random.nextFloat() * 24f;
+        float velocidad = 300f + random.nextFloat() * 250f;
+        fueguitos.add(
+            new Fueguito(x, y, tamano, velocidad, sueloY, jugador, texturaFueguito));
     }
 
     private void iniciarOleadaRayos() {
@@ -228,19 +304,14 @@ final class AtaquesExtraRetumbar {
     private void daniarJugadorPorRayos() {
         Rectangle boundsJugador = jugador.getBounds();
         float alturaRayo = altoMapa - sueloY;
-        float centroJugador = boundsJugador.x + boundsJugador.width / 2f;
-        float rayoMasCercano = posicionesRayos[0];
         for (float x : posicionesRayos) {
             Rectangle boundsRayo =
                     new Rectangle(x - ANCHO_RAYO / 2f, sueloY, ANCHO_RAYO, alturaRayo);
             if (boundsJugador.overlaps(boundsRayo)) {
                 jugador.restarVida(DANIO);
             }
-            if (Math.abs(x - centroJugador) < Math.abs(rayoMasCercano - centroJugador)) {
-                rayoMasCercano = x;
-            }
         }
-        Sonido.RELAMPAGO.sonar(rayoMasCercano, centroJugador);
+        Sonido.RELAMPAGO.sonar();
     }
 
     private void terminarAtaque() {
@@ -253,6 +324,13 @@ final class AtaquesExtraRetumbar {
     }
 
     void dibujar() {
+        if (lluviaFueguitosActiva) {
+            for (Fueguito fueguito : fueguitos) {
+                fueguito.dibujar();
+            }
+            return;
+        }
+
         for (Meteorito meteorito : meteoritos) {
             meteorito.dibujar();
         }
@@ -270,12 +348,22 @@ final class AtaquesExtraRetumbar {
 
     void dibujarHitboxes(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.MAGENTA);
+        if (lluviaFueguitosActiva) {
+            for (Fueguito fueguito : fueguitos) {
+                shapeRenderer.circle(
+                    fueguito.getHitbox().x,
+                    fueguito.getHitbox().y,
+                    fueguito.getHitbox().radius);
+            }
+            return;
+        }
+
         for (Meteorito meteorito : meteoritos) {
             shapeRenderer.rect(
-                    meteorito.bounds.x,
-                    meteorito.bounds.y,
-                    meteorito.bounds.width,
-                    meteorito.bounds.height);
+                    meteorito.getBounds().x,
+                    meteorito.getBounds().y,
+                    meteorito.getBounds().width,
+                    meteorito.getBounds().height);
         }
 
         if (ataqueActual == TipoAtaque.RAYOS && faseRayos == FaseRayos.IMPACTO) {
@@ -316,67 +404,4 @@ final class AtaquesExtraRetumbar {
         }
     }
 
-    private final class Meteorito {
-
-        private static final float TAMANO_METEORITO = 82f;
-        private static final float ANCHO_FUEGO = 135f;
-        private static final float ALTO_FUEGO = 48f;
-        private static final float VELOCIDAD_ROTACION = 180f;
-        private static final float DANIO_METEORITO = 1f;
-
-        private final float x;
-        private final Sprite sprite;
-        private final Rectangle bounds = new Rectangle();
-        private final int sentidoRotacion = random.nextBoolean() ? 1 : -1;
-        private float y;
-        private float velocidadY;
-        private float tiempoFuego;
-        private boolean impacto;
-
-        private Meteorito(float x, float y) {
-            this.x = x;
-            this.y = y;
-            sprite = new Sprite(texturaMeteorito);
-            sprite.setSize(TAMANO_METEORITO, TAMANO_METEORITO);
-            sprite.setOriginCenter();
-            sprite.setPosition(x - TAMANO_METEORITO / 2f, y);
-            bounds.set(x - TAMANO_METEORITO / 2f, y, TAMANO_METEORITO, TAMANO_METEORITO);
-        }
-
-        private boolean update(float delta) {
-            if (!impacto) {
-                velocidadY -= GRAVEDAD_METEORITO * delta;
-                y += velocidadY * delta;
-                sprite.setPosition(x - TAMANO_METEORITO / 2f, y);
-                sprite.rotate(sentidoRotacion * VELOCIDAD_ROTACION * delta);
-                bounds.setPosition(x - TAMANO_METEORITO / 2f, y);
-
-                if (y <= sueloY) {
-                    impacto = true;
-                    tiempoFuego = 0f;
-                    y = sueloY;
-                    bounds.set(x - ANCHO_FUEGO / 2f, sueloY, ANCHO_FUEGO, ALTO_FUEGO);
-                    Sonido.METEORITO.sonar(x, jugador.getX() + jugador.getAncho() / 2f);
-                } else if (bounds.overlaps(jugador.getBounds())) {
-                    jugador.restarVida(DANIO_METEORITO);
-                }
-                return true;
-            }
-
-            tiempoFuego += delta;
-            sprite.setRegion(animacionFuego.getKeyFrame(tiempoFuego));
-            sprite.setSize(ANCHO_FUEGO, ALTO_FUEGO);
-            sprite.setRotation(0f);
-            sprite.setPosition(x - ANCHO_FUEGO / 2f, sueloY);
-
-            if (bounds.overlaps(jugador.getBounds())) {
-                jugador.restarVida(DANIO);
-            }
-            return tiempoFuego < DURACION_FUEGO;
-        }
-
-        private void dibujar() {
-            sprite.draw(Render.batch);
-        }
-    }
 }

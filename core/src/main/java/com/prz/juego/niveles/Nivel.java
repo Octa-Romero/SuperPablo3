@@ -30,6 +30,7 @@ public abstract class Nivel {
     private Colisiones colision;
     private final ArrayList<Entidad> ENTIDADES = new ArrayList<>();
     private final ArrayList<Entidad> ENTIDADES_PENDIENTES = new ArrayList<>();
+    private final ArrayList<Entidad> ENTIDADES_PENDIENTES_ELIMINAR = new ArrayList<>();
     private final ArrayList<Lanzable> PROYECTILES = new ArrayList<>();
     private ShapeRenderer shapeRenderer;
     private boolean gameOver = false;
@@ -129,6 +130,16 @@ public abstract class Nivel {
         ENTIDADES_PENDIENTES.add(entidad);
     }
 
+    protected final void eliminarEntidadDiferida(Entidad entidad) {
+        if (entidad instanceof EnemigoRango) {
+            ((EnemigoRango) entidad).cancelarAtaques();
+        }
+
+        if (!ENTIDADES_PENDIENTES_ELIMINAR.contains(entidad)) {
+            ENTIDADES_PENDIENTES_ELIMINAR.add(entidad);
+        }
+    }
+
     protected final void agregarEntidadAlFondo(Entidad entidad) {
         if (entidad instanceof EnemigoRango) {
             ((EnemigoRango) entidad).configurarDisparo(colision, PROYECTILES);
@@ -212,6 +223,13 @@ public abstract class Nivel {
             colision.chequearColision(entidad);
             entidad.limitarMovimientoHorizontal(0, anchoMapa);
         }
+        for (Entidad entidad : ENTIDADES_PENDIENTES_ELIMINAR) {
+            if (ENTIDADES.remove(entidad)) {
+                entidad.dispose();
+            }
+            ENTIDADES_PENDIENTES.remove(entidad);
+        }
+        ENTIDADES_PENDIENTES_ELIMINAR.clear();
         ENTIDADES.addAll(ENTIDADES_PENDIENTES);
         ENTIDADES_PENDIENTES.clear();
 
@@ -276,6 +294,7 @@ public abstract class Nivel {
         }
         ENTIDADES.clear();
         ENTIDADES_PENDIENTES.clear();
+        ENTIDADES_PENDIENTES_ELIMINAR.clear();
         PROYECTILES.clear();
     }
 
