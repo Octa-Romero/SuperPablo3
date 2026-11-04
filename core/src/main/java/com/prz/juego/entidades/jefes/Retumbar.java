@@ -2,6 +2,7 @@
 package com.prz.juego.entidades.jefes;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.prz.juego.entidades.Entidad;
@@ -17,7 +18,7 @@ public class Retumbar extends Enemigo {
     private static final float ANCHO = 300;
     private static final float ANCHO_SPRITE = 370;
     private static final float ALTO = 400;
-    private static final int VELOCIDAD = 20;
+    private static final int VELOCIDAD = 45;
     private static final float RECORRIDO = 250;
     private static final double VIDA = 40;
     private static final double DANIO = 1;
@@ -30,16 +31,19 @@ public class Retumbar extends Enemigo {
     private static final float DURACION_SUBIDA_LENTA = 2f;
     private static final float ALTURA_SUBIDA_RAPIDA = 200;
     private static final float VELOCIDAD_SUBIDA_RAPIDA = 2500;
-    private static final float DURACION_ONDA_SUELO = 0.5f;
+    private static final float DURACION_FUEGO_SUELO = 0.5f;
     private static final float ANCHO_SUELO_DEFECTO = 3000;
     private static final float DURACION_TELETRANSPORTE = 0.15f;
+    private static final float AMPLITUD_MOVIMIENTO_IDLE = 8f;
+    private static final float FRECUENCIA_MOVIMIENTO_IDLE = 2.5f;
     private static final int CANTIDAD_FRAMES = 3;
-    private static final float DURACION_FRAME = 0.2f;
+    private static final float DURACION_FRAME = 0.12f;
 
     private final float X_INICIAL;
+    private final float Y_INICIAL;
     private final Mano MANO_IZQUIERDA;
     private final Mano MANO_DERECHA;
-    private final OndaSuelo ONDA_SUELO;
+    private final FuegoSuelo FUEGO_SUELO;
     private AtaquesExtraRetumbar ataquesExtra;
 
     private enum TipoAtaque {
@@ -74,6 +78,7 @@ public class Retumbar extends Enemigo {
     private float tiempoEsperaTeletransporte = 0f;
     private FaseEspecial faseEspecial = FaseEspecial.NORMAL;
     private float tiempoFaseEspecial;
+    private float tiempoMovimientoIdle;
 
     public Retumbar(float centroX, float y, Jugador jugador) {
         this(
@@ -105,6 +110,7 @@ public class Retumbar extends Enemigo {
         );
 
         X_INICIAL = x;
+        Y_INICIAL = y;
         duracionInvencibilidad = 0f;
         float offsetSpriteX = (ANCHO - ANCHO_SPRITE) / 2f;
         configurarSpriteVisual(ANCHO_SPRITE, ALTO + 100, offsetSpriteX, offsetSpriteX, 0);
@@ -123,7 +129,7 @@ public class Retumbar extends Enemigo {
 
         MANO_IZQUIERDA = new Mano(this, Mano.Lado.IZQUIERDA, jugador);
         MANO_DERECHA = new Mano(this, Mano.Lado.DERECHA, jugador);
-        ONDA_SUELO = new OndaSuelo(sueloXMin, sueloXMax, y, jugador);
+        FUEGO_SUELO = new FuegoSuelo(sueloXMin, sueloXMax, y, jugador);
     }
 
     @Override
@@ -137,10 +143,13 @@ public class Retumbar extends Enemigo {
             && MANO_DERECHA.estaMuerto()) {
             iniciarFaseEspecial();
         }
+        actualizarMovimientoIdle(delta);
+        actualizarMovimientoIdle(delta);
 
         if (faseEspecial != FaseEspecial.NORMAL
             && faseEspecial != FaseEspecial.COMPLETADA) {
             guardarPosicionAnterior();
+            moverBoss(delta);
             actualizarFaseEspecial(delta);
             bounds.setPosition(x, y);
             actualizarSpriteVisual();
@@ -160,20 +169,25 @@ public class Retumbar extends Enemigo {
         actualizarSpriteVisual();
     }
 
+    private void actualizarMovimientoIdle(float delta) {
+        tiempoMovimientoIdle += delta;
+        y = Y_INICIAL
+            + MathUtils.sin(tiempoMovimientoIdle * FRECUENCIA_MOVIMIENTO_IDLE)
+                * AMPLITUD_MOVIMIENTO_IDLE;
+    }
+
     private void iniciarFaseEspecial() {
         faseEspecial = FaseEspecial.DESAPARECIENDO;
         tiempoFaseEspecial = 0f;
         atacando = false;
         tiempoAtaque = 0f;
-        ONDA_SUELO.desactivar();
+        FUEGO_SUELO.desactivar();
         if (ataquesExtra != null) {
             ataquesExtra.cancelarAtaques();
         }
         spriteVisible = true;
         sprite.setScale(1f);
-        Sonido.TP1.sonar(
-            x + ANCHO / 2f,
-            jugador.getX() + jugador.getAncho() / 2f);
+        Sonido.TP1.sonar();
     }
 
     private void actualizarFaseEspecial(float delta) {
@@ -225,9 +239,7 @@ public class Retumbar extends Enemigo {
         tiempoFaseEspecial = 0f;
         spriteVisible = true;
         sprite.setScale(0f);
-        Sonido.TP2.sonar(
-            x + ANCHO / 2f,
-            jugador.getX() + jugador.getAncho() / 2f);
+        Sonido.TP2.sonar();
     }
 
     @Override
@@ -240,9 +252,7 @@ public class Retumbar extends Enemigo {
             }
         }
 
-        boolean quieto = atacando && ataqueActual == TipoAtaque.ATAQUE_SUELO;
-
-        if (!quieto) {
+        if (!atacando || ataqueActual != TipoAtaque.ATAQUE_SUELO) {
             moverBoss(delta);
         }
 
@@ -282,6 +292,8 @@ public class Retumbar extends Enemigo {
         esperandoTeletransporte = false;
         tiempoEsperaTeletransporte = 0f;
         manoTeletransporte = null;
+        MANO_IZQUIERDA.restablecerPosicionInicial();
+        MANO_DERECHA.restablecerPosicionInicial();
 
         switch (ataqueActual) {
             case LEVANTAR_BAJAR_MANOS:
@@ -429,15 +441,13 @@ public class Retumbar extends Enemigo {
                         VELOCIDAD_SUBIDA_RAPIDA
                     );
 
-                    ONDA_SUELO.activar(DURACION_ONDA_SUELO);
-                    Sonido.FUEGO_SUELO.sonar(
-                        x + ANCHO / 2f,
-                        jugador.getX() + jugador.getAncho() / 2f);
+                    FUEGO_SUELO.activar(DURACION_FUEGO_SUELO);
+                    Sonido.FUEGO_SUELO.sonar();
                 }
                 break;
 
             case SUBIDA_RAPIDA:
-                if (tiempoFase >= DURACION_ONDA_SUELO) {
+                if (tiempoFase >= DURACION_FUEGO_SUELO) {
                     faseSuelo = FaseSuelo.VOLVIENDO;
                     MANO_IZQUIERDA.iniciarRegreso();
                     MANO_DERECHA.iniciarRegreso();
@@ -459,6 +469,11 @@ public class Retumbar extends Enemigo {
         esperandoTeletransporte = false;
         tiempoEsperaTeletransporte = 0f;
         manoTeletransporte = null;
+    }
+
+    @Override
+    public boolean debeVerificarColisionesMapa() {
+        return false;
     }
 
     @Override
@@ -486,8 +501,8 @@ public class Retumbar extends Enemigo {
         return MANO_DERECHA;
     }
 
-    public OndaSuelo getOndaSuelo() {
-        return ONDA_SUELO;
+    public FuegoSuelo getFuegoSuelo() {
+        return FUEGO_SUELO;
     }
 
     public void configurarAtaquesExtra(

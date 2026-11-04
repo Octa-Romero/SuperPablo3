@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.entidades.enemigos.Enemigo;
 import com.prz.juego.entidades.jugadores.Jugador;
@@ -21,7 +22,7 @@ public class Mano extends Enemigo {
 
     private static final float ANCHO = 120;
     private static final float ALTO = 100;
-    private static final float SEPARACION = 30;
+    private static final float SEPARACION = 10;
     private static final double VIDA = 1;
     private static final double DANIO = 1;
 
@@ -34,7 +35,7 @@ public class Mano extends Enemigo {
     private static final float TIEMPO_RAPIDO_DESPUES_DESAPARECER = 0.2f;
     private static final float TIEMPO_RETORNO_IDLE_DESAPARECIDO = 0.65f;
     private static final float DURACION_ESCALA_TELETRANSPORTE = 0.15f;
-    private static final float ALTURA_SOBRE_JUGADOR = 400;
+    private static final float ALTURA_TELETRANSPORTE = 600;
     private static final float ALTURA_REPOSO = 120;
 
     private static final float TIEMPO_SEGUIR_JUGADOR = 1f;
@@ -46,12 +47,15 @@ public class Mano extends Enemigo {
     private static final float DURACION_HITBOX_EXTENDIDA = 0.2f;
     private static final float ANCHO_FUEGO_GOLPE = 220;
     private static final float ALTO_FUEGO_GOLPE = ALTO;
-    private static final float ANCHO_SPRITE = 160;
-    private static final float ALTO_SPRITE = 160;
-    private static final float ALTO_SPRITE_IDLE = 200;
-    private static final float ANCHO_SPRITE_PUNIO = 125;
+    private static final float ANCHO_SPRITE = 170;
+    private static final float ALTO_SPRITE = 170;
+    private static final float ANCHO_SPRITE_EXTENDIDO = 200;
+    private static final float ALTO_SPRITE_EXTENDIDO = 200;
+    private static final float AMPLITUD_MOVIMIENTO_IDLE = 6f;
+    private static final float FRECUENCIA_MOVIMIENTO_IDLE = 2.5f;
     private static final int CANTIDAD_FRAMES = 3;
-    private static final float DURACION_FRAME = 0.2f;
+    private static final int CANTIDAD_FRAMES_FUEGO = 2;
+    private static final float DURACION_FRAME = 0.12f;
 
     private enum EstadoAtaque {
         NINGUNO,
@@ -76,11 +80,11 @@ public class Mano extends Enemigo {
 
     private final Retumbar RETUMBAR;
     private final Lado LADO;
-    private final Texture TEXTURA_IDLE;
     private final Animacion ANIMACION_PUNIO;
     private final Texture TEXTURA_ABIERTA_ARRIBA;
-    private final Texture TEXTURA_ABIERTA_ABAJO;
+    private final Texture TEXTURA_MANO_ABAJO;
     private final Texture TEXTURA_PUNIO;
+    private final Animacion ANIMACION_ABIERTA_ARRIBA;
     private final Sprite SPRITE_FUEGO_GOLPE;
     private final Animacion ANIMACION_FUEGO_GOLPE;
     private final Rectangle BOUNDS_FUEGO_GOLPE = new Rectangle();
@@ -99,6 +103,8 @@ public class Mano extends Enemigo {
     private float yObjetivo;
     private float yDestino;
     private float velocidadMovimiento;
+    private float tiempoMovimientoIdle;
+    private float desfaseMovimientoVertical;
 
     public Mano(Retumbar RETUMBAR, Lado LADO, Jugador jugador) {
         super(
@@ -110,20 +116,21 @@ public class Mano extends Enemigo {
             VIDA,
             DANIO,
             jugador,
-            GestorRecursos.obtenerTextura("Jefe/manoIdle.png"));
+            GestorRecursos.obtenerTextura("Jefe/manoAbajo.png"));
         this.RETUMBAR = RETUMBAR;
         this.LADO = LADO;
-        TEXTURA_IDLE = GestorRecursos.obtenerTextura("Jefe/manoIdle.png");
-        TEXTURA_ABIERTA_ARRIBA = GestorRecursos.obtenerTextura("Jefe/manoAbiertaArriba.png");
-        TEXTURA_ABIERTA_ABAJO = GestorRecursos.obtenerTextura("Jefe/manoAbiertaAbajo.png");
+        TEXTURA_ABIERTA_ARRIBA = GestorRecursos.obtenerTextura("Jefe/manoArriba.png");
+        TEXTURA_MANO_ABAJO = GestorRecursos.obtenerTextura("Jefe/manoAbajo.png");
         TEXTURA_PUNIO = GestorRecursos.obtenerTextura("Jefe/punio.png");
-        configurarAnimacion(ANIMACION, TEXTURA_IDLE);
+        configurarAnimacion(ANIMACION, TEXTURA_MANO_ABAJO);
         ANIMACION_PUNIO = new Animacion(TEXTURA_PUNIO);
         configurarAnimacion(ANIMACION_PUNIO, TEXTURA_PUNIO);
+        ANIMACION_ABIERTA_ARRIBA = new Animacion(TEXTURA_ABIERTA_ARRIBA);
+        configurarAnimacion(ANIMACION_ABIERTA_ARRIBA, TEXTURA_ABIERTA_ARRIBA);
         Texture texturaFuego = GestorRecursos.obtenerTextura("Jefe/fuegoSuelo.png");
         SPRITE_FUEGO_GOLPE = new Sprite(texturaFuego);
         ANIMACION_FUEGO_GOLPE = new Animacion(texturaFuego);
-        configurarAnimacion(ANIMACION_FUEGO_GOLPE, texturaFuego);
+        configurarAnimacion(ANIMACION_FUEGO_GOLPE, texturaFuego, CANTIDAD_FRAMES_FUEGO);
         SPRITE_FUEGO_GOLPE.setFlip(LADO == Lado.IZQUIERDA, false);
         duracionInvencibilidad = 0f;
         configurarSpriteVisual(
@@ -137,11 +144,20 @@ public class Mano extends Enemigo {
     }
 
     private void configurarAnimacion(Animacion animacion, Texture spritesheet) {
+        configurarAnimacion(animacion, spritesheet, CANTIDAD_FRAMES);
+    }
+
+    private void configurarAnimacion(
+        Animacion animacion, Texture spritesheet, int cantidadFrames) {
+        int[] indicesFrames = new int[cantidadFrames];
+        for (int i = 0; i < cantidadFrames; i++) {
+            indicesFrames[i] = i;
+        }
         animacion.configurar(
             spritesheet,
-            spritesheet.getWidth() / CANTIDAD_FRAMES,
+            spritesheet.getWidth() / cantidadFrames,
             spritesheet.getHeight(),
-            new int[] {0, 1, 2},
+            indicesFrames,
             null,
             null,
             null,
@@ -156,7 +172,16 @@ public class Mano extends Enemigo {
 
         guardarPosicionAnterior();
         actualizarInvencibilidad(delta);
+        tiempoMovimientoIdle += delta;
         actualizarComportamiento(delta, jugador.getBounds());
+        if (estadoAtaque == EstadoAtaque.NINGUNO) {
+            actualizarDesfaseMovimientoVertical();
+            y = RETUMBAR.getY() + ALTURA_REPOSO + desfaseMovimientoVertical;
+        } else {
+            desfaseMovimientoVertical = 0f;
+        }
+        bounds.setPosition(x, y);
+        actualizarSpriteVisual();
         actualizarTexturaSegunEstado(delta);
         ANIMACION_FUEGO_GOLPE.actualizar(
             SPRITE_FUEGO_GOLPE, delta, false, false, false);
@@ -184,6 +209,12 @@ public class Mano extends Enemigo {
         }
     }
 
+    private void actualizarDesfaseMovimientoVertical() {
+        desfaseMovimientoVertical =
+            MathUtils.sin(tiempoMovimientoIdle * FRECUENCIA_MOVIMIENTO_IDLE)
+                * AMPLITUD_MOVIMIENTO_IDLE;
+    }
+
     private void ejecutarAtaque(float delta) {
         switch (estadoAtaque) {
             case LEVANTANDO:
@@ -200,7 +231,7 @@ public class Mano extends Enemigo {
                     y = yObjetivo;
                     haciendoDanio = false;
                     tiempoHitboxExtendida = DURACION_HITBOX_EXTENDIDA;
-                    Sonido.GOLPE.sonar(x + ANCHO / 2f, jugador.getX() + jugador.getAncho() / 2f);
+                    Sonido.GOLPE.sonar();
                     estadoAtaque = EstadoAtaque.RECUPERANDO;
                     tiempoEstado = teletransporteRapido
                         ? TIEMPO_RAPIDO_RECUPERACION
@@ -226,9 +257,7 @@ public class Mano extends Enemigo {
                 if (escalaTeletransporte <= 0f) {
                     visible = false;
                     estadoAtaque = EstadoAtaque.ESPERANDO_REAPARICION;
-                    Sonido.TP1.sonar(
-                        x + ANCHO / 2f,
-                        jugador.getX() + jugador.getAncho() / 2f);
+                    Sonido.TP1.sonar();
                     tiempoEstado = teletransporteRapido
                         ? (volverAIdle
                             ? TIEMPO_RETORNO_IDLE_DESAPARECIDO
@@ -245,19 +274,19 @@ public class Mano extends Enemigo {
                         estiloAtaque = EstiloAtaque.NORMAL;
                     } else {
                         x = jugador.getX() + jugador.getAncho() / 2 - ANCHO / 2;
-                        y = jugador.getY() + ALTURA_SOBRE_JUGADOR;
+                        y = ALTURA_TELETRANSPORTE;
                         estiloAtaque = EstiloAtaque.PALMA;
                     }
                     escalaTeletransporte = 0f;
                     visible = true;
-                    Sonido.TP2.sonar(x + ANCHO / 2f, jugador.getX() + jugador.getAncho() / 2f);
+                    Sonido.TP2.sonar();
                     estadoAtaque = EstadoAtaque.REAPARECIENDO;
                 }
                 break;
             case REAPARECIENDO:
                 if (!volverAIdle) {
                     x = jugador.getX() + jugador.getAncho() / 2 - ANCHO / 2;
-                    y = jugador.getY() + ALTURA_SOBRE_JUGADOR;
+                    y = ALTURA_TELETRANSPORTE;
                 }
                 escalaTeletransporte = Math.min(
                     1f,
@@ -358,8 +387,6 @@ public class Mano extends Enemigo {
     }
 
     private void actualizarTexturaSegunEstado(float delta) {
-        Texture textura;
-
         if (estadoAtaque == EstadoAtaque.NINGUNO) {
             estiloAtaque = EstiloAtaque.NORMAL;
         }
@@ -368,47 +395,47 @@ public class Mano extends Enemigo {
             || (estiloAtaque == EstiloAtaque.NORMAL && tiempoHitboxExtendida > 0)) {
             ANIMACION_PUNIO.actualizar(sprite, delta, false, false, false);
             sprite.setFlip(LADO == Lado.DERECHA, false);
-            ajustarTamanoSprite(ANCHO_SPRITE_PUNIO, ALTO_SPRITE);
+            ajustarTamanoSprite(ANCHO_SPRITE, ALTO_SPRITE);
             return;
-        } else if (estiloAtaque == EstiloAtaque.PALMA) {
-            textura = TEXTURA_ABIERTA_ABAJO;
-        } else {
-            switch (estadoAtaque) {
-                case LEVANTANDO:
-                case MOVIENDO:
-                case EN_POSICION:
-                    textura = TEXTURA_ABIERTA_ARRIBA;
-                    break;
-                case BAJANDO:
-                    textura = TEXTURA_ABIERTA_ABAJO;
-                    break;
-                case RECUPERANDO:
-                    ANIMACION_PUNIO.actualizar(sprite, delta, false, false, false);
-                    sprite.setFlip(LADO == Lado.DERECHA, false);
-                    ajustarTamanoSprite(ANCHO_SPRITE_PUNIO, ALTO_SPRITE);
-                    return;
-                case SIGUIENDO_JUGADOR:
-                case ESPERANDO_GOLPE:
-                    textura = TEXTURA_ABIERTA_ABAJO;
-                    break;
-                default:
-                    textura = TEXTURA_IDLE;
-                    break;
-            }
         }
 
-        if (textura == TEXTURA_IDLE) {
+        if (estiloAtaque == EstiloAtaque.PALMA) {
             ANIMACION.actualizar(sprite, delta, false, false, false);
             sprite.setFlip(LADO == Lado.DERECHA, false);
-            ajustarTamanoSprite(ANCHO_SPRITE, ALTO_SPRITE_IDLE);
+            ajustarTamanoSprite(ANCHO_SPRITE_EXTENDIDO, ALTO_SPRITE_EXTENDIDO);
             return;
         }
 
-        if (sprite.getTexture() != textura) {
-            sprite.setTexture(textura);
+        switch (estadoAtaque) {
+            case LEVANTANDO:
+            case MOVIENDO:
+            case EN_POSICION:
+                ANIMACION_ABIERTA_ARRIBA.actualizar(sprite, delta, false, false, false);
+                sprite.setFlip(LADO == Lado.DERECHA, false);
+                ajustarTamanoSprite(ANCHO_SPRITE_EXTENDIDO, ALTO_SPRITE_EXTENDIDO);
+                return;
+            case BAJANDO:
+                ANIMACION.actualizar(sprite, delta, false, false, false);
+                sprite.setFlip(LADO == Lado.DERECHA, false);
+                ajustarTamanoSprite(ANCHO_SPRITE_EXTENDIDO, ALTO_SPRITE_EXTENDIDO);
+                return;
+            case RECUPERANDO:
+                ANIMACION_PUNIO.actualizar(sprite, delta, false, false, false);
+                sprite.setFlip(LADO == Lado.DERECHA, false);
+                ajustarTamanoSprite(ANCHO_SPRITE, ALTO_SPRITE);
+                return;
+            case SIGUIENDO_JUGADOR:
+            case ESPERANDO_GOLPE:
+                ANIMACION.actualizar(sprite, delta, false, false, false);
+                sprite.setFlip(LADO == Lado.DERECHA, false);
+                ajustarTamanoSprite(ANCHO_SPRITE_EXTENDIDO, ALTO_SPRITE_EXTENDIDO);
+                return;
+            default:
+                ANIMACION.actualizar(sprite, delta, false, false, false);
+                sprite.setFlip(LADO == Lado.DERECHA, false);
+                ajustarTamanoSprite(ANCHO_SPRITE_EXTENDIDO, ALTO_SPRITE_EXTENDIDO);
+                return;
         }
-        sprite.setFlip(LADO == Lado.DERECHA, false);
-        ajustarTamanoSprite(ANCHO_SPRITE, ALTO_SPRITE);
     }
 
     private void ajustarTamanoSprite(float anchoSprite, float altoSprite) {
@@ -492,6 +519,7 @@ public class Mano extends Enemigo {
         if (muerto) {
             return;
         }
+        restablecerPosicionInicial();
         teletransportada = false;
         estiloAtaque = EstiloAtaque.PUNIO;
         estadoAtaque = EstadoAtaque.LEVANTANDO;
@@ -507,11 +535,23 @@ public class Mano extends Enemigo {
         if (muerto) {
             return;
         }
+        restablecerPosicionInicial();
         teletransportada = true;
         teletransporteRapido = rapido;
         volverAIdle = false;
         escalaTeletransporte = 1f;
         estadoAtaque = EstadoAtaque.DESAPARECIENDO;
+    }
+
+    public void restablecerPosicionInicial() {
+        if (muerto) {
+            return;
+        }
+        desfaseMovimientoVertical = 0f;
+        seguirJefeEnX();
+        y = RETUMBAR.getY() + ALTURA_REPOSO;
+        bounds.setPosition(x, y);
+        actualizarSpriteVisual();
     }
 
     public void iniciarSubida(float alturaSobreSuelo, float velocidad) {
@@ -545,13 +585,20 @@ public class Mano extends Enemigo {
     @Override
     public void saltar() {}
 
+    @Override
+    public boolean debeVerificarColisionesMapa() {
+        return false;
+    }
+
     public Lado getLado() {
         return LADO;
     }
 
     @Override
     public void dispose() {
+        ANIMACION.dispose();
         ANIMACION_PUNIO.dispose();
+        ANIMACION_ABIERTA_ARRIBA.dispose();
         ANIMACION_FUEGO_GOLPE.dispose();
         super.dispose();
     }

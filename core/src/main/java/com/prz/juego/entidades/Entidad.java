@@ -132,6 +132,10 @@ public abstract class Entidad {
 
     public abstract void update(float delta);
 
+    public boolean debeVerificarColisionesMapa() {
+        return true;
+    }
+
     protected void actualizarFisica(float delta) {
 
         if (!enSuelo) {

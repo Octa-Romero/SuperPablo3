@@ -11,7 +11,7 @@ public class Nivel7 extends Nivel {
     private static final float ANCHO_MAPA = CENTRO_MAPA * 2;
     private static final float SUELO = 210;
     private static final float X_INICIAL_JUGADOR = 100;
-    private static final float Y_INICIAL_JUGADOR = 200;
+    private static final float Y_INICIAL_JUGADOR = 210;
 
     private Retumbar jefe;
 
@@ -33,7 +33,7 @@ public class Nivel7 extends Nivel {
         agregarEntidadAlFondo(jefe);
         agregarEntidad(jefe.getManoIzquierda());
         agregarEntidad(jefe.getManoDerecha());
-        agregarEntidad(jefe.getOndaSuelo());
+        agregarEntidad(jefe.getFuegoSuelo());
     }
 
     @Override

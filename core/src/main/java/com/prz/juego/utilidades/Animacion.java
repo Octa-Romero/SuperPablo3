@@ -100,8 +100,8 @@ public class Animacion {
                 || duracionFrame <= 0
                 || indicesReposo == null
                 || indicesReposo.length == 0
-                || spritesheet.getWidth() % anchoFrame != 0
-                || spritesheet.getHeight() % altoFrame != 0) {
+                || spritesheet.getWidth() < anchoFrame
+                || spritesheet.getHeight() < altoFrame) {
             throw new IllegalArgumentException(
                     "La spritesheet debe incluir una animacion de reposo valida");
         }

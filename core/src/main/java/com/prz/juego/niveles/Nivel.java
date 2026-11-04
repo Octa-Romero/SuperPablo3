@@ -58,7 +58,7 @@ public abstract class Nivel {
         }
     }
 
-    public final void cargar(Jugador jugador) {
+    public void cargar(Jugador jugador) {
         camara = new Camara();
 
         this.jugador = jugador;
@@ -114,7 +114,7 @@ public abstract class Nivel {
         return 150;
     }
 
-    protected final void agregarEntidad(Entidad entidad) {
+    protected void agregarEntidad(Entidad entidad) {
         if (entidad instanceof EnemigoRango) {
             ((EnemigoRango) entidad).configurarDisparo(colision, PROYECTILES);
         }
@@ -122,7 +122,7 @@ public abstract class Nivel {
         ENTIDADES.add(entidad);
     }
 
-    protected final void agregarEntidadDiferida(Entidad entidad) {
+    protected void agregarEntidadDiferida(Entidad entidad) {
         if (entidad instanceof EnemigoRango) {
             ((EnemigoRango) entidad).configurarDisparo(colision, PROYECTILES);
         }
@@ -130,7 +130,7 @@ public abstract class Nivel {
         ENTIDADES_PENDIENTES.add(entidad);
     }
 
-    protected final void eliminarEntidadDiferida(Entidad entidad) {
+    protected void eliminarEntidadDiferida(Entidad entidad) {
         if (entidad instanceof EnemigoRango) {
             ((EnemigoRango) entidad).cancelarAtaques();
         }
@@ -140,7 +140,7 @@ public abstract class Nivel {
         }
     }
 
-    protected final void agregarEntidadAlFondo(Entidad entidad) {
+    protected void agregarEntidadAlFondo(Entidad entidad) {
         if (entidad instanceof EnemigoRango) {
             ((EnemigoRango) entidad).configurarDisparo(colision, PROYECTILES);
         }
@@ -220,7 +220,9 @@ public abstract class Nivel {
         // Actualizar entidades
         for (Entidad entidad : ENTIDADES) {
             entidad.update(delta);
-            colision.chequearColision(entidad);
+            if (entidad.debeVerificarColisionesMapa()) {
+                colision.chequearColision(entidad);
+            }
             entidad.limitarMovimientoHorizontal(0, anchoMapa);
         }
         for (Entidad entidad : ENTIDADES_PENDIENTES_ELIMINAR) {

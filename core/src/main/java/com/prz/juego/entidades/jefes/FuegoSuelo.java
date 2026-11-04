@@ -10,7 +10,7 @@ import com.prz.juego.entidades.jugadores.Jugador;
 import com.prz.juego.recursos.GestorRecursos;
 import com.prz.juego.utilidades.Render;
 
-public class OndaSuelo extends Enemigo {
+public class FuegoSuelo extends Enemigo {
 
     private static final float ALTO = 50f;
     private static final double DANIO = 1;
@@ -19,8 +19,9 @@ public class OndaSuelo extends Enemigo {
     private static final float ALTO_MINIMO = 1f;
     private static final float X_OCULTA = -100000f;
     private static final float SOLAPAMIENTO_LLAMA = 12f;
-    private static final int CANTIDAD_FRAMES_FUEGO = 3;
-    private static final float DURACION_FRAME_FUEGO = 0.1f;
+    private static final float MULTIPLICADOR_ALTURA_SPRITE = 2f;
+    private static final int CANTIDAD_FRAMES_FUEGO = 2;
+    private static final float DURACION_FRAME_FUEGO = 0.08f;
 
     private final float X_INICIO;
     private final float Y_SUELO;
@@ -33,7 +34,7 @@ public class OndaSuelo extends Enemigo {
     private float tiempoRestante = 0f;
     private float tiempoBajada = 0f;
 
-    public OndaSuelo(float xMin, float xMax, float ySuelo, Jugador jugador) {
+    public FuegoSuelo(float xMin, float xMax, float ySuelo, Jugador jugador) {
         super(
             xMin,
             ySuelo,
@@ -55,7 +56,7 @@ public class OndaSuelo extends Enemigo {
             spritesheetFuego,
             spritesheetFuego.getWidth() / CANTIDAD_FRAMES_FUEGO,
             spritesheetFuego.getHeight(),
-            new int[] {0, 1, 2},
+            new int[] {0, 1},
             null,
             null,
             null,
@@ -146,7 +147,7 @@ public class OndaSuelo extends Enemigo {
             return;
         }
 
-        float altoLlama = Math.max(ALTO_MINIMO, alto);
+        float altoLlama = Math.max(ALTO_MINIMO, alto) * MULTIPLICADOR_ALTURA_SPRITE;
         float anchoLlama = altoLlama * ANCHO_FRAME_FUEGO / ALTO_FRAME_FUEGO;
         float paso = Math.max(1f, anchoLlama - SOLAPAMIENTO_LLAMA);
         float inicio = X_INICIO - anchoLlama / 2f;

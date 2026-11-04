@@ -9,7 +9,7 @@ import com.prz.juego.entidades.jugadores.Jugador;
 import com.prz.juego.utilidades.Render;
 import com.prz.juego.utilidades.Sonido;
 
-final class Meteorito {
+class Meteorito {
 
     private static final float TAMANO_METEORITO = 82f;
     private static final float ANCHO_FUEGO = 110f;
@@ -19,13 +19,13 @@ final class Meteorito {
     private static final float DANIO = 1f;
     private static final float GRAVEDAD = 250f;
 
-    private final float x;
-    private final float sueloY;
-    private final Jugador jugador;
-    private final Animation<TextureRegion> animacionFuego;
-    private final Sprite sprite;
-    private final Rectangle bounds = new Rectangle();
-    private final int sentidoRotacion = Math.random() < 0.5 ? 1 : -1;
+    private final float X;
+    private final float SUELO_Y;
+    private final Jugador JUGADOR;
+    private final Animation<TextureRegion> ANIMACION_FUEGO;
+    private final Sprite SPRITE;
+    private final Rectangle BOUNDS = new Rectangle();
+    private final int SENTIDO_ROTACION = Math.random() < 0.5 ? 1 : -1;
     private float y;
     private float velocidadY;
     private float tiempoFuego;
@@ -38,55 +38,55 @@ final class Meteorito {
             Jugador jugador,
             Texture textura,
             Animation<TextureRegion> animacionFuego) {
-        this.x = x;
+        this.X = x;
         this.y = y;
-        this.sueloY = sueloY;
-        this.jugador = jugador;
-        this.animacionFuego = animacionFuego;
-        sprite = new Sprite(textura);
-        sprite.setSize(TAMANO_METEORITO, TAMANO_METEORITO);
-        sprite.setOriginCenter();
-        sprite.setPosition(x - TAMANO_METEORITO / 2f, y);
-        bounds.set(x - TAMANO_METEORITO / 2f, y, TAMANO_METEORITO, TAMANO_METEORITO);
+        this.SUELO_Y = sueloY;
+        this.JUGADOR = jugador;
+        this.ANIMACION_FUEGO = animacionFuego;
+        SPRITE = new Sprite(textura);
+        SPRITE.setSize(TAMANO_METEORITO, TAMANO_METEORITO);
+        SPRITE.setOriginCenter();
+        SPRITE.setPosition(x - TAMANO_METEORITO / 2f, y);
+        BOUNDS.set(x - TAMANO_METEORITO / 2f, y, TAMANO_METEORITO, TAMANO_METEORITO);
     }
 
     boolean update(float delta) {
         if (!impacto) {
             velocidadY -= GRAVEDAD * delta;
             y += velocidadY * delta;
-            sprite.setPosition(x - TAMANO_METEORITO / 2f, y);
-            sprite.rotate(sentidoRotacion * VELOCIDAD_ROTACION * delta);
-            bounds.setPosition(x - TAMANO_METEORITO / 2f, y);
+            SPRITE.setPosition(X - TAMANO_METEORITO / 2f, y);
+            SPRITE.rotate(SENTIDO_ROTACION * VELOCIDAD_ROTACION * delta);
+            BOUNDS.setPosition(X - TAMANO_METEORITO / 2f, y);
 
-            if (y <= sueloY) {
+            if (y <= SUELO_Y) {
                 impacto = true;
                 tiempoFuego = 0f;
-                y = sueloY;
-                bounds.set(x - ANCHO_FUEGO / 2f, sueloY, ANCHO_FUEGO, ALTO_FUEGO);
-                Sonido.METEORITO.sonar(x, jugador.getX() + jugador.getAncho() / 2f);
-            } else if (bounds.overlaps(jugador.getBounds())) {
-                jugador.restarVida(DANIO);
+                y = SUELO_Y;
+                BOUNDS.set(X - ANCHO_FUEGO / 2f, SUELO_Y, ANCHO_FUEGO, ALTO_FUEGO);
+                Sonido.METEORITO.sonar();
+            } else if (BOUNDS.overlaps(JUGADOR.getBounds())) {
+                JUGADOR.restarVida(DANIO);
             }
             return true;
         }
 
         tiempoFuego += delta;
-        sprite.setRegion(animacionFuego.getKeyFrame(tiempoFuego));
-        sprite.setSize(ANCHO_FUEGO, ALTO_FUEGO);
-        sprite.setRotation(0f);
-        sprite.setPosition(x - ANCHO_FUEGO / 2f, sueloY);
+        SPRITE.setRegion(ANIMACION_FUEGO.getKeyFrame(tiempoFuego));
+        SPRITE.setSize(ANCHO_FUEGO, ALTO_FUEGO);
+        SPRITE.setRotation(0f);
+        SPRITE.setPosition(X - ANCHO_FUEGO / 2f, SUELO_Y);
 
-        if (bounds.overlaps(jugador.getBounds())) {
-            jugador.restarVida(DANIO);
+        if (BOUNDS.overlaps(JUGADOR.getBounds())) {
+            JUGADOR.restarVida(DANIO);
         }
         return tiempoFuego < DURACION_FUEGO;
     }
 
     Rectangle getBounds() {
-        return bounds;
+        return BOUNDS;
     }
 
     void dibujar() {
-        sprite.draw(Render.batch);
+        SPRITE.draw(Render.batch);
     }
 }
