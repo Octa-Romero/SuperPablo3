@@ -127,17 +127,9 @@ public class Hub {
 
         for (Entidad entidad : ENTIDADES) {
             entidad.dibujar();
-
-            if (entidad instanceof Enemigo) {
-                ((Enemigo) entidad).dibujarAtaque();
-            }
         }
 
         jugador.dibujar();
-
-        if (jugador instanceof Pablo) {
-            ((Pablo) jugador).dibujarAtaque();
-        }
 
         if (cuadroDialogo.estaVisible()) {
             cuadroDialogo.dibujar(Render.batch, camara.getCamera());

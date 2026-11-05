@@ -170,19 +170,11 @@ public abstract class Nivel {
             }
 
             entidad.dibujar();
-
-            if (entidad instanceof Enemigo) {
-                ((Enemigo) entidad).dibujarAtaque();
-            }
         }
 
         if (dibujarJugadorAlFrente) {
             getJefe().dibujarAtaquesExtra();
             jugador.dibujar();
-        }
-
-        if (jugador instanceof Pablo) {
-            ((Pablo) jugador).dibujarAtaque();
         }
 
         for (Lanzable proyectil : PROYECTILES) {

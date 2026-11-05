@@ -2,12 +2,10 @@ package com.prz.juego.entidades.enemigos.melee;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.prz.juego.entidades.enemigos.Enemigo;
 import com.prz.juego.entidades.jugadores.Jugador;
-import com.prz.juego.utilidades.Render;
 import com.prz.juego.utilidades.Sonido;
 
 public abstract class EnemigoMelee extends Enemigo {
@@ -21,7 +19,6 @@ public abstract class EnemigoMelee extends Enemigo {
     protected boolean esperandoAtaque = false;
     protected boolean cooldownAtaque = false;
     protected boolean yaDanio = false;
-    protected Sprite spriteAtaque;
 
     protected EnemigoMelee(
             float x,
@@ -32,12 +29,8 @@ public abstract class EnemigoMelee extends Enemigo {
             double vida,
             double danio,
             Jugador jugador,
-            Texture textura,
-            Texture texturaAtaque) {
+            Texture textura) {
         super(x, y, ancho, alto, velocidadX, vida, danio, jugador, textura);
-        spriteAtaque = new Sprite(texturaAtaque);
-        spriteAtaque.setSize(anchoAtaque, altoAtaque);
-        orientarSprite(spriteAtaque, direccion);
     }
 
     @Override
@@ -116,18 +109,6 @@ public abstract class EnemigoMelee extends Enemigo {
     @Override
     protected void actualizarOrientacionSprites() {
         super.actualizarOrientacionSprites();
-        orientarSprite(spriteAtaque, direccion);
-    }
-
-    @Override
-    public void dibujarAtaque() {
-        if (!atacando) {
-            return;
-        }
-
-        Rectangle ataque = getBoundsAtaque();
-        spriteAtaque.setPosition(ataque.x, ataque.y);
-        spriteAtaque.draw(Render.batch);
     }
 
     @Override

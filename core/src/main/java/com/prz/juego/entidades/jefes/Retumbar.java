@@ -36,6 +36,8 @@ public class Retumbar extends Enemigo {
     private static final float DURACION_TELETRANSPORTE = 0.15f;
     private static final float AMPLITUD_MOVIMIENTO_IDLE = 8f;
     private static final float FRECUENCIA_MOVIMIENTO_IDLE = 2.5f;
+    private static final float DURACION_TELETRANSPORTE_SEGUNDA_FASE = 1f;
+    private static final float TIEMPO_TELETRANSPORTE_SEGUNDA_FASE = 12f;
     private static final int CANTIDAD_FRAMES = 3;
     private static final float DURACION_FRAME = 0.12f;
 
@@ -63,6 +65,8 @@ public class Retumbar extends Enemigo {
         DESAPARECIENDO,
         LLUVIA_FUEGUITOS,
         REAPARECIENDO,
+        TELETRANSPORTE_SEGUNDA_FASE_DESAPARECIENDO,
+        TELETRANSPORTE_SEGUNDA_FASE_REAPARECIENDO,
         COMPLETADA
     }
 
@@ -79,6 +83,7 @@ public class Retumbar extends Enemigo {
     private FaseEspecial faseEspecial = FaseEspecial.NORMAL;
     private float tiempoFaseEspecial;
     private float tiempoMovimientoIdle;
+    private float tiempoTeletransporteSegundaFase;
 
     public Retumbar(float centroX, float y, Jugador jugador) {
         this(
@@ -149,12 +154,17 @@ public class Retumbar extends Enemigo {
         if (faseEspecial != FaseEspecial.NORMAL
             && faseEspecial != FaseEspecial.COMPLETADA) {
             guardarPosicionAnterior();
-            moverBoss(delta);
+            if (faseEspecial != FaseEspecial.TELETRANSPORTE_SEGUNDA_FASE_DESAPARECIENDO
+                && faseEspecial != FaseEspecial.TELETRANSPORTE_SEGUNDA_FASE_REAPARECIENDO) {
+                moverBoss(delta);
+            }
             actualizarFaseEspecial(delta);
             bounds.setPosition(x, y);
             actualizarSpriteVisual();
             return;
         }
+
+        actualizarTeletransporteSegundaFase(delta);
 
         if (ataquesExtra != null) {
             ataquesExtra.update(delta);
@@ -167,6 +177,20 @@ public class Retumbar extends Enemigo {
         bounds.setPosition(x, y);
         ANIMACION.actualizar(sprite, delta, false, false, false);
         actualizarSpriteVisual();
+    }
+
+    private void actualizarTeletransporteSegundaFase(float delta) {
+        if (faseEspecial != FaseEspecial.COMPLETADA) {
+            return;
+        }
+
+        tiempoTeletransporteSegundaFase += delta;
+        if (tiempoTeletransporteSegundaFase >= TIEMPO_TELETRANSPORTE_SEGUNDA_FASE) {
+            faseEspecial = FaseEspecial.TELETRANSPORTE_SEGUNDA_FASE_DESAPARECIENDO;
+            tiempoFaseEspecial = 0f;
+            tiempoTeletransporteSegundaFase = 0f;
+            Sonido.TP1.sonar();
+        }
     }
 
     private void actualizarMovimientoIdle(float delta) {
@@ -226,6 +250,28 @@ public class Retumbar extends Enemigo {
                     sprite.setScale(1f);
                     faseEspecial = FaseEspecial.COMPLETADA;
                     tiempoAtaque = 0f;
+                }
+                break;
+
+            case TELETRANSPORTE_SEGUNDA_FASE_DESAPARECIENDO:
+                float duracionDesaparicion = DURACION_TELETRANSPORTE_SEGUNDA_FASE / 2f;
+                sprite.setScale(Math.max(0f, 1f - tiempoFaseEspecial / duracionDesaparicion));
+                if (tiempoFaseEspecial >= duracionDesaparicion) {
+                    x = MathUtils.random(X_INICIAL - RECORRIDO, X_INICIAL + RECORRIDO);
+                    tiempoFaseEspecial = 0f;
+                    faseEspecial = FaseEspecial.TELETRANSPORTE_SEGUNDA_FASE_REAPARECIENDO;
+                    Sonido.TP2.sonar();
+                }
+                break;
+
+            case TELETRANSPORTE_SEGUNDA_FASE_REAPARECIENDO:
+                float duracionReaparicion = DURACION_TELETRANSPORTE_SEGUNDA_FASE / 2f;
+                sprite.setScale(Math.min(1f, tiempoFaseEspecial / duracionReaparicion));
+                if (tiempoFaseEspecial >= duracionReaparicion) {
+                    sprite.setScale(1f);
+                    faseEspecial = FaseEspecial.COMPLETADA;
+                    tiempoAtaque = 0f;
+                    tiempoTeletransporteSegundaFase = 0f;
                 }
                 break;
 
@@ -481,6 +527,12 @@ public class Retumbar extends Enemigo {
         return MANO_IZQUIERDA.estaMuerto()
             && MANO_DERECHA.estaMuerto()
             && faseEspecial == FaseEspecial.COMPLETADA;
+    }
+
+    public boolean debeDibujarBarraVida() {
+        return puedeRecibirDanio()
+            || faseEspecial == FaseEspecial.TELETRANSPORTE_SEGUNDA_FASE_DESAPARECIENDO
+            || faseEspecial == FaseEspecial.TELETRANSPORTE_SEGUNDA_FASE_REAPARECIENDO;
     }
 
     @Override

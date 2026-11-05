@@ -190,8 +190,6 @@ public abstract class Enemigo extends Entidad {
         }
     }
 
-    public void dibujarAtaque() {}
-
     @Override
     public void dibujarHitbox(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.YELLOW);

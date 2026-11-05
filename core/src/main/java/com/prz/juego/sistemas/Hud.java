@@ -146,7 +146,7 @@ public class Hud {
         BATCH.setProjectionMatrix(VIEWPORT.getCamera().combined);
         BATCH.begin();
 
-        if (jefe.puedeRecibirDanio()) {
+        if (jefe.debeDibujarBarraVida()) {
             BarraVida.dibujar(
                     BATCH,
                     FUENTE_JEFE,
