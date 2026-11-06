@@ -23,7 +23,7 @@ public class Mano extends Enemigo {
     private static final float ANCHO = 120;
     private static final float ALTO = 100;
     private static final float SEPARACION = 10;
-    private static final double VIDA = 1;
+    private static final double VIDA = 20;
     private static final double DANIO = 1;
 
     private static final float ALTURA_LEVANTADA = 300;
