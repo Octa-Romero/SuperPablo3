@@ -260,8 +260,8 @@ public class Mano extends Enemigo {
                     Sonido.TP1.sonar();
                     tiempoEstado = teletransporteRapido
                         ? (volverAIdle
-                            ? TIEMPO_RETORNO_IDLE_DESAPARECIDO
-                            : TIEMPO_RAPIDO_DESPUES_DESAPARECER)
+                        ? TIEMPO_RETORNO_IDLE_DESAPARECIDO
+                        : TIEMPO_RAPIDO_DESPUES_DESAPARECER)
                         : TIEMPO_DESPUES_DESAPARECER;
                 }
                 break;
@@ -495,6 +495,9 @@ public class Mano extends Enemigo {
 
     @Override
     public void dibujarHitbox(ShapeRenderer shapeRenderer) {
+        if (muerto) {
+            return;
+        }
         if (tiempoHitboxExtendida > 0) {
             shapeRenderer.setColor(Color.YELLOW);
             shapeRenderer.rect(
@@ -507,10 +510,24 @@ public class Mano extends Enemigo {
         }
     }
 
+    void desactivarPorMuerteJefe() {
+        muerto = true;
+        visible = false;
+        spriteVisible = false;
+        haciendoDanio = false;
+        tiempoHitboxExtendida = 0f;
+        estadoAtaque = EstadoAtaque.NINGUNO;
+        bounds.set(0f, 0f, 0f, 0f);
+        BOUNDS_FUEGO_GOLPE.set(0f, 0f, 0f, 0f);
+    }
+
     @Override
     public void restarVida(double cantidad) {
         if (!visible) {
             return;
+        }
+        if (vida - cantidad > 0) {
+            Sonido.RETUMBAR_GOLPE_RECIBIDO.sonar();
         }
         super.restarVida(cantidad);
     }
@@ -583,7 +600,14 @@ public class Mano extends Enemigo {
     }
 
     @Override
-    public void saltar() {}
+    public void saltar() {
+    }
+
+    @Override
+    protected void morir() {
+        super.morir();
+        Sonido.RETUMBAR_MANO_ROTA.sonar();
+    }
 
     @Override
     public boolean debeVerificarColisionesMapa() {

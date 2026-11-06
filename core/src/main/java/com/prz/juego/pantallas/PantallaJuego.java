@@ -14,6 +14,7 @@ import com.prz.juego.sistemas.Hud;
 import com.prz.juego.utilidades.Entrada;
 import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
+import com.prz.juego.utilidades.Sonido;
 
 public class PantallaJuego implements Screen {
 
@@ -197,6 +198,7 @@ public class PantallaJuego implements Screen {
     @Override
     public void hide() {
         Gdx.input.setCursorCatched(false);
+        Sonido.FUEGO_SOSTENIDO.detenerLoop();
     }
 
     @Override
