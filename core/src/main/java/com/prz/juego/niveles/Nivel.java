@@ -29,7 +29,7 @@ public abstract class Nivel {
     private OrthogonalTiledMapRenderer mapRenderer;
     private Jugador jugador;
     private Colisiones colision;
-
+    private boolean enemigoReliquiaDerrotado = false;
     private final ArrayList<Entidad> ENTIDADES = new ArrayList<>();
     private final ArrayList<Lanzable> PROYECTILES = new ArrayList<>();
     private final ArrayList<Reliquia> RELIQUIAS = new ArrayList<>();
@@ -210,6 +210,7 @@ public abstract class Nivel {
                 if (enemigo.estaMuerto()) {
 
                     if (enemigo.sueltaReliquia()) {
+                        enemigoReliquiaDerrotado = true;
                         System.out.println(
                             "[RELIQUIA] ¡El enemigo marcado murió!"
                         );
@@ -319,4 +320,6 @@ public abstract class Nivel {
     public boolean tieneReliquia() {
         return tieneReliquia;
     }
+
+    public boolean enemigoReliquiaDerrotado(){return enemigoReliquiaDerrotado;}
 }

@@ -84,9 +84,12 @@ public class PantallaJuego implements Screen {
                 hub.update(delta, ENTRADA);
             } else {
                 NIVEL.update(delta, ENTRADA);
-            }
 
-            limitarJugadorDentroDePantalla();
+                if (NIVEL.enemigoReliquiaDerrotado()) {
+                    NAV.cambiarPantalla(new PantallaFinal(NAV));
+                    return;
+                }
+            }
         }
 
         // Ir a la seleccion de niveles desde el Hub
