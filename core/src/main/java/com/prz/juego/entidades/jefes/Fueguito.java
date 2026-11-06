@@ -11,7 +11,7 @@ import com.prz.juego.utilidades.Render;
 
 public class Fueguito {
 
-    private static final float DANIO = 1f;
+    private static final float DANIO = 0.5f;
     private static final float ESCALA_ALTO_SPRITE = 1.5f;
     private static final int CANTIDAD_FRAMES = 2;
     private static final float DURACION_FRAME = 0.08f;

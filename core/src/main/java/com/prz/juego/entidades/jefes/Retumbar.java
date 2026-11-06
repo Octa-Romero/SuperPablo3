@@ -291,6 +291,10 @@ public class Retumbar extends Enemigo {
         actualizarInvencibilidad(delta);
         actualizarComportamiento(delta, jugador.getBounds());
 
+        if (ataquesExtra != null) {
+            ataquesExtra.update(delta, false);
+        }
+
         bounds.setPosition(x, y);
         ANIMACION.actualizar(sprite, delta, false, false, false);
         actualizarSpriteVisual();
