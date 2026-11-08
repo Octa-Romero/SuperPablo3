@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -15,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.principal.Navegable;
 import com.prz.juego.utilidades.Config;
+import com.prz.juego.utilidades.FuenteJuego;
 import com.prz.juego.utilidades.Sonido;
 
 public class MenuPausa {
@@ -53,7 +53,7 @@ public class MenuPausa {
 
         Table contenedor = new Table();
 
-        Label titulo = new Label("PAUSA", new Label.LabelStyle(FONT_TITULO, Color.GOLD));
+        Label titulo = new Label("Pausa", new Label.LabelStyle(FONT_TITULO, Color.GOLD));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
 
@@ -62,10 +62,10 @@ public class MenuPausa {
         style.overFontColor = Color.YELLOW;
         style.downFontColor = Color.RED;
 
-        TextButton reanudar = new TextButton("REANUDAR", style);
-        TextButton opciones = new TextButton("OPCIONES", style);
-        TextButton hub = new TextButton("VOLVER AL HUB", style);
-        TextButton menu = new TextButton("SALIR AL MENU", style);
+        TextButton reanudar = new TextButton("Reanudar", style);
+        TextButton opciones = new TextButton("Opciones", style);
+        TextButton hub = new TextButton("Volver al hub", style);
+        TextButton menu = new TextButton("Salir al menú", style);
 
         reanudar.addListener(
                 new ClickListener() {
@@ -130,20 +130,7 @@ public class MenuPausa {
     }
 
     private BitmapFont crearFuente(int tamano) {
-        FreeTypeFontGenerator generator =
-                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
-                new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametro.size = tamano;
-        parametro.color = Color.WHITE;
-        parametro.borderWidth = 2f;
-        parametro.borderColor = Color.BLACK;
-        BitmapFont fuente = generator.generateFont(parametro);
-        generator.dispose();
-
-        return fuente;
+        return FuenteJuego.generar(tamano);
     }
 
     private void crearFondos() {

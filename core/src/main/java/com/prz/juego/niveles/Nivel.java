@@ -296,15 +296,11 @@ public abstract class Nivel {
             }
         }
 
-        // Cámara
-        camara.seguirPersonaje(
-            jugador.getX() + jugador.getAncho() / 2f,
-            jugador.getY() + jugador.getAlto() / 2f,
-            delta);
-
+        // Actualizar reliquias.
+        for (int i = RELIQUIAS.size() - 1; i >= 0; i--) {
+            Reliquia reliquia = RELIQUIAS.get(i);
             if (reliquia.actualizar(jugador, delta)) {
                 tieneReliquia = true;
-
                 reliquia.dispose();
                 RELIQUIAS.remove(i);
             }

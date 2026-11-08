@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -21,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.principal.Navegable;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
+import com.prz.juego.utilidades.FuenteJuego;
 import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
 import com.prz.juego.utilidades.Sonido;
@@ -83,43 +83,9 @@ public class PantallaOpciones implements Screen {
     }
 
     private void inicializarFuentes() {
-
-        FreeTypeFontGenerator titulo =
-                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametroTitulo =
-                new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametroTitulo.size = 56;
-        parametroTitulo.color = Color.WHITE;
-        parametroTitulo.borderWidth = 2f;
-        parametroTitulo.borderColor = Color.BLACK;
-        fontTitulo = titulo.generateFont(parametroTitulo);
-
-        titulo.dispose();
-
-        FreeTypeFontGenerator generadorBoton =
-                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametroBoton =
-                new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametroBoton.size = 32;
-        parametroBoton.color = Color.WHITE;
-        parametroBoton.borderWidth = 2f;
-        parametroBoton.borderColor = Color.BLACK;
-        fontBoton = generadorBoton.generateFont(parametroBoton);
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametroVolumen =
-                new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametroVolumen.size = 24;
-        parametroVolumen.color = Color.WHITE;
-        parametroVolumen.borderWidth = 2f;
-        parametroVolumen.borderColor = Color.BLACK;
-        fontVolumen = generadorBoton.generateFont(parametroVolumen);
-
-        generadorBoton.dispose();
+        fontTitulo = FuenteJuego.generar(56);
+        fontBoton = FuenteJuego.generar(32);
+        fontVolumen = FuenteJuego.generar(24);
     }
 
     private void crearUI() {
@@ -130,12 +96,12 @@ public class PantallaOpciones implements Screen {
         style.overFontColor = Color.GOLD;
         style.downFontColor = Color.RED;
 
-        titulo = new Label("OPCIONES", new Label.LabelStyle(fontTitulo, Color.GOLD));
+        titulo = new Label("Opciones", new Label.LabelStyle(fontTitulo, Color.GOLD));
         btnResolucion =
-                new TextButton("RESOLUCION: " + Config.getAncho() + "x" + Config.getAlto(), style);
+                new TextButton("Resolución: " + Config.getAncho() + "x" + Config.getAlto(), style);
         btnToggleFullscreen =
-                new TextButton(Config.fullscreen ? "MODO VENTANA" : "PANTALLA COMPLETA", style);
-        btnVolver = new TextButton("VOLVER", style);
+                new TextButton(Config.fullscreen ? "Modo ventana" : "Pantalla completa", style);
+        btnVolver = new TextButton("Volver", style);
 
         Slider.SliderStyle sliderStyle = crearEstiloSlider();
         sliderMusica = new Slider(0f, 1f, 0.01f, false, sliderStyle);
@@ -201,13 +167,13 @@ public class PantallaOpciones implements Screen {
                         Config.toggleFullscreen();
 
                         btnToggleFullscreen.setText(
-                                Config.fullscreen ? "MODO VENTANA" : "PANTALLA COMPLETA");
+                                Config.fullscreen ? "Modo ventana" : "Pantalla completa");
 
                         mostrarResoluciones = false;
                         listaResoluciones.setVisible(false);
 
                         btnResolucion.setText(
-                                "RESOLUCION: " + Config.getAncho() + "x" + Config.getAlto());
+                                "Resolución: " + Config.getAncho() + "x" + Config.getAlto());
 
                         stage.getViewport()
                                 .update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
@@ -245,7 +211,7 @@ public class PantallaOpciones implements Screen {
         contenedor.clearChildren();
         contenedor.add(titulo).padBottom(25).row();
         contenedor
-                .add(new Label("VOLUMEN MUSICA", new Label.LabelStyle(fontVolumen, Color.WHITE)))
+                .add(new Label("Volumen música", new Label.LabelStyle(fontVolumen, Color.WHITE)))
                 .padBottom(5)
                 .row();
 
@@ -256,7 +222,7 @@ public class PantallaOpciones implements Screen {
         contenedor.add(filaMusica).padBottom(15).row();
 
         contenedor
-                .add(new Label("VOLUMEN EFECTOS", new Label.LabelStyle(fontVolumen, Color.WHITE)))
+                .add(new Label("Volumen efectos", new Label.LabelStyle(fontVolumen, Color.WHITE)))
                 .padBottom(5)
                 .row();
 
@@ -291,7 +257,7 @@ public class PantallaOpciones implements Screen {
 
                         Config.setWindowed(ancho, alto);
 
-                        btnResolucion.setText("RESOLUCION: " + texto);
+                        btnResolucion.setText("Resolución: " + texto);
 
                         mostrarResoluciones = false;
 
@@ -303,7 +269,7 @@ public class PantallaOpciones implements Screen {
                         actualizarFondo();
                         actualizarInterfaz();
 
-                        btnToggleFullscreen.setText("PANTALLA COMPLETA");
+                        btnToggleFullscreen.setText("Pantalla completa");
                     }
                 });
 

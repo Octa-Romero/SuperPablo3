@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -13,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.prz.juego.entidades.jugadores.Personajes;
 import com.prz.juego.principal.Navegable;
 import com.prz.juego.utilidades.Config;
+import com.prz.juego.utilidades.FuenteJuego;
 import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
 
@@ -42,19 +42,7 @@ public class GameOver implements Screen {
     }
 
     private void inicializarFuentes() {
-        FreeTypeFontGenerator generator =
-                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
-                new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametro.size = 48;
-        parametro.color = Color.WHITE;
-        parametro.borderWidth = 2f;
-        parametro.borderColor = Color.BLACK;
-        font = generator.generateFont(parametro);
-
-        generator.dispose();
+        font = FuenteJuego.generar(48);
     }
 
     private void crearInterfaz() {
@@ -65,7 +53,7 @@ public class GameOver implements Screen {
 
         table.defaults().pad(8);
 
-        Label titulo = new Label("GAME OVER", new Label.LabelStyle(font, Color.RED));
+        Label titulo = new Label("Game Over", new Label.LabelStyle(font, Color.RED));
         titulo.setFontScale(3f);
 
         Label mensaje =
@@ -78,8 +66,8 @@ public class GameOver implements Screen {
         style.overFontColor = Color.GOLD;
         style.downFontColor = Color.RED;
 
-        TextButton volverHub = new TextButton("VOLVER AL HUB", style);
-        TextButton volverMenu = new TextButton("VOLVER AL MENU", style);
+        TextButton volverHub = new TextButton("Volver al hub", style);
+        TextButton volverMenu = new TextButton("Salir al menú", style);
 
         volverHub.addListener(
                 new ClickListener() {

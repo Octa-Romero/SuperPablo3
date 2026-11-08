@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -14,6 +13,7 @@ import com.prz.juego.entidades.jugadores.Personajes;
 import com.prz.juego.principal.Navegable;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
+import com.prz.juego.utilidades.FuenteJuego;
 import com.prz.juego.utilidades.Render;
 import com.prz.juego.utilidades.Sonido;
 
@@ -44,30 +44,8 @@ public class SeleccionPersonaje implements Screen {
     }
 
     private void inicializarFuentes() {
-
-        FreeTypeFontGenerator titulo =
-                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
-                new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametro.size = 48;
-        parametro.color = Color.WHITE;
-        parametro.borderWidth = 2f;
-        parametro.borderColor = Color.BLACK;
-        font = titulo.generateFont(parametro);
-        titulo.dispose();
-
-        FreeTypeFontGenerator boton =
-                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parametroBoton =
-                new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parametroBoton.size = 28;
-        parametroBoton.color = Color.WHITE;
-        parametroBoton.borderWidth = 2f;
-        parametroBoton.borderColor = Color.BLACK;
-        fontBoton = boton.generateFont(parametroBoton);
-        boton.dispose();
+        font = FuenteJuego.generar(48);
+        fontBoton = FuenteJuego.generar(28);
     }
 
     private void inicializarFondo() {
@@ -91,7 +69,7 @@ public class SeleccionPersonaje implements Screen {
 
         table.defaults().pad(10);
 
-        Label titulo = new Label("SELECCION DE PERSONAJE", new Label.LabelStyle(font, Color.WHITE));
+        Label titulo = new Label("Selección de personaje", new Label.LabelStyle(font, Color.WHITE));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = fontBoton;
@@ -100,11 +78,11 @@ public class SeleccionPersonaje implements Screen {
         style.downFontColor = Color.RED;
         style.disabledFontColor = Color.GRAY;
 
-        TextButton btnPablo = new TextButton("PABLO", style);
-        TextButton btnWalter = new TextButton("WALTER", style);
-        TextButton btnCancelar = new TextButton("CANCELAR", style);
+        TextButton btnPablo = new TextButton("Pablo", style);
+        TextButton btnWalter = new TextButton("Walter", style);
+        TextButton btnCancelar = new TextButton("Cancelar", style);
 
-        btnComenzar = new TextButton("COMENZAR", style);
+        btnComenzar = new TextButton("Comenzar", style);
         btnComenzar.setDisabled(true);
 
         btnPablo.addListener(

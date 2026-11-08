@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -15,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.prz.juego.principal.Navegable;
 import com.prz.juego.recursos.Imagen;
 import com.prz.juego.utilidades.Config;
+import com.prz.juego.utilidades.FuenteJuego;
 import com.prz.juego.utilidades.Musica;
 import com.prz.juego.utilidades.Render;
 import com.prz.juego.utilidades.Sonido;
@@ -62,54 +62,16 @@ public class PantallaMenu implements Screen {
     }
 
     private void inicializarFuentes() {
-
-        FreeTypeFontGenerator titulo =
-            new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
-            new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametro.size = 64;
-        parametro.color = Color.WHITE;
-        parametro.borderWidth = 2f;
-        parametro.borderColor = Color.BLACK;
-
-        fontTitulo = titulo.generateFont(parametro);
-
-        titulo.dispose();
-
-        FreeTypeFontGenerator subtitulo =
-            new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametroSubtitulo =
-            new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametroSubtitulo.size = 36;
-        parametroSubtitulo.borderWidth = 2f;
-        parametroSubtitulo.borderColor = Color.BLACK;
-        fontSubtitulo = subtitulo.generateFont(parametroSubtitulo);
-
-        subtitulo.dispose();
-
-        FreeTypeFontGenerator boton =
-            new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametroBoton =
-            new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametroBoton.size = 28;
-        parametroBoton.borderWidth = 2f;
-        parametroBoton.borderColor = Color.BLACK;
-        fontBoton = boton.generateFont(parametroBoton);
-
-        boton.dispose();
+        fontTitulo = FuenteJuego.generar(64);
+        fontSubtitulo = FuenteJuego.generar(36);
+        fontBoton = FuenteJuego.generar(28);
     }
 
     private void crearInterfaz() {
 
-        Label titulo = new Label("SUPER PABLO 3", new Label.LabelStyle(fontTitulo, Color.GOLD));
+        Label titulo = new Label("Super Pablo 3", new Label.LabelStyle(fontTitulo, Color.GOLD));
         Label subtitulo =
-            new Label("~ LA ULTIMA BATALLA ~", new Label.LabelStyle(fontSubtitulo, Color.RED));
+            new Label("~ La Última Batalla ~", new Label.LabelStyle(fontSubtitulo, Color.RED));
 
         TextButton.TextButtonStyle estiloBoton = new TextButton.TextButtonStyle();
 
@@ -118,10 +80,10 @@ public class PantallaMenu implements Screen {
         estiloBoton.overFontColor = Color.GOLD;
         estiloBoton.downFontColor = Color.RED;
 
-        TextButton btnJugar = new TextButton("JUGAR", estiloBoton);
-        TextButton btnOpciones = new TextButton("OPCIONES", estiloBoton);
-        TextButton btnComoJugar = new TextButton("COMO JUGAR", estiloBoton);
-        TextButton btnSalir = new TextButton("SALIR", estiloBoton);
+        TextButton btnJugar = new TextButton("Jugar", estiloBoton);
+        TextButton btnOpciones = new TextButton("Opciones", estiloBoton);
+        TextButton btnComoJugar = new TextButton("Cómo jugar", estiloBoton);
+        TextButton btnSalir = new TextButton("Salir", estiloBoton);
 
         btnJugar.addListener(
             new ClickListener() {

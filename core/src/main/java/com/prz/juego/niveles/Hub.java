@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -23,6 +22,7 @@ import com.prz.juego.sistemas.CuadroDialogo;
 import com.prz.juego.utilidades.Debug;
 import com.prz.juego.utilidades.Dialogo;
 import com.prz.juego.utilidades.Entrada;
+import com.prz.juego.utilidades.FuenteJuego;
 import com.prz.juego.utilidades.Render;
 
 import java.awt.*;
@@ -68,9 +68,9 @@ public class Hub {
 
         dialogoPancrasio =
                 new Dialogo(
-                        "Bienvenidos, aventureros!",
-                        "Pronto tendre mercancia para ustedes.",
-                        "Vuelvan cuando este todo preparado.");
+                        "¡Bienvenidos, aventureros!",
+                        "Pronto tendré mercancía para ustedes.",
+                        "Vuelvan cuando esté todo preparado.");
 
         cuadroDialogo = new CuadroDialogo();
 
@@ -102,19 +102,7 @@ public class Hub {
     }
 
     private void inicializarFuenteAlerta() {
-        FreeTypeFontGenerator generator =
-                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
-                new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametro.size = 28;
-        parametro.color = Color.WHITE;
-        parametro.borderWidth = 2f;
-        parametro.borderColor = Color.BLACK;
-        fontAlerta = generator.generateFont(parametro);
-
-        generator.dispose();
+        fontAlerta = FuenteJuego.generar(28);
     }
 
     public void renderMapa() {
@@ -251,7 +239,7 @@ public class Hub {
             return;
         }
 
-        String mensaje = "PRESIONA E PARA ELEGIR NIVEL";
+        String mensaje = "Presioná E para elegir nivel";
 
         GlyphLayout layout = new GlyphLayout(fontAlerta, mensaje);
 
@@ -262,7 +250,7 @@ public class Hub {
     }
 
     private void dibujarAlertaPancrasio() {
-        String mensaje = "PRESIONA E PARA HABLAR";
+        String mensaje = "Presioná E para hablar";
 
         GlyphLayout layout = new GlyphLayout(fontAlerta, mensaje);
 

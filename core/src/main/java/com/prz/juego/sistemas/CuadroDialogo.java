@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
+import com.prz.juego.utilidades.FuenteJuego;
 
 public class CuadroDialogo implements Disposable {
 
@@ -19,19 +19,7 @@ public class CuadroDialogo implements Disposable {
     private boolean visible = false;
 
     public CuadroDialogo() {
-        FreeTypeFontGenerator generator =
-                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro =
-                new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parametro.size = 20;
-        parametro.color = Color.WHITE;
-        parametro.borderWidth = 2f;
-        parametro.borderColor = Color.BLACK;
-        FUENTE = generator.generateFont(parametro);
-        generator.dispose();
-
+        FUENTE = FuenteJuego.generar(20);
         SHAPE_RENDERER = new ShapeRenderer();
     }
 

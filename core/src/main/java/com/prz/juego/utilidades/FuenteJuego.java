@@ -11,7 +11,7 @@ public class FuenteJuego {
 
     public static BitmapFont generar(int tamano) {
         FreeTypeFontGenerator generator =
-                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/alagard.ttf"));
+                new FreeTypeFontGenerator(Gdx.files.internal("Fuentes/Augusta.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parametro =
                 new FreeTypeFontGenerator.FreeTypeFontParameter();

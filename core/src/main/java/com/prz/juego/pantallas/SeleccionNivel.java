@@ -148,7 +148,7 @@ public class SeleccionNivel implements Screen {
         Table principal = new Table();
         principal.setFillParent(true);
 
-        Label titulo = new Label("SELECCION DE NIVEL", new Label.LabelStyle(font, Color.WHITE));
+        Label titulo = new Label("Selección de nivel", new Label.LabelStyle(font, Color.WHITE));
 
         titulo.getColor().a = 0f;
 
