@@ -14,7 +14,15 @@ public class Nivel1 extends Nivel {
 
     @Override
     protected void configurarContenidoEspecifico(Jugador jugador) {
-        agregarEntidad(new BichoMelee(2000, 300, jugador));
-        agregarEntidad(new BichoMelee(2200, 300, jugador));
+        BichoMelee enemigoConReliquia =
+            new BichoMelee(2000, 300, jugador);
+
+        BichoMelee enemigoNormal =
+            new BichoMelee(2200, 300, jugador);
+
+        enemigoConReliquia.setSueltaReliquia(true);
+
+        agregarEntidad(enemigoConReliquia);
+        agregarEntidad(enemigoNormal);
     }
 }

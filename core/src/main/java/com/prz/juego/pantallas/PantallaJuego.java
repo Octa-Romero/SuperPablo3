@@ -89,9 +89,12 @@ public class PantallaJuego implements Screen {
                 hub.update(delta, ENTRADA);
             } else {
                 NIVEL.update(delta, ENTRADA);
-            }
 
-            limitarJugadorDentroDePantalla();
+                if (NIVEL.enemigoReliquiaDerrotado()) {
+                    NAV.cambiarPantalla(new PantallaFinal(NAV));
+                    return;
+                }
+            }
         }
 
         // Ir a la seleccion de niveles desde el Hub
@@ -128,6 +131,7 @@ public class PantallaJuego implements Screen {
         }
 
         if (hub == null) {
+            HUD.setTieneReliquia(NIVEL.tieneReliquia());
             HUD.dibujar();
         }
 

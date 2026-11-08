@@ -66,10 +66,10 @@
         },
         "Niveles/Level1.tmx": {
             "expandedGroupLayers": [
-                11,
                 17,
-                16,
-                8
+                11,
+                8,
+                16
             ],
             "scale": 0.33,
             "selectedLayer": 2,
@@ -103,14 +103,14 @@
         },
         "Niveles/Nivel2.1.tmx": {
             "expandedObjectLayers": [
-                6,
-                7
+                7,
+                6
             ],
-            "scale": 0.75,
+            "scale": 1,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 4758.666666666666,
-                "y": 968
+                "x": 4415,
+                "y": 904
             }
         },
         "Niveles/Nivel2.2.1.tmx": {
@@ -170,11 +170,11 @@
             "expandedObjectLayers": [
                 9
             ],
-            "scale": 0.25,
-            "selectedLayer": 7,
+            "scale": 0.75,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 456,
-                "y": 1100
+                "x": 1113.3333333333333,
+                "y": 544
             }
         },
         "Niveles/Nivel5.1.tmx": {
@@ -205,6 +205,14 @@
             "viewCenter": {
                 "x": 742.4242424242425,
                 "y": 1598.4848484848485
+            }
+        },
+        "Niveles/Nivel7.tmx": {
+            "scale": 0.25462740384615384,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 640.1510502714184,
+                "y": 1158.555581779561
             }
         },
         "Niveles/forestTileset.tsx": {
@@ -307,11 +315,11 @@
         }
     },
     "last.imagePath": "C:/Users/santi/Desktop/SuperPablo3/assets/Niveles/Tilesets",
-    "map.height": 500,
+    "map.height": 38,
     "map.lastUsedFormat": "tmx",
-    "map.tileHeight": 16,
-    "map.tileWidth": 16,
-    "map.width": 120,
+    "map.tileHeight": 32,
+    "map.tileWidth": 32,
+    "map.width": 60,
     "mapScene.enableWorlds": true,
     "openFiles": [
         "Niveles/Nivel6.tmx",
@@ -320,6 +328,7 @@
     ],
     "project": "Niveles.tiled-project",
     "recentFiles": [
+        "Niveles/Nivel7.tmx",
         "Niveles/Nivel6.tmx",
         "Niveles/Level1.tmx",
         "Niveles/Nivel2.1.tmx",
@@ -330,8 +339,7 @@
         "Tilesets/tileset.tsx",
         "Niveles/Nivel5.1.tmx",
         "Niveles/Nivel3.tmx",
-        "Niveles/Nivel3.1.tmx",
-        "Niveles/Hub.tmx"
+        "Niveles/Nivel3.1.tmx"
     ],
     "resizeMap.removeObjects": false,
     "tileset.lastUsedFormat": "tsx",

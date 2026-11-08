@@ -25,6 +25,9 @@ public class Nivel7 extends Nivel {
     }
 
     @Override
+    protected float getPosicionInicialY(){return 400;}
+
+    @Override
     protected void configurarContenidoEspecifico(Jugador jugador) {
         // El suelo dañino del ataque de suelo cubre todo el ancho del mapa.
         jefe = new Retumbar(CENTRO_MAPA, SUELO, jugador, 0, ANCHO_MAPA);

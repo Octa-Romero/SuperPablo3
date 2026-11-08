@@ -41,7 +41,7 @@
  <imagelayer id="2" name="nivelGnomo" locked="1">
   <image source="../Tilesets/bosqueGnomo.png" width="8000" height="1080"/>
  </imagelayer>
- <objectgroup id="6" name="colisiones">
+ <objectgroup id="6" name="colisiones" offsetx="4" offsety="0.666667">
   <object id="29" x="471.5" y="971" width="901.833" height="31"/>
   <object id="30" x="1205.24" y="864.273" width="106.091" height="27.0606"/>
   <object id="31" x="1317" y="813.25" width="106.5" height="30.25"/>
@@ -54,20 +54,20 @@
   <object id="38" x="2543.33" y="454.667" width="302" height="35.3333"/>
   <object id="41" x="2882.67" y="952.667" width="538" height="38.6667"/>
   <object id="42" x="3420" y="921.75" width="535.5" height="31.25"/>
-  <object id="43" x="4041.13" y="889.375" width="539.568" height="34.125"/>
-  <object id="44" x="4681.01" y="848.545" width="818.594" height="38.5795"/>
+  <object id="43" x="4045.56" y="889.375" width="535.136" height="34.125"/>
+  <object id="44" x="4690.76" y="848.545" width="808.84" height="38.5795"/>
   <object id="51" x="5665.19" y="795" width="2334.81" height="39"/>
   <object id="53" x="1547.09" y="700.182" width="36" height="30.7273"/>
  </objectgroup>
  <objectgroup id="7" name="pendiente">
-  <object id="60" x="3941.33" y="929.347">
-   <polygon points="0,0 99.6469,-49.0936 99.7949,-3.13921 0.157304,37.9423"/>
+  <object id="60" x="3941.33" y="929.145">
+   <polygon points="0,0 98.3647,-50.164 98.5108,-3.20766 0.15528,38.7696"/>
   </object>
-  <object id="61" x="4581" y="894.082">
-   <polygon points="0,0 99.8341,-49.0054 99.9824,-3.13358 0.157599,37.8742"/>
+  <object id="61" x="4581" y="892.226">
+   <polygon points="0,0 99.8341,-51.877 99.9824,-3.3172 0.157599,40.0935"/>
   </object>
-  <object id="62" x="5500" y="843.957">
-   <polygon points="0,0 165.165,-56.9298 165.411,-3.64029 0.260732,43.9985"/>
+  <object id="62" x="5500" y="849.204">
+   <polygon points="0,0 162.501,-71.8846 162.661,-3.39237 0.256397,41.002"/>
   </object>
  </objectgroup>
 </map>
