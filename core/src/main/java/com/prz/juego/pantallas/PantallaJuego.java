@@ -90,7 +90,7 @@ public class PantallaJuego implements Screen {
             } else {
                 NIVEL.update(delta, ENTRADA);
 
-                if (NIVEL.enemigoReliquiaDerrotado()) {
+                if (NIVEL.debeIrAPantallaFinal()) {
                     NAV.cambiarPantalla(new PantallaFinal(NAV));
                     return;
                 }

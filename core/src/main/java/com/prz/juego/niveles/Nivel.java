@@ -377,4 +377,6 @@ public abstract class Nivel {
     }
 
     public boolean enemigoReliquiaDerrotado(){return enemigoReliquiaDerrotado;}
+
+    public boolean debeIrAPantallaFinal() { return enemigoReliquiaDerrotado && tieneReliquia; }
 }

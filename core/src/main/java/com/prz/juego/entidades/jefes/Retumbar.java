@@ -188,6 +188,7 @@ public class Retumbar extends Enemigo {
             GestorRecursos.obtenerTextura("Jefe/retumbar.png")
         );
 
+        setSueltaReliquia(true);
         X_INICIAL = x;
         Y_INICIAL = y;
         duracionInvencibilidad = 0f;

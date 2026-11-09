@@ -20,7 +20,7 @@ public class Nivel1 extends Nivel {
         BichoMelee enemigoNormal =
             new BichoMelee(2200, 300, jugador);
 
-        enemigoConReliquia.setSueltaReliquia(true);
+
 
         agregarEntidad(enemigoConReliquia);
         agregarEntidad(enemigoNormal);
